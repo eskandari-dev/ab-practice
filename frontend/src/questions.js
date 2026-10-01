@@ -1,0 +1,98 @@
+export const questions = [
+  {
+    id: 1,
+    en: 'What does a red traffic light mean?',
+    fa: 'چراغ قرمز به چه معناست؟',
+    de: 'Was bedeutet eine rote Ampel?',
+    options: {
+      en: ['Stop', 'Go', 'Speed up'],
+      fa: ['توقف', 'برو', 'سرعت بگیر'],
+      de: ['Stopp', 'Fahren', 'Beschleunigen'],
+    },
+    correct: 0,
+  },
+  {
+    id: 2,
+    en: 'What should you do at a stop sign?',
+    fa: 'در مقابل تابلوی ایست چه کار باید بکنید؟',
+    de: 'Was sollten Sie an einem Stoppschild tun?',
+    options: {
+      en: ['Slow down only', 'Stop fully', 'Honk and go'],
+      fa: ['فقط آهسته شو', 'کاملاً بایست', 'بوق بزن و برو'],
+      de: ['Nur langsamer fahren', 'Vollständig anhalten', 'Hupen und weiterfahren'],
+    },
+    correct: 1,
+  },
+  {
+    id: 3,
+    en: 'What does a yellow traffic light usually mean?',
+    fa: 'چراغ زرد معمولاً به چه معناست؟',
+    de: 'Was bedeutet eine gelbe Ampel normalerweise?',
+    options: {
+      en: ['Go faster', 'Park here', 'Prepare to stop'],
+      fa: ['سریع‌تر برو', 'اینجا پارک کن', 'آماده توقف شو'],
+      de: ['Schneller fahren', 'Hier parken', 'Zum Anhalten bereithalten'],
+    },
+    correct: 2,
+  },
+  {
+    id: 4,
+    en: 'What is the basic speed limit outside a city, town or village in Alberta?',
+    fa: 'محدودیت سرعت پایه در خارج از شهر، شهرک یا روستا در آلبرتا چقدر است؟',
+    de: 'Wie hoch ist die grundsätzliche Geschwindigkeitsbegrenzung außerhalb einer Stadt oder eines Dorfes in Alberta?',
+    options: {
+      en: ['100 km/h', '80 km/h', '120 km/h'],
+      fa: ['۱۰۰ کیلومتر بر ساعت', '۸۰ کیلومتر بر ساعت', '۱۲۰ کیلومتر بر ساعت'],
+      de: ['100 km/h', '80 km/h', '120 km/h'],
+    },
+    correct: 0,
+  },
+  {
+    id: 5,
+    en: 'What does a solid white line between driving lanes in an urban area mean?',
+    fa: 'خط سفید ممتد بین خطوط رانندگی در منطقه شهری به چه معناست؟',
+    de: 'Was bedeutet eine durchgezogene weiße Linie zwischen Fahrspuren in einem Stadtgebiet?',
+    options: {
+      en: ['You must drive faster', 'Parking is allowed', 'Lane changing is not permitted'],
+      fa: ['باید سریع‌تر برانید', 'پارک مجاز است', 'تغییر خط مجاز نیست'],
+      de: ['Sie müssen schneller fahren', 'Parken ist erlaubt', 'Spurwechsel ist nicht erlaubt'],
+    },
+    correct: 2,
+  },
+  {
+    id: 6,
+    en: 'When you approach a flashing red traffic light, what must you do?',
+    fa: 'وقتی به چراغ قرمز چشمک‌زن نزدیک می‌شوید، چه باید بکنید؟',
+    de: 'Was müssen Sie tun, wenn Sie sich einer blinkenden roten Ampel nähern?',
+    options: {
+      en: ['Slow down and continue', 'Come to a complete stop and go only when safe', 'Honk and go'],
+      fa: ['آهسته شوید و ادامه دهید', 'کاملاً بایستید و فقط وقتی ایمن است بروید', 'بوق بزنید و بروید'],
+      de: ['Langsamer werden und weiterfahren', 'Vollständig anhalten und nur bei Sicherheit weiterfahren', 'Hupen und weiterfahren'],
+    },
+    correct: 1,
+  },
+  {
+    id: 7,
+    en: 'How far from a fire hydrant must you park at minimum?',
+    fa: 'حداقل فاصله پارک از شیر آتش‌نشانی چقدر است؟',
+    de: 'Wie weit müssen Sie mindestens von einem Hydranten entfernt parken?',
+    options: {
+      en: ['1 meter', '15 meters', '5 meters'],
+      fa: ['۱ متر', '۱۵ متر', '۵ متر'],
+      de: ['1 Meter', '15 Meter', '5 Meter'],
+    },
+    correct: 2,
+  },
+  {
+    id: 8,
+    en: 'Does Alberta law require you to wear a seat belt?',
+    fa: 'آیا قانون آلبرتا استفاده از کمربند ایمنی را الزامی می‌کند؟',
+    de: 'Schreibt das Gesetz in Alberta das Anlegen des Sicherheitsgurts vor?',
+    options: {
+      en: ['Yes, you must wear it properly at all times', 'Only on highways', 'Only if you are under 18'],
+      fa: ['بله، باید همیشه درست بسته شود', 'فقط در بزرگراه', 'فقط اگر زیر ۱۸ سال باشید'],
+      de: ['Ja, Sie müssen ihn jederzeit richtig anlegen', 'Nur auf Autobahnen', 'Nur wenn Sie unter 18 sind'],
+    },
+    correct: 0,
+  },
+]
