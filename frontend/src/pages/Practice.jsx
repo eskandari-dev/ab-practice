@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
+import { ExamIcon } from '../components/Icons.jsx'
 
 function Practice() {
     const navigate = useNavigate()
@@ -104,10 +105,10 @@ function Practice() {
     }
 
     const langButtons = (
-        <div>
-            <button className="lang-btn" onClick={() => setLang('en')}>English</button>
-            <button className="lang-btn" onClick={() => setLang('fa')}>فارسی</button>
-            <button className="lang-btn" onClick={() => setLang('de')}>Deutsch</button>
+        <div className="lang-group">
+            <button className={'lang-btn' + (lang === 'en' ? ' lang-active' : '')} onClick={() => setLang('en')}>English</button>
+            <button className={'lang-btn' + (lang === 'fa' ? ' lang-active' : '')} onClick={() => setLang('fa')}>فارسی</button>
+            <button className={'lang-btn' + (lang === 'de' ? ' lang-active' : '')} onClick={() => setLang('de')}>Deutsch</button>
         </div>
     )
 
@@ -123,117 +124,128 @@ function Practice() {
 
         return (
             <div className="page">
-                <h1>{t.examTitle}</h1>
-                {langButtons}
-                <p className="notice">{info}</p>
-                <button className="btn-primary" onClick={startExam} disabled={loading}>
-                    {loading ? t.loading : (user && user.has_access ? t.startFull : t.startFree)}
-                </button>
-                {!(user && user.has_access) && (
-                    <div>
-                        <Link to="/pricing" className="btn-back">{t.seePlans}</Link>
-                    </div>
-                )}
+                <div className="exam-card exam-start">
+                    <span className="icon-box icon-box-lg"><ExamIcon /></span>
+                    <h1>{t.examTitle}</h1>
+                    {langButtons}
+                    <p className="notice">{info}</p>
+                    <button className="btn-primary" onClick={startExam} disabled={loading}>
+                        {loading ? t.loading : (user && user.has_access ? t.startFull : t.startFree)}
+                    </button>
+                    {!(user && user.has_access) && (
+                        <div>
+                            <Link to="/pricing" className="btn-back">{t.seePlans}</Link>
+                        </div>
+                    )}
+                </div>
             </div>
         )
     }
 
     if (page === 'score') {
+        const percent = Math.round((score / examQuestions.length) * 100)
+
         return (
-            <div>
-                <h1>{t.scoreTitle}</h1>
-                <p className="score-number">
-                    {score} / {examQuestions.length}
-                </p>
-                <p className="score-message">  {score >= examQuestions.length / 2 ? t.scoreGood : t.scoreOk} </p>
-                {mode === 'free' && (
-                    <p className="notice">
-                        {t.freeDone} <Link to="/pricing">{t.seePlans}</Link>
-                    </p>
-                )}
-                <button
-                    className="btn-primary"
-                    onClick={() => setPage('start')}
-                >
-                    {t.tryAgain}
-                </button>
-                <button
-                    className="btn-back"
-                    onClick={() => navigate('/')}
-                >
-                    {t.back}
-                </button>
+            <div className="page">
+                <div className="exam-card score-card">
+                    <h1>{t.scoreTitle}</h1>
+                    <div className="score-ring" style={{ '--pct': percent }}>
+                        <div className="score-ring-inner">
+                            <span className="score-percent">{percent}%</span>
+                            <span className="score-count">{score} / {examQuestions.length}</span>
+                        </div>
+                    </div>
+                    <p className="score-message">{score >= examQuestions.length / 2 ? t.scoreGood : t.scoreOk}</p>
+                    {mode === 'free' && (
+                        <p className="notice">
+                            {t.freeDone} <Link to="/pricing">{t.seePlans}</Link>
+                        </p>
+                    )}
+                    <div className="exam-actions">
+                        <button className="btn-back" onClick={() => navigate('/')}>
+                            {t.back}
+                        </button>
+                        <button className="btn-next" onClick={() => setPage('start')}>
+                            {t.tryAgain}
+                        </button>
+                    </div>
+                </div>
             </div>
         )
     }
 
+    const question = examQuestions[current]
+    const progress = ((current + (answered ? 1 : 0)) / examQuestions.length) * 100
+
     return (
-        <div>
-            <h1>{t.examTitle}</h1>
-            <p className="progress">
-                {current + 1} / {examQuestions.length}
-            </p>
-            {langButtons}
-            <p
-                className={
-                    'message' +
-                    (message === t.correct ? ' message-correct' : '') +
-                    (message === t.wrong ? ' message-wrong' : '')
-                }
-            >
-                {message}
-            </p>
-            <p className="question">{examQuestions[current][lang]}</p>
-            {examQuestions[current].options[lang].map((option, index) => (
-                <button
-                    className={
-                        'btn-answer' +
-                        (answered && index === examQuestions[current].correct
-                            ? ' answer-correct'
-                            : '') +
-                        (answered && index === selected && index !== examQuestions[current].correct ? ' answer-wrong'
-                            : '')
-                    }
-                    key={index}
-                    onClick={() => {
-                        if (answered) return
+        <div className="page exam">
+            <div className="exam-top">
+                <span className="progress">{current + 1} / {examQuestions.length}</span>
+                {langButtons}
+            </div>
+            <div className="progress-bar">
+                <div className="progress-fill" style={{ width: progress + '%' }} />
+            </div>
 
-                        setSelected(index)
-
-                        if (index === examQuestions[current].correct) {
-                            setMessage(t.correct)
-                            setScore(score + 1)
-                        } else {
-                            setMessage(t.wrong)
+            <div className="exam-card">
+                <p className="question">{question[lang]}</p>
+                {question.options[lang].map((option, index) => (
+                    <button
+                        className={
+                            'btn-answer' +
+                            (answered && index === question.correct ? ' answer-correct' : '') +
+                            (answered && index === selected && index !== question.correct ? ' answer-wrong' : '')
                         }
+                        key={current + '-' + index}
+                        onClick={() => {
+                            if (answered) return
 
-                        setAnswered(true)
-                    }}
-                >
-                    {option}
-                </button>
-            ))}
-            <button
-                className="btn-next"
-                onClick={() => {
-                    if (current + 1 < examQuestions.length) {
-                        setCurrent(current + 1)
-                        setMessage('')
-                        setAnswered(false)
-                        setSelected(null)
-                    } else {
-                        setPage('score')
+                            setSelected(index)
+
+                            if (index === question.correct) {
+                                setMessage(t.correct)
+                                setScore(score + 1)
+                            } else {
+                                setMessage(t.wrong)
+                            }
+
+                            setAnswered(true)
+                        }}
+                    >
+                        <span className="answer-letter">{'ABC'[index]}</span>
+                        <span>{option}</span>
+                    </button>
+                ))}
+                <p
+                    className={
+                        'message' +
+                        (message === t.correct ? ' message-correct' : '') +
+                        (message === t.wrong ? ' message-wrong' : '')
                     }
-                }}
-            >
-                {t.next}
-            </button>
-            <button
-                className="btn-back"
-                onClick={() => navigate('/')}
-            >
-                {t.back}
-            </button>
+                >
+                    {message}
+                </p>
+                <div className="exam-actions">
+                    <button className="btn-back" onClick={() => navigate('/')}>
+                        {t.back}
+                    </button>
+                    <button
+                        className="btn-next"
+                        onClick={() => {
+                            if (current + 1 < examQuestions.length) {
+                                setCurrent(current + 1)
+                                setMessage('')
+                                setAnswered(false)
+                                setSelected(null)
+                            } else {
+                                setPage('score')
+                            }
+                        }}
+                    >
+                        {t.next}
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }

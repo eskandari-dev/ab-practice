@@ -26,31 +26,34 @@ function Login() {
   }
 
   return (
-    <div className="page">
-      <h1>{t.login.title}</h1>
-      <form className="form" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder={t.login.email}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder={t.login.password}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {error && <p className="form-error">{tError(error)}</p>}
-        <button type="submit" className="btn-primary" disabled={busy}>
-          {busy ? t.login.busy : t.login.button}
-        </button>
-      </form>
-      <p className="form-switch">
-        {t.login.noAccount} <Link to="/register">{t.nav.signup}</Link>
-      </p>
+    <div className="page auth-page">
+      <div className="auth-card">
+        <h1>{t.login.title}</h1>
+        <p className="auth-subtitle">{t.login.subtitle}</p>
+        <form className="form" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder={t.login.email}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder={t.login.password}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          {error && <p className="form-error">{tError(error)}</p>}
+          <button type="submit" className="btn-primary" disabled={busy}>
+            {busy ? t.login.busy : t.login.button}
+          </button>
+        </form>
+        <p className="form-switch">
+          {t.login.noAccount} <Link to="/register">{t.nav.signup}</Link>
+        </p>
+      </div>
     </div>
   )
 }

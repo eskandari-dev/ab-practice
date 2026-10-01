@@ -27,21 +27,23 @@ function PaymentSuccess() {
 
   return (
     <div className="page">
-      {status === 'checking' && <h1>{t.payment.checking}</h1>}
-      {status === 'done' && (
-        <>
-          <h1>{t.payment.thanks}</h1>
-          <p>{t.payment.success}</p>
-          <Link to="/practice" className="btn-primary">{t.payment.startFull}</Link>
-        </>
-      )}
-      {status === 'error' && (
-        <>
-          <h1>{t.payment.failed}</h1>
-          <p className="form-error">{error ? tError(error) : t.payment.missing}</p>
-          <Link to="/pricing" className="btn-primary">{t.payment.backToPricing}</Link>
-        </>
-      )}
+      <div className="exam-card score-card">
+        {status === 'checking' && <h1>{t.payment.checking}</h1>}
+        {status === 'done' && (
+          <>
+            <h1>{t.payment.thanks}</h1>
+            <p>{t.payment.success}</p>
+            <Link to="/practice" className="btn-primary">{t.payment.startFull}</Link>
+          </>
+        )}
+        {status === 'error' && (
+          <>
+            <h1>{t.payment.failed}</h1>
+            <p className="form-error">{error ? tError(error) : t.payment.missing}</p>
+            <Link to="/pricing" className="btn-primary">{t.payment.backToPricing}</Link>
+          </>
+        )}
+      </div>
     </div>
   )
 }

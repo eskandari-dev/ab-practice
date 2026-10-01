@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
+import { LogoIcon } from './Icons.jsx'
 
 function Navbar() {
   const { user, logout } = useAuth()
@@ -14,7 +15,10 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="logo">AB Practice</Link>
+      <Link to="/" className="logo">
+        <span className="logo-mark"><LogoIcon /></span>
+        AB Practice
+      </Link>
       <div className="nav-links">
         <Link to="/">{t.nav.home}</Link>
         <Link to="/practice">{t.nav.practice}</Link>

@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
+import { CheckIcon, LockIcon } from '../components/Icons.jsx'
 
 const plans = [
     { key: 'starter', price: '$4.99' },
-    { key: 'standard', price: '$9.99' },
+    { key: 'standard', price: '$9.99', popular: true },
     { key: 'unlimited', price: '$14.99' },
 ]
 
@@ -35,8 +36,10 @@ function Pricing() {
 
     return (
         <div className="page">
-            <h1>{t.pricing.title}</h1>
-            <p>{t.pricing.subtitle}</p>
+            <div className="page-header">
+                <h1>{t.pricing.title}</h1>
+                <p>{t.pricing.subtitle}</p>
+            </div>
             {user && user.has_access && (
                 <p className="notice">
                     {user.unlimited_until
@@ -47,12 +50,18 @@ function Pricing() {
             {error && <p className="form-error">{tError(error)}</p>}
             <div className="plans">
                 {plans.map((plan) => (
-                    <div className="plan-card" key={plan.key}>
+                    <div className={'plan-card' + (plan.popular ? ' plan-popular' : '')} key={plan.key}>
+                        {plan.popular && <span className="plan-badge">{t.pricing.popular}</span>}
                         <h2>{t.pricing.plans[plan.key].name}</h2>
                         <p className="plan-price">{plan.price}</p>
-                        <p>{t.pricing.plans[plan.key].text}</p>
+                        <p className="plan-text">{t.pricing.plans[plan.key].text}</p>
+                        <ul className="plan-features">
+                            {t.pricing.plans[plan.key].features.map((feature) => (
+                                <li key={feature}><CheckIcon /> {feature}</li>
+                            ))}
+                        </ul>
                         <button
-                            className="btn-primary"
+                            className={plan.popular ? 'btn-primary' : 'btn-outline'}
                             onClick={() => choose(plan.key)}
                             disabled={busy !== ''}
                         >
@@ -61,6 +70,7 @@ function Pricing() {
                     </div>
                 ))}
             </div>
+            <p className="secure-note"><LockIcon /> {t.pricing.secure}</p>
         </div>
     )
 }

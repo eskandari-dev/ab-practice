@@ -35,38 +35,41 @@ function Register() {
   }
 
   return (
-    <div className="page">
-      <h1>{t.register.title}</h1>
-      <form className="form" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder={t.login.email}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder={t.register.passwordHint}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder={t.register.repeat}
-          value={confirm}
-          onChange={(e) => setConfirm(e.target.value)}
-          required
-        />
-        {error && <p className="form-error">{tError(error)}</p>}
-        <button type="submit" className="btn-primary" disabled={busy}>
-          {busy ? t.register.busy : t.register.button}
-        </button>
-      </form>
-      <p className="form-switch">
-        {t.register.haveAccount} <Link to="/login">{t.nav.login}</Link>
-      </p>
+    <div className="page auth-page">
+      <div className="auth-card">
+        <h1>{t.register.title}</h1>
+        <p className="auth-subtitle">{t.register.subtitle}</p>
+        <form className="form" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder={t.login.email}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder={t.register.passwordHint}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder={t.register.repeat}
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            required
+          />
+          {error && <p className="form-error">{tError(error)}</p>}
+          <button type="submit" className="btn-primary" disabled={busy}>
+            {busy ? t.register.busy : t.register.button}
+          </button>
+        </form>
+        <p className="form-switch">
+          {t.register.haveAccount} <Link to="/login">{t.nav.login}</Link>
+        </p>
+      </div>
     </div>
   )
 }
