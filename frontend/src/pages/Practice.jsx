@@ -4,12 +4,16 @@ import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
-import { ExamIcon } from '../components/Icons.jsx'
+import { countryName, findPlace, getSavedRegion } from '../places.js'
+import { ExamIcon, PinIcon } from '../components/Icons.jsx'
 
 function Practice() {
     const navigate = useNavigate()
     const { user, setUser } = useAuth()
-    const { lang, setLang } = useLang()
+    const { lang, t: all } = useLang()
+    const t = all.practice
+    const [regionId] = useState(getSavedRegion)
+    const { country, region } = findPlace(regionId)
     const [page, setPage] = useState("start");
     const [message, setMessage] = useState('')
     const [current, setCurrent] = useState(0)
@@ -19,78 +23,11 @@ function Practice() {
     const [examQuestions, setExamQuestions] = useState([])
     const [mode, setMode] = useState('free')
     const [loading, setLoading] = useState(false)
-    const texts = {
-        en: {
-            examTitle: 'Practice Exam',
-            back: 'Back to Home',
-            next: 'Next',
-            correct: 'Correct',
-            wrong: 'Wrong',
-            scoreTitle: 'Your Score',
-            tryAgain: 'Try Again',
-            scoreGood: 'Great job! You are ready to practice more.',
-            scoreOk: 'Good try. Practice again to improve.',
-            guestInfo: 'Try a free exam with 5 questions. Sign up and choose a plan to get full exams with 20 questions.',
-            noPlanInfo: 'You have no full exams left. You can take a free exam with 5 questions, or choose a plan.',
-            examsLeftInfo: 'Full exams left: ',
-            unlimitedInfo: 'You have unlimited full exams until ',
-            startFree: 'Start free exam',
-            startFull: 'Start full exam (20 questions)',
-            seePlans: 'See plans',
-            loading: 'Loading...',
-            keyHint: 'Tip: press 1, 2 or 3 to answer, and Enter for the next question.',
-            freeDone: 'This was the free exam. Get full exams with 20 questions.',
-        },
-        fa: {
-            examTitle: 'آزمون تمرینی',
-            back: 'بازگشت به خانه',
-            next: 'بعدی',
-            correct: 'درست',
-            wrong: 'غلط',
-            scoreTitle: 'امتیاز شما',
-            tryAgain: 'دوباره تلاش کن',
-            scoreGood: 'عالی! آماده تمرین بیشتر هستی.',
-            scoreOk: 'خوب بود. برای بهتر شدن دوباره تمرین کن.',
-            guestInfo: 'یک آزمون رایگان با ۵ سوال امتحان کن. برای آزمون کامل با ۲۰ سوال، ثبت‌نام کن و یک پلن انتخاب کن.',
-            noPlanInfo: 'آزمون کامل باقی‌مانده نداری. می‌توانی آزمون رایگان ۵ سوالی بدهی یا یک پلن انتخاب کنی.',
-            examsLeftInfo: 'آزمون‌های کامل باقی‌مانده: ',
-            unlimitedInfo: 'آزمون کامل نامحدود داری تا ',
-            startFree: 'شروع آزمون رایگان',
-            startFull: 'شروع آزمون کامل (۲۰ سوال)',
-            seePlans: 'دیدن پلن‌ها',
-            loading: 'در حال بارگذاری...',
-            keyHint: 'نکته: برای جواب دادن ۱، ۲ یا ۳ را بزن و برای سوال بعدی Enter.',
-            freeDone: 'این آزمون رایگان بود. برای آزمون کامل ۲۰ سوالی یک پلن بگیر.',
-        },
-        de: {
-            examTitle: 'Übungsprüfung',
-            back: 'Zurück zur Startseite',
-            next: 'Weiter',
-            correct: 'Richtig',
-            wrong: 'Falsch',
-            scoreTitle: 'Dein Ergebnis',
-            tryAgain: 'Nochmal versuchen',
-            scoreGood: 'Super! Du kannst noch mehr üben.',
-            scoreOk: 'Guter Versuch. Übe noch einmal.',
-            guestInfo: 'Mach eine kostenlose Prüfung mit 5 Fragen. Registriere dich und wähle einen Plan für volle Prüfungen mit 20 Fragen.',
-            noPlanInfo: 'Du hast keine vollen Prüfungen mehr. Du kannst eine kostenlose Prüfung mit 5 Fragen machen oder einen Plan wählen.',
-            examsLeftInfo: 'Verbleibende volle Prüfungen: ',
-            unlimitedInfo: 'Du hast unbegrenzte volle Prüfungen bis ',
-            startFree: 'Kostenlose Prüfung starten',
-            startFull: 'Volle Prüfung starten (20 Fragen)',
-            seePlans: 'Pläne ansehen',
-            loading: 'Wird geladen...',
-            keyHint: 'Tipp: Drücke 1, 2 oder 3 zum Antworten und Enter für die nächste Frage.',
-            freeDone: 'Das war die kostenlose Prüfung. Hol dir volle Prüfungen mit 20 Fragen.',
-        },
-    }
-
-    const t = texts[lang]
 
     async function startExam() {
         setLoading(true)
         try {
-            const data = await api('/exam/start', { method: 'POST' })
+            const data = await api('/exam/start', { method: 'POST', body: { region: regionId } })
             setExamQuestions(data.questions)
             setMode(data.mode)
             if (data.user) setUser(data.user)
@@ -150,13 +87,26 @@ function Practice() {
         return () => window.removeEventListener('keydown', handleKey)
     })
 
-    const langButtons = (
-        <div className="lang-group">
-            <button className={'lang-btn' + (lang === 'en' ? ' lang-active' : '')} onClick={() => setLang('en')}>English</button>
-            <button className={'lang-btn' + (lang === 'fa' ? ' lang-active' : '')} onClick={() => setLang('fa')}>فارسی</button>
-            <button className={'lang-btn' + (lang === 'de' ? ' lang-active' : '')} onClick={() => setLang('de')}>Deutsch</button>
-        </div>
+    const placePill = (
+        <span className="place-pill">
+            <PinIcon /> {region.name}, {countryName(country.code, lang)}
+            <Link to="/">{t.change}</Link>
+        </span>
     )
+
+    if (!region.ready) {
+        return (
+            <div className="page">
+                <div className="exam-card exam-start">
+                    <span className="icon-box icon-box-lg"><PinIcon size={26} /></span>
+                    <h1>{t.soonTitle}</h1>
+                    {placePill}
+                    <p className="notice">{t.soonText}</p>
+                    <Link to="/" className="btn-primary">{t.choosePlace}</Link>
+                </div>
+            </div>
+        )
+    }
 
     if (page === 'start') {
         let info = t.guestInfo
@@ -173,7 +123,7 @@ function Practice() {
                 <div className="exam-card exam-start">
                     <span className="icon-box icon-box-lg"><ExamIcon /></span>
                     <h1>{t.examTitle}</h1>
-                    {langButtons}
+                    {placePill}
                     <p className="notice">{info}</p>
                     <button className="btn-primary" onClick={startExam} disabled={loading}>
                         {loading ? t.loading : (user && user.has_access ? t.startFull : t.startFree)}
@@ -221,21 +171,24 @@ function Practice() {
     }
 
     const question = examQuestions[current]
+    const translated = Boolean(question[lang])
     const progress = ((current + (answered ? 1 : 0)) / examQuestions.length) * 100
 
     return (
         <div className="page exam">
             <div className="exam-top">
                 <span className="progress">{current + 1} / {examQuestions.length}</span>
-                {langButtons}
+                <span className="exam-place"><PinIcon /> {region.name}</span>
             </div>
             <div className="progress-bar">
                 <div className="progress-fill" style={{ width: progress + '%' }} />
             </div>
 
-            <div className="exam-card">
-                <p className="question">{question[lang]}</p>
-                {question.options[lang].map((option, index) => (
+            {!translated && <p className="lang-note">{t.englishOnly}</p>}
+
+            <div className="exam-card" dir={translated ? undefined : 'ltr'}>
+                <p className="question">{translated ? question[lang] : question.en}</p>
+                {(translated ? question.options[lang] : question.options.en).map((option, index) => (
                     <button
                         className={
                             'btn-answer' +

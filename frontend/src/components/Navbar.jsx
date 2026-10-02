@@ -5,7 +5,7 @@ import { LogoIcon } from './Icons.jsx'
 
 function Navbar() {
   const { user, logout } = useAuth()
-  const { lang, setLang, t } = useLang()
+  const { t } = useLang()
   const navigate = useNavigate()
 
   async function handleLogout() {
@@ -23,16 +23,6 @@ function Navbar() {
         <NavLink to="/" end className="nav-item">{t.nav.home}</NavLink>
         <NavLink to="/practice" className="nav-item">{t.nav.practice}</NavLink>
         <NavLink to="/pricing" className="nav-item">{t.nav.pricing}</NavLink>
-        <select
-          className="lang-select"
-          value={lang}
-          onChange={(e) => setLang(e.target.value)}
-          aria-label="Language"
-        >
-          <option value="en">English</option>
-          <option value="fa">فارسی</option>
-          <option value="de">Deutsch</option>
-        </select>
         {user ? (
           <>
             <span className="nav-user">{user.email}</span>

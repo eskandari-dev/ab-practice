@@ -33,6 +33,11 @@ PLANS = {
     "unlimited": {"name": "Unlimited", "price": 1499, "exams": 0, "days": 30},
 }
 
+# region ids must match frontend/src/places.js
+QUESTION_BANKS = {
+    "ca-ab": questions,
+}
+
 app = FastAPI()
 create_tables()
 app.add_middleware(
@@ -168,8 +173,20 @@ def me(user=Depends(current_user)):
     return user_to_dict(user)
 
 
+class ExamIn(BaseModel):
+    region: str = "ca-ab"
+
+
 @app.post("/exam/start")
-def start_exam(user=Depends(optional_user), conn: sqlite3.Connection = Depends(get_conn)):
+def start_exam(
+    data: ExamIn | None = None,
+    user=Depends(optional_user),
+    conn: sqlite3.Connection = Depends(get_conn),
+):
+    bank = QUESTION_BANKS.get(data.region if data else "ca-ab")
+    if bank is None:
+        raise HTTPException(status_code=404, detail="This region is coming soon")
+
     mode = "free"
     if user is not None:
         if has_unlimited(user):
@@ -184,7 +201,7 @@ def start_exam(user=Depends(optional_user), conn: sqlite3.Connection = Depends(g
                 mode = "full"
 
     count = FULL_QUESTIONS if mode == "full" else FREE_QUESTIONS
-    picked = random.sample(questions, min(count, len(questions)))
+    picked = random.sample(bank, min(count, len(bank)))
     return {
         "mode": mode,
         "questions": picked,

@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
 import { LangContext } from './lang-context.js'
+import { RTL_LANGUAGES } from './languages.js'
 import { translations } from './translations.js'
-
-const LANGS = ['en', 'fa', 'de']
 
 function LangProvider({ children }) {
   const [lang, setLangState] = useState(() => {
     const saved = localStorage.getItem('lang')
-    return LANGS.includes(saved) ? saved : 'en'
+    return saved in translations ? saved : 'en'
   })
 
   useEffect(() => {
     document.documentElement.lang = lang
-    document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr'
+    document.documentElement.dir = RTL_LANGUAGES.includes(lang) ? 'rtl' : 'ltr'
   }, [lang])
 
   function setLang(next) {
