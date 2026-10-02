@@ -4,15 +4,18 @@ import { useLang } from '../lang-context.js'
 import { LANGUAGES } from '../languages.js'
 import { COUNTRIES, countryName, findPlace, getSavedRegion, saveRegion } from '../places.js'
 import { questions } from '../questions.js'
-import { ArrowIcon, CheckIcon, ExamIcon, GlobeIcon, PinIcon, WalletIcon } from '../components/Icons.jsx'
+import {
+  ArrowIcon, ChartIcon, CheckIcon, ExamIcon, FlameIcon, GlobeIcon, PinIcon, ReviewIcon, WalletIcon,
+} from '../components/Icons.jsx'
 
-const featureIcons = [ExamIcon, GlobeIcon, WalletIcon]
+const featureIcons = [ExamIcon, GlobeIcon, WalletIcon, ReviewIcon, ChartIcon, FlameIcon]
 const previewQuestion = questions[1]
 
 function Home() {
   const { lang, setLang, t } = useLang()
   const navigate = useNavigate()
   const [regionId, setRegionId] = useState(getSavedRegion)
+  const [tryAnswer, setTryAnswer] = useState(null)
   const { country, region } = findPlace(regionId)
 
   function changeCountry(code) {
@@ -90,31 +93,42 @@ function Home() {
           </ul>
         </div>
 
-        <div className="hero-visual fade-up delay-2" aria-hidden="true">
+        <div className="hero-visual fade-up delay-2">
           <div className="preview-card">
             <div className="preview-top">
-              <span className="progress">7 / 20</span>
+              <span className="try-title">{t.home.tryTitle}</span>
               <span className="preview-place"><PinIcon /> Alberta</span>
-            </div>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: '35%' }} />
             </div>
             <p className="preview-question">{previewQuestion[lang] || previewQuestion.en}</p>
             {(previewQuestion.options[lang] || previewQuestion.options.en).map((option, index) => (
-              <div
-                className={'preview-answer' + (index === previewQuestion.correct ? ' preview-correct' : '')}
+              <button
+                className={
+                  'preview-answer' +
+                  (tryAnswer !== null && index === previewQuestion.correct ? ' preview-correct' : '') +
+                  (tryAnswer === index && index !== previewQuestion.correct ? ' preview-wrong' : '')
+                }
                 key={option}
+                onClick={() => setTryAnswer(index)}
+                disabled={tryAnswer !== null}
               >
                 <span className="answer-letter">{'ABC'[index]}</span>
                 {option}
-              </div>
+              </button>
             ))}
+            {tryAnswer !== null && (
+              <div className="try-result">
+                <p>{tryAnswer === previewQuestion.correct ? t.home.tryCorrect : t.home.tryWrong}</p>
+                <button className="btn-next" onClick={() => (region.ready ? startPractice() : pickRegion(regionId))}>
+                  {t.home.tryNext}
+                </button>
+              </div>
+            )}
           </div>
-          <div className="float-chip chip-score">
+          <div className="float-chip chip-score" aria-hidden="true">
             <span className="chip-ring">92%</span>
             <span>{t.home.previewScore}</span>
           </div>
-          <div className="float-chip chip-langs"><GlobeIcon /> 中文 · العربية · Español</div>
+          <div className="float-chip chip-langs" aria-hidden="true"><GlobeIcon /> 中文 · العربية · Español</div>
         </div>
       </section>
 
@@ -191,7 +205,7 @@ function Home() {
         <span className="eyebrow">{t.home.featuresEyebrow}</span>
         <h2 className="section-title">{t.home.featuresTitle}</h2>
         <div className="features">
-          {t.home.features.map((f, index) => {
+          {[...t.home.features, ...t.home.moreFeatures].map((f, index) => {
             const Icon = featureIcons[index]
             return (
               <div className="feature-card" key={f.title}>

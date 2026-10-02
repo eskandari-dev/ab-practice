@@ -79,6 +79,40 @@ export function PinIcon({ size = 18 }) {
   )
 }
 
+export function ReviewIcon() {
+  return (
+    <Svg>
+      <path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.6" />
+      <path d="M4 4v4.6h4.6M9 12.5l2 2 4-4" />
+    </Svg>
+  )
+}
+
+export function ChartIcon() {
+  return (
+    <Svg>
+      <path d="M4 20h16M7 16v-4M12 16V8M17 16v-7" />
+    </Svg>
+  )
+}
+
+export function FlameIcon() {
+  return (
+    <Svg>
+      <path d="M12 21c-3.9 0-6.5-2.6-6.5-6.2 0-3.4 2.4-5.4 3.6-8.3.4 1.9 1.4 3 2.6 3.7.3-2.7 1.6-5 3.6-6.7.1 3.1 3.2 5.4 3.2 10.1 0 4-2.7 7.4-6.5 7.4z" />
+    </Svg>
+  )
+}
+
+export function ClockIcon() {
+  return (
+    <Svg size={16}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </Svg>
+  )
+}
+
 export function LockIcon() {
   return (
     <Svg size={16}>

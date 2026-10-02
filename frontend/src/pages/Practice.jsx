@@ -5,7 +5,16 @@ import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
 import { countryName, findPlace, getSavedRegion } from '../places.js'
-import { ExamIcon, PinIcon } from '../components/Icons.jsx'
+import { addResult, getMistakes, getStats, updateMistakes } from '../progress.js'
+import { CheckIcon, ClockIcon, ExamIcon, PinIcon } from '../components/Icons.jsx'
+
+const PASS_PERCENT = 80
+
+function formatTime(seconds) {
+    const m = Math.floor(seconds / 60)
+    const s = seconds % 60
+    return m + ':' + String(s).padStart(2, '0')
+}
 
 function Practice() {
     const navigate = useNavigate()
@@ -23,31 +32,45 @@ function Practice() {
     const [examQuestions, setExamQuestions] = useState([])
     const [mode, setMode] = useState('free')
     const [loading, setLoading] = useState(false)
+    const [answers, setAnswers] = useState([])
+    const [seconds, setSeconds] = useState(0)
+    const [stats, setStats] = useState(getStats)
+    const [mistakes, setMistakes] = useState(() => getMistakes(regionId))
 
-    async function startExam() {
-        setLoading(true)
-        try {
-            const data = await api('/exam/start', { method: 'POST', body: { region: regionId } })
-            setExamQuestions(data.questions)
-            setMode(data.mode)
-            if (data.user) setUser(data.user)
-        } catch {
-            setExamQuestions(questions.slice(0, 5))
-            setMode('free')
-        }
+    function resetExam(list, newMode) {
+        setExamQuestions(list)
+        setMode(newMode)
         setCurrent(0)
         setScore(0)
         setMessage('')
         setAnswered(false)
         setSelected(null)
-        setLoading(false)
+        setAnswers([])
+        setSeconds(0)
         setPage('exam')
+    }
+
+    async function startExam() {
+        setLoading(true)
+        try {
+            const data = await api('/exam/start', { method: 'POST', body: { region: regionId } })
+            if (data.user) setUser(data.user)
+            resetExam(data.questions, data.mode)
+        } catch {
+            resetExam(questions.slice(0, 5), 'free')
+        }
+        setLoading(false)
+    }
+
+    function startMistakes() {
+        resetExam([...mistakes].sort(() => Math.random() - 0.5).slice(0, 20), 'mistakes')
     }
 
     function chooseAnswer(index) {
         if (answered) return
 
         setSelected(index)
+        setAnswers([...answers, index])
 
         if (index === examQuestions[current].correct) {
             setMessage(t.correct)
@@ -59,16 +82,33 @@ function Practice() {
         setAnswered(true)
     }
 
+    function finishExam() {
+        const wrong = examQuestions.filter((q, i) => answers[i] !== q.correct)
+        const rightIds = examQuestions.filter((q, i) => answers[i] === q.correct).map((q) => q.id)
+        updateMistakes(regionId, wrong, rightIds)
+        addResult({ region: regionId, score, total: examQuestions.length, seconds })
+        setStats(getStats())
+        setMistakes(getMistakes(regionId))
+        setPage('score')
+    }
+
     function goNext() {
+        if (!answered) return
         if (current + 1 < examQuestions.length) {
             setCurrent(current + 1)
             setMessage('')
             setAnswered(false)
             setSelected(null)
         } else {
-            setPage('score')
+            finishExam()
         }
     }
+
+    useEffect(() => {
+        if (page !== 'exam') return
+        const timer = setInterval(() => setSeconds((s) => s + 1), 1000)
+        return () => clearInterval(timer)
+    }, [page])
 
     useEffect(() => {
         if (page !== 'exam') return
@@ -86,6 +126,14 @@ function Practice() {
         window.addEventListener('keydown', handleKey)
         return () => window.removeEventListener('keydown', handleKey)
     })
+
+    function text(question) {
+        return question[lang] ? question[lang] : question.en
+    }
+
+    function options(question) {
+        return question.options[lang] ? question.options[lang] : question.options.en
+    }
 
     const placePill = (
         <span className="place-pill">
@@ -109,6 +157,7 @@ function Practice() {
     }
 
     if (page === 'start') {
+        const full = user && user.has_access
         let info = t.guestInfo
         if (user && user.unlimited_until) {
             info = t.unlimitedInfo + new Date(user.unlimited_until).toLocaleDateString()
@@ -119,39 +168,69 @@ function Practice() {
         }
 
         return (
-            <div className="page">
+            <div className="page practice-home">
                 <div className="exam-card exam-start">
                     <span className="icon-box icon-box-lg"><ExamIcon /></span>
                     <h1>{t.examTitle}</h1>
                     {placePill}
+
+                    <div className="exam-facts">
+                        <div><strong>{full ? 20 : 5}</strong><span>{t.infoQuestions}</span></div>
+                        <div><strong>{PASS_PERCENT}%</strong><span>{t.infoPass}</span></div>
+                        <div><strong>{t.noLimit}</strong><span>{t.infoTime}</span></div>
+                    </div>
+
                     <p className="notice">{info}</p>
                     <button className="btn-primary" onClick={startExam} disabled={loading}>
-                        {loading ? t.loading : (user && user.has_access ? t.startFull : t.startFree)}
+                        {loading ? t.loading : (full ? t.startFull : t.startFree)}
                     </button>
-                    {!(user && user.has_access) && (
-                        <div>
-                            <Link to="/pricing" className="btn-back">{t.seePlans}</Link>
-                        </div>
-                    )}
+                    <div className="start-links">
+                        {mistakes.length > 0 && (
+                            <button className="btn-back" onClick={startMistakes}>
+                                {t.mistakesBtn} <span className="count-badge">{mistakes.length}</span>
+                            </button>
+                        )}
+                        {!full && <Link to="/pricing" className="btn-back">{t.seePlans}</Link>}
+                    </div>
                 </div>
+
+                {stats && (
+                    <div className="progress-card">
+                        <h2>{t.statsTitle}</h2>
+                        <div className="progress-stats">
+                            <div><strong>{stats.exams}</strong><span>{t.statExams}</span></div>
+                            <div><strong>{stats.best}%</strong><span>{t.statBest}</span></div>
+                            <div><strong>{stats.average}%</strong><span>{t.statAverage}</span></div>
+                            <div><strong>{stats.streak}</strong><span>{t.statStreak}</span></div>
+                        </div>
+                    </div>
+                )}
             </div>
         )
     }
 
     if (page === 'score') {
         const percent = Math.round((score / examQuestions.length) * 100)
+        const passed = percent >= PASS_PERCENT
+        const wrong = examQuestions
+            .map((q, i) => ({ q, picked: answers[i] }))
+            .filter((item) => item.picked !== item.q.correct)
 
         return (
             <div className="page">
                 <div className="exam-card score-card">
                     <h1>{t.scoreTitle}</h1>
-                    <div className={'score-ring' + (percent >= 80 ? ' score-pass' : '')} style={{ '--pct': percent }}>
+                    <span className={'result-badge' + (passed ? ' result-pass' : '')}>
+                        {passed ? t.passed : t.failed}
+                    </span>
+                    <div className={'score-ring' + (passed ? ' score-pass' : '')} style={{ '--pct': percent }}>
                         <div className="score-ring-inner">
                             <span className="score-percent">{percent}%</span>
                             <span className="score-count">{score} / {examQuestions.length}</span>
                         </div>
                     </div>
-                    <p className="score-message">{score >= examQuestions.length / 2 ? t.scoreGood : t.scoreOk}</p>
+                    <p className="score-time"><ClockIcon /> {t.timeTaken}: {formatTime(seconds)}</p>
+                    <p className="score-message">{passed ? t.scoreGood : t.scoreOk}</p>
                     {mode === 'free' && (
                         <p className="notice">
                             {t.freeDone} <Link to="/pricing">{t.seePlans}</Link>
@@ -166,6 +245,18 @@ function Practice() {
                         </button>
                     </div>
                 </div>
+
+                <div className="review">
+                    <h2>{t.reviewTitle}</h2>
+                    {wrong.length === 0 && <p className="review-perfect"><CheckIcon /> {t.perfect}</p>}
+                    {wrong.map(({ q, picked }) => (
+                        <div className="review-item" key={q.id}>
+                            <p className="review-question">{text(q)}</p>
+                            <p className="review-wrong"><span>{t.yourAnswer}</span> {options(q)[picked]}</p>
+                            <p className="review-right"><span>{t.correctAnswer}</span> {options(q)[q.correct]}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         )
     }
@@ -178,7 +269,10 @@ function Practice() {
         <div className="page exam">
             <div className="exam-top">
                 <span className="progress">{current + 1} / {examQuestions.length}</span>
-                <span className="exam-place"><PinIcon /> {region.name}</span>
+                {mode === 'mistakes'
+                    ? <span className="exam-place">{t.mistakesLabel}</span>
+                    : <span className="exam-place"><PinIcon /> {region.name}</span>}
+                <span className="exam-timer"><ClockIcon /> {formatTime(seconds)}</span>
             </div>
             <div className="progress-bar">
                 <div className="progress-fill" style={{ width: progress + '%' }} />
@@ -187,8 +281,8 @@ function Practice() {
             {!translated && <p className="lang-note">{t.englishOnly}</p>}
 
             <div className="exam-card" dir={translated ? undefined : 'ltr'}>
-                <p className="question">{translated ? question[lang] : question.en}</p>
-                {(translated ? question.options[lang] : question.options.en).map((option, index) => (
+                <p className="question">{text(question)}</p>
+                {options(question).map((option, index) => (
                     <button
                         className={
                             'btn-answer' +
@@ -215,7 +309,7 @@ function Practice() {
                     <button className="btn-back" onClick={() => navigate('/')}>
                         {t.back}
                     </button>
-                    <button className="btn-next" onClick={goNext}>
+                    <button className="btn-next" onClick={goNext} disabled={!answered}>
                         {t.next}
                     </button>
                 </div>
