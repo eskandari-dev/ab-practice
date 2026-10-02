@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
 import { LogoIcon } from './Icons.jsx'
@@ -20,9 +20,9 @@ function Navbar() {
         AB Practice
       </Link>
       <div className="nav-links">
-        <Link to="/">{t.nav.home}</Link>
-        <Link to="/practice">{t.nav.practice}</Link>
-        <Link to="/pricing">{t.nav.pricing}</Link>
+        <NavLink to="/" end className="nav-item">{t.nav.home}</NavLink>
+        <NavLink to="/practice" className="nav-item">{t.nav.practice}</NavLink>
+        <NavLink to="/pricing" className="nav-item">{t.nav.pricing}</NavLink>
         <select
           className="lang-select"
           value={lang}
@@ -40,7 +40,7 @@ function Navbar() {
           </>
         ) : (
           <>
-            <Link to="/login">{t.nav.login}</Link>
+            <NavLink to="/login" className="nav-item">{t.nav.login}</NavLink>
             <Link to="/register" className="nav-login">{t.nav.signup}</Link>
           </>
         )}

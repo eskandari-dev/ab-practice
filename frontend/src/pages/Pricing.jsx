@@ -6,8 +6,8 @@ import { useLang } from '../lang-context.js'
 import { CheckIcon, LockIcon } from '../components/Icons.jsx'
 
 const plans = [
-    { key: 'starter', price: '$4.99' },
-    { key: 'standard', price: '$9.99', popular: true },
+    { key: 'starter', price: '$4.99', perExam: '$1.66' },
+    { key: 'standard', price: '$9.99', perExam: '$1.00', popular: true },
     { key: 'unlimited', price: '$14.99' },
 ]
 
@@ -54,6 +54,9 @@ function Pricing() {
                         {plan.popular && <span className="plan-badge">{t.pricing.popular}</span>}
                         <h2>{t.pricing.plans[plan.key].name}</h2>
                         <p className="plan-price">{plan.price}</p>
+                        <p className="plan-per-exam">
+                            {plan.perExam ? '≈ ' + plan.perExam + ' ' + t.pricing.perExam : t.pricing.unlimitedNote}
+                        </p>
                         <p className="plan-text">{t.pricing.plans[plan.key].text}</p>
                         <ul className="plan-features">
                             {t.pricing.plans[plan.key].features.map((feature) => (

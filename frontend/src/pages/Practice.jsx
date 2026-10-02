@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { questions } from '../questions.js'
 import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../api.js'
@@ -38,6 +38,7 @@ function Practice() {
             startFull: 'Start full exam (20 questions)',
             seePlans: 'See plans',
             loading: 'Loading...',
+            keyHint: 'Tip: press 1, 2 or 3 to answer, and Enter for the next question.',
             freeDone: 'This was the free exam. Get full exams with 20 questions.',
         },
         fa: {
@@ -58,6 +59,7 @@ function Practice() {
             startFull: 'شروع آزمون کامل (۲۰ سوال)',
             seePlans: 'دیدن پلن‌ها',
             loading: 'در حال بارگذاری...',
+            keyHint: 'نکته: برای جواب دادن ۱، ۲ یا ۳ را بزن و برای سوال بعدی Enter.',
             freeDone: 'این آزمون رایگان بود. برای آزمون کامل ۲۰ سوالی یک پلن بگیر.',
         },
         de: {
@@ -78,6 +80,7 @@ function Practice() {
             startFull: 'Volle Prüfung starten (20 Fragen)',
             seePlans: 'Pläne ansehen',
             loading: 'Wird geladen...',
+            keyHint: 'Tipp: Drücke 1, 2 oder 3 zum Antworten und Enter für die nächste Frage.',
             freeDone: 'Das war die kostenlose Prüfung. Hol dir volle Prüfungen mit 20 Fragen.',
         },
     }
@@ -103,6 +106,49 @@ function Practice() {
         setLoading(false)
         setPage('exam')
     }
+
+    function chooseAnswer(index) {
+        if (answered) return
+
+        setSelected(index)
+
+        if (index === examQuestions[current].correct) {
+            setMessage(t.correct)
+            setScore(score + 1)
+        } else {
+            setMessage(t.wrong)
+        }
+
+        setAnswered(true)
+    }
+
+    function goNext() {
+        if (current + 1 < examQuestions.length) {
+            setCurrent(current + 1)
+            setMessage('')
+            setAnswered(false)
+            setSelected(null)
+        } else {
+            setPage('score')
+        }
+    }
+
+    useEffect(() => {
+        if (page !== 'exam') return
+
+        function handleKey(e) {
+            if (['1', '2', '3'].includes(e.key)) {
+                chooseAnswer(Number(e.key) - 1)
+            } else if (e.key === 'Enter' && answered) {
+                // stops a focused button from also firing its click
+                e.preventDefault()
+                goNext()
+            }
+        }
+
+        window.addEventListener('keydown', handleKey)
+        return () => window.removeEventListener('keydown', handleKey)
+    })
 
     const langButtons = (
         <div className="lang-group">
@@ -149,7 +195,7 @@ function Practice() {
             <div className="page">
                 <div className="exam-card score-card">
                     <h1>{t.scoreTitle}</h1>
-                    <div className="score-ring" style={{ '--pct': percent }}>
+                    <div className={'score-ring' + (percent >= 80 ? ' score-pass' : '')} style={{ '--pct': percent }}>
                         <div className="score-ring-inner">
                             <span className="score-percent">{percent}%</span>
                             <span className="score-count">{score} / {examQuestions.length}</span>
@@ -197,20 +243,7 @@ function Practice() {
                             (answered && index === selected && index !== question.correct ? ' answer-wrong' : '')
                         }
                         key={current + '-' + index}
-                        onClick={() => {
-                            if (answered) return
-
-                            setSelected(index)
-
-                            if (index === question.correct) {
-                                setMessage(t.correct)
-                                setScore(score + 1)
-                            } else {
-                                setMessage(t.wrong)
-                            }
-
-                            setAnswered(true)
-                        }}
+                        onClick={() => chooseAnswer(index)}
                     >
                         <span className="answer-letter">{'ABC'[index]}</span>
                         <span>{option}</span>
@@ -229,23 +262,12 @@ function Practice() {
                     <button className="btn-back" onClick={() => navigate('/')}>
                         {t.back}
                     </button>
-                    <button
-                        className="btn-next"
-                        onClick={() => {
-                            if (current + 1 < examQuestions.length) {
-                                setCurrent(current + 1)
-                                setMessage('')
-                                setAnswered(false)
-                                setSelected(null)
-                            } else {
-                                setPage('score')
-                            }
-                        }}
-                    >
+                    <button className="btn-next" onClick={goNext}>
                         {t.next}
                     </button>
                 </div>
             </div>
+            <p className="key-hint">{t.keyHint}</p>
         </div>
     )
 }

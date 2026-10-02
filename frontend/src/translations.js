@@ -8,13 +8,22 @@ export const translations = {
       subtitle: 'Practice with real-style questions before you pay $17 for the real exam. Learn in English, Persian, or German.',
       start: 'Start free exam',
       seePricing: 'See pricing',
-      trust: ['70+ practice questions', '3 languages', 'No subscription'],
+      trust: ['No account needed', 'Instant feedback', 'One-time payment'],
+      previewScore: 'Ready to pass',
+      stats: [
+        { value: '70+', label: 'Practice questions' },
+        { value: '3', label: 'Languages' },
+        { value: '5', label: 'Free questions' },
+        { value: '$4.99', label: 'Plans from' },
+      ],
+      howEyebrow: 'Simple',
       howTitle: 'How it works',
       steps: [
         { title: 'Try it for free', text: 'Take a free 5-question exam. No account needed.' },
         { title: 'Choose a plan', text: 'Get full 20-question exams, or unlimited exams for 30 days.' },
         { title: 'Pass with confidence', text: 'Practice until you know every answer, then book your real test.' },
       ],
+      featuresEyebrow: 'Benefits',
       featuresTitle: 'Why AB Practice',
       features: [
         { title: 'Real exam style', text: 'Questions like the Alberta Class 7 knowledge test, with instant feedback.' },
@@ -39,6 +48,8 @@ export const translations = {
       choose: 'Choose plan',
       opening: 'Opening payment...',
       popular: 'Most popular',
+      perExam: 'per exam',
+      unlimitedNote: 'Best for daily practice',
       secure: 'Secure payment with Stripe. One-time payment, no subscription.',
       plans: {
         starter: { name: 'Starter', text: 'To check if you are ready', features: ['3 full exams (20 questions)', 'All 3 languages', 'Never expires'] },
@@ -75,7 +86,11 @@ export const translations = {
       missing: 'Missing payment information.',
       backToPricing: 'Back to pricing',
     },
-    footer: { terms: 'Terms, refunds & privacy', rights: 'All rights reserved.' },
+    footer: {
+      terms: 'Terms, refunds & privacy',
+      rights: 'All rights reserved.',
+      tagline: 'Cheap, friendly practice for the Alberta Class 7 knowledge test.',
+    },
     errors: {},
   },
   fa: {
@@ -87,13 +102,22 @@ export const translations = {
       subtitle: 'قبل از پرداخت ۱۷ دلار برای آزمون واقعی، با سوال‌هایی شبیه آزمون واقعی تمرین کن. به انگلیسی، فارسی یا آلمانی.',
       start: 'شروع آزمون رایگان',
       seePricing: 'دیدن قیمت‌ها',
-      trust: ['بیش از ۷۰ سوال تمرینی', '۳ زبان', 'بدون اشتراک ماهانه'],
+      trust: ['بدون نیاز به حساب کاربری', 'نمایش فوری جواب', 'یک‌بار پرداخت'],
+      previewScore: 'آماده قبولی',
+      stats: [
+        { value: '+۷۰', label: 'سوال تمرینی' },
+        { value: '۳', label: 'زبان' },
+        { value: '۵', label: 'سوال رایگان' },
+        { value: '$4.99', label: 'شروع قیمت از' },
+      ],
+      howEyebrow: 'ساده',
       howTitle: 'چطور کار می‌کند',
       steps: [
         { title: 'رایگان امتحان کن', text: 'یک آزمون رایگان ۵ سوالی بده. نیازی به حساب کاربری نیست.' },
         { title: 'یک پلن انتخاب کن', text: 'آزمون‌های کامل ۲۰ سوالی بگیر، یا آزمون نامحدود برای ۳۰ روز.' },
         { title: 'با اطمینان قبول شو', text: 'آن‌قدر تمرین کن تا همه جواب‌ها را بلد باشی، بعد آزمون واقعی را رزرو کن.' },
       ],
+      featuresEyebrow: 'مزایا',
       featuresTitle: 'چرا AB Practice',
       features: [
         { title: 'مثل آزمون واقعی', text: 'سوال‌هایی شبیه آزمون تئوری کلاس ۷ آلبرتا، با نمایش فوری جواب درست.' },
@@ -118,6 +142,8 @@ export const translations = {
       choose: 'انتخاب پلن',
       opening: 'در حال باز کردن صفحه پرداخت...',
       popular: 'محبوب‌ترین',
+      perExam: 'برای هر آزمون',
+      unlimitedNote: 'بهترین برای تمرین روزانه',
       secure: 'پرداخت امن با Stripe. یک‌بار پرداخت، بدون اشتراک.',
       plans: {
         starter: { name: 'پایه', text: 'برای اینکه ببینی آماده‌ای یا نه', features: ['۳ آزمون کامل (۲۰ سوال)', 'هر ۳ زبان', 'بدون تاریخ انقضا'] },
@@ -154,7 +180,11 @@ export const translations = {
       missing: 'اطلاعات پرداخت پیدا نشد.',
       backToPricing: 'بازگشت به قیمت‌ها',
     },
-    footer: { terms: 'شرایط، بازپرداخت و حریم خصوصی', rights: 'تمامی حقوق محفوظ است.' },
+    footer: {
+      terms: 'شرایط، بازپرداخت و حریم خصوصی',
+      rights: 'تمامی حقوق محفوظ است.',
+      tagline: 'تمرین ارزان و ساده برای آزمون تئوری کلاس ۷ آلبرتا.',
+    },
     errors: {
       'Wrong email or password': 'ایمیل یا رمز عبور اشتباه است',
       'Email already registered': 'این ایمیل قبلاً ثبت شده است',
@@ -175,13 +205,22 @@ export const translations = {
       subtitle: 'Übe mit Fragen wie in der echten Prüfung, bevor du $17 für die echte Prüfung zahlst. Auf Englisch, Persisch oder Deutsch.',
       start: 'Kostenlos testen',
       seePricing: 'Preise ansehen',
-      trust: ['Über 70 Übungsfragen', '3 Sprachen', 'Kein Abo'],
+      trust: ['Kein Konto nötig', 'Sofortiges Feedback', 'Einmalzahlung'],
+      previewScore: 'Bereit zum Bestehen',
+      stats: [
+        { value: '70+', label: 'Übungsfragen' },
+        { value: '3', label: 'Sprachen' },
+        { value: '5', label: 'Gratis-Fragen' },
+        { value: '$4.99', label: 'Pläne ab' },
+      ],
+      howEyebrow: 'Einfach',
       howTitle: 'So funktioniert es',
       steps: [
         { title: 'Kostenlos testen', text: 'Mach eine kostenlose Prüfung mit 5 Fragen. Kein Konto nötig.' },
         { title: 'Plan wählen', text: 'Hol dir volle Prüfungen mit 20 Fragen oder 30 Tage unbegrenzt.' },
         { title: 'Sicher bestehen', text: 'Übe, bis du jede Antwort kennst, und buche dann deine echte Prüfung.' },
       ],
+      featuresEyebrow: 'Vorteile',
       featuresTitle: 'Warum AB Practice',
       features: [
         { title: 'Wie die echte Prüfung', text: 'Fragen wie in der Theorieprüfung für Klasse 7, mit sofortigem Feedback.' },
@@ -206,6 +245,8 @@ export const translations = {
       choose: 'Plan wählen',
       opening: 'Zahlung wird geöffnet...',
       popular: 'Am beliebtesten',
+      perExam: 'pro Prüfung',
+      unlimitedNote: 'Ideal zum täglichen Üben',
       secure: 'Sichere Zahlung mit Stripe. Einmalzahlung, kein Abo.',
       plans: {
         starter: { name: 'Starter', text: 'Um zu prüfen, ob du bereit bist', features: ['3 volle Prüfungen (20 Fragen)', 'Alle 3 Sprachen', 'Läuft nie ab'] },
@@ -242,7 +283,11 @@ export const translations = {
       missing: 'Zahlungsinformationen fehlen.',
       backToPricing: 'Zurück zu den Preisen',
     },
-    footer: { terms: 'AGB, Erstattung & Datenschutz', rights: 'Alle Rechte vorbehalten.' },
+    footer: {
+      terms: 'AGB, Erstattung & Datenschutz',
+      rights: 'Alle Rechte vorbehalten.',
+      tagline: 'Günstiges, einfaches Üben für die Theorieprüfung Klasse 7 in Alberta.',
+    },
     errors: {
       'Wrong email or password': 'Falsche E-Mail oder falsches Passwort',
       'Email already registered': 'Diese E-Mail ist bereits registriert',

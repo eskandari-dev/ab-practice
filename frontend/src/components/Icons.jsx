@@ -60,6 +60,16 @@ export function WalletIcon() {
   )
 }
 
+export function ArrowIcon() {
+  return (
+    <span className="icon-arrow">
+      <Svg size={18}>
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </Svg>
+    </span>
+  )
+}
+
 export function LockIcon() {
   return (
     <Svg size={16}>
