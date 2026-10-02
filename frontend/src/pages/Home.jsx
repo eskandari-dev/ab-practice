@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
 import { LANGUAGES } from '../languages.js'
 import { COUNTRIES, countryName, findPlace, getSavedRegion, saveRegion } from '../places.js'
 import { questions } from '../questions.js'
+import { fill, isReady, useRegions } from '../regions-data.js'
+import TestFormat from '../components/TestFormat.jsx'
 import {
   ArrowIcon, ChartIcon, CheckIcon, ExamIcon, FlameIcon, GlobeIcon, PinIcon, ReviewIcon, WalletIcon,
 } from '../components/Icons.jsx'
@@ -13,20 +16,24 @@ const previewQuestion = questions[1]
 
 function Home() {
   const { lang, setLang, t } = useLang()
+  const { user } = useAuth()
   const navigate = useNavigate()
+  const regions = useRegions()
   const [regionId, setRegionId] = useState(getSavedRegion)
   const [tryAnswer, setTryAnswer] = useState(null)
   const { country, region } = findPlace(regionId)
+  const ready = isReady(regions, region)
+  const rules = regions?.[region.id]
 
   function changeCountry(code) {
     const next = COUNTRIES.find((c) => c.code === code)
-    const ready = next.regions.find((r) => r.ready)
-    setRegionId((ready || next.regions[0]).id)
+    const first = next.regions.find((r) => isReady(regions, r))
+    setRegionId((first || next.regions[0]).id)
   }
 
   function startPractice() {
     saveRegion(regionId)
-    navigate('/practice')
+    navigate(user ? '/practice' : '/login?next=/practice')
   }
 
   function pickRegion(id) {
@@ -74,16 +81,17 @@ function Home() {
                 <select value={region.id} onChange={(e) => setRegionId(e.target.value)}>
                   {country.regions.map((r) => (
                     <option key={r.id} value={r.id}>
-                      {r.ready ? r.name : r.name + ' · ' + t.home.soon}
+                      {isReady(regions, r) ? r.name : r.name + ' · ' + t.home.soon}
                     </option>
                   ))}
                 </select>
               </label>
             </div>
-            <button type="submit" className="btn-primary" disabled={!region.ready}>
+            <TestFormat rules={rules} />
+            <button type="submit" className="btn-primary" disabled={!ready}>
               {t.home.start} <ArrowIcon />
             </button>
-            {!region.ready && <p className="picker-hint">{t.home.soonHint}</p>}
+            {!ready && <p className="picker-hint">{t.home.soonHint}</p>}
           </form>
 
           <ul className="trust fade-up delay-4">
@@ -118,7 +126,7 @@ function Home() {
             {tryAnswer !== null && (
               <div className="try-result">
                 <p>{tryAnswer === previewQuestion.correct ? t.home.tryCorrect : t.home.tryWrong}</p>
-                <button className="btn-next" onClick={() => (region.ready ? startPractice() : pickRegion(regionId))}>
+                <button className="btn-next" onClick={() => (ready ? startPractice() : pickRegion(regionId))}>
                   {t.home.tryNext}
                 </button>
               </div>
@@ -162,7 +170,7 @@ function Home() {
             <div className="step" key={step.title}>
               <span className="step-number">{index + 1}</span>
               <h3>{step.title}</h3>
-              <p>{step.text}</p>
+              <p>{fill(step.text, rules?.questions ?? 30)}</p>
             </div>
           ))}
         </div>
@@ -174,7 +182,7 @@ function Home() {
         <p className="section-text">{t.home.regionsText}</p>
         <div className="countries">
           {COUNTRIES.map((c) => {
-            const live = c.regions.some((r) => r.ready)
+            const live = c.regions.some((r) => isReady(regions, r))
             return (
               <div className={'country-card' + (live ? ' country-live' : '')} key={c.code}>
                 <div className="country-head">
@@ -186,7 +194,7 @@ function Home() {
                 </div>
                 <div className="region-chips">
                   {c.regions.map((r) =>
-                    r.ready ? (
+                    isReady(regions, r) ? (
                       <button key={r.id} className="region-chip region-ready" onClick={() => pickRegion(r.id)}>
                         <CheckIcon /> {r.name}
                       </button>
@@ -234,7 +242,7 @@ function Home() {
       <section className="cta">
         <h2>{t.home.ctaTitle}</h2>
         <p>{t.home.ctaText}</p>
-        <button className="btn-light" onClick={() => (region.ready ? startPractice() : pickRegion(regionId))}>
+        <button className="btn-light" onClick={() => (ready ? startPractice() : pickRegion(regionId))}>
           {t.home.start} <ArrowIcon />
         </button>
       </section>

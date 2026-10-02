@@ -23,6 +23,7 @@ function Navbar() {
         <NavLink to="/" end className="nav-item">{t.nav.home}</NavLink>
         <NavLink to="/practice" className="nav-item">{t.nav.practice}</NavLink>
         <NavLink to="/pricing" className="nav-item">{t.nav.pricing}</NavLink>
+        {user && user.is_admin && <NavLink to="/admin" className="nav-item nav-admin">Admin</NavLink>}
         {user ? (
           <>
             <span className="nav-user">{user.email}</span>

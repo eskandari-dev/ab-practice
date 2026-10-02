@@ -1,3 +1,4 @@
+import json
 import os
 import random
 import secrets
@@ -9,21 +10,26 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Request
+from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from google.auth.transport import requests as google_requests
+from google.oauth2 import id_token as google_id_token
 from pydantic import BaseModel
 
 # imported after load_dotenv() so DB_PATH from .env is used
+from ai import AIError, extract_text, generate_questions
 from database import create_tables, get_db
 from questions import questions
+from rules import DEFAULT_RULES
 from security import check_password, hash_password
 
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
+ADMIN_EMAILS = {e.strip().lower() for e in os.getenv("ADMIN_EMAILS", "").split(",") if e.strip()}
 
 FREE_QUESTIONS = 5
-FULL_QUESTIONS = 20
 SESSION_DAYS = 30
 
 # price is in cents (CAD)
@@ -34,7 +40,7 @@ PLANS = {
 }
 
 # region ids must match frontend/src/places.js
-QUESTION_BANKS = {
+BUILT_IN_QUESTIONS = {
     "ca-ab": questions,
 }
 
@@ -101,6 +107,7 @@ def user_to_dict(user):
         "exams_left": user["exams_left"],
         "unlimited_until": user["unlimited_until"] if unlimited else None,
         "has_access": unlimited or user["exams_left"] > 0,
+        "is_admin": user["email"] in ADMIN_EMAILS,
     }
 
 
@@ -118,9 +125,91 @@ def create_session(conn, user_id):
     return token
 
 
+def require_admin(user=Depends(current_user)):
+    if user["email"] not in ADMIN_EMAILS:
+        raise HTTPException(status_code=403, detail="Admins only")
+    return user
+
+
+def get_rules(conn, region):
+    row = conn.execute("SELECT data FROM region_rules WHERE region = ?", (region,)).fetchone()
+    if row:
+        return json.loads(row["data"])
+    return DEFAULT_RULES.get(region)
+
+
+def get_bank(conn, region):
+    bank = list(BUILT_IN_QUESTIONS.get(region, []))
+    rows = conn.execute(
+        "SELECT id, data FROM bank_questions WHERE region = ? AND status = 'approved'", (region,)
+    ).fetchall()
+    # "b" keeps these ids apart from the built-in question ids
+    bank += [{**json.loads(row["data"]), "id": "b" + str(row["id"])} for row in rows]
+    return bank
+
+
+def pick_questions(bank, rules, count, full):
+    if full and rules["sections"]:
+        picked = []
+        for section in rules["sections"]:
+            pool = [q for q in bank if q.get("section") == section["key"]]
+            if len(pool) < section["questions"]:
+                break
+            picked += random.sample(pool, section["questions"])
+        else:
+            return picked, True
+    return random.sample(bank, min(count, len(bank))), False
+
+
 @app.get("/")
 def home():
     return {"message": "AB Practice API"}
+
+
+@app.get("/config")
+def config():
+    return {"google_client_id": GOOGLE_CLIENT_ID}
+
+
+@app.get("/regions")
+def regions(conn: sqlite3.Connection = Depends(get_conn)):
+    result = {}
+    for region in DEFAULT_RULES:
+        result[region] = {**get_rules(conn, region), "available": len(get_bank(conn, region))}
+    return result
+
+
+class GoogleIn(BaseModel):
+    credential: str
+
+
+@app.post("/auth/google")
+def google_login(data: GoogleIn, conn: sqlite3.Connection = Depends(get_conn)):
+    if not GOOGLE_CLIENT_ID:
+        raise HTTPException(status_code=503, detail="Google login is not set up yet")
+    try:
+        info = google_id_token.verify_oauth2_token(data.credential, google_requests.Request(), GOOGLE_CLIENT_ID)
+    except ValueError:
+        raise HTTPException(status_code=401, detail="Google login failed")
+    if not info.get("email_verified"):
+        raise HTTPException(status_code=401, detail="Google login failed")
+
+    email = info["email"].lower()
+    user = conn.execute(
+        "SELECT * FROM users WHERE google_sub = ? OR email = ?", (info["sub"], email)
+    ).fetchone()
+    if user is None:
+        cursor = conn.execute(
+            "INSERT INTO users (email, password_hash, google_sub) VALUES (?, '', ?)", (email, info["sub"])
+        )
+        user_id = cursor.lastrowid
+    else:
+        user_id = user["id"]
+        if user["google_sub"] is None:
+            conn.execute("UPDATE users SET google_sub = ? WHERE id = ?", (info["sub"], user_id))
+    conn.commit()
+    token = create_session(conn, user_id)
+    return {"token": token, "user": user_to_dict(load_user(conn, user_id))}
 
 
 class UserIn(BaseModel):
@@ -183,8 +272,10 @@ def start_exam(
     user=Depends(optional_user),
     conn: sqlite3.Connection = Depends(get_conn),
 ):
-    bank = QUESTION_BANKS.get(data.region if data else "ca-ab")
-    if bank is None:
+    region = data.region if data else "ca-ab"
+    rules = get_rules(conn, region)
+    bank = get_bank(conn, region) if rules else []
+    if not bank:
         raise HTTPException(status_code=404, detail="This region is coming soon")
 
     mode = "free"
@@ -200,10 +291,11 @@ def start_exam(
             if cursor.rowcount == 1:
                 mode = "full"
 
-    count = FULL_QUESTIONS if mode == "full" else FREE_QUESTIONS
-    picked = random.sample(bank, min(count, len(bank)))
+    count = rules["questions"] if mode == "full" else FREE_QUESTIONS
+    picked, use_sections = pick_questions(bank, rules, count, mode == "full")
     return {
         "mode": mode,
+        "rules": {**rules, "use_sections": use_sections},
         "questions": picked,
         "user": user_to_dict(load_user(conn, user["id"])) if user is not None else None,
     }
@@ -300,3 +392,145 @@ async def stripe_webhook(request: Request, conn: sqlite3.Connection = Depends(ge
     if event["type"] == "checkout.session.completed":
         handle_paid_session(conn, event["data"]["object"])
     return {"received": True}
+
+
+# ---------- admin: test designer ----------
+
+def bank_row_to_dict(row):
+    return {
+        "id": row["id"],
+        "region": row["region"],
+        "status": row["status"],
+        "source": row["source"],
+        "created_at": row["created_at"],
+        "question": json.loads(row["data"]),
+    }
+
+
+@app.post("/admin/generate")
+async def admin_generate(
+    region: str = Form(...),
+    region_name: str = Form(...),
+    count: int = Form(10),
+    languages: str = Form("en"),
+    text: str = Form(""),
+    file: UploadFile | None = File(default=None),
+    admin=Depends(require_admin),
+    conn: sqlite3.Connection = Depends(get_conn),
+):
+    rules = get_rules(conn, region)
+    if rules is None:
+        raise HTTPException(status_code=400, detail="Unknown region")
+    if not 1 <= count <= 30:
+        raise HTTPException(status_code=400, detail="Count must be between 1 and 30")
+
+    source = text
+    source_name = "pasted text"
+    if file is not None and file.filename:
+        source = extract_text(file.filename, await file.read()) + "\n" + text
+        source_name = file.filename
+
+    langs = [code for code in languages.split(",") if code]
+    try:
+        made = generate_questions(source, count, langs, region_name, rules["sections"])
+    except AIError as error:
+        raise HTTPException(status_code=503, detail=str(error))
+
+    created = now().isoformat()
+    ids = []
+    for question in made:
+        cursor = conn.execute(
+            "INSERT INTO bank_questions (region, data, status, source, created_at) VALUES (?, ?, 'draft', ?, ?)",
+            (region, json.dumps(question, ensure_ascii=False), source_name, created),
+        )
+        ids.append(cursor.lastrowid)
+    conn.commit()
+    rows = conn.execute(
+        f"SELECT * FROM bank_questions WHERE id IN ({','.join('?' * len(ids))})", ids
+    ).fetchall() if ids else []
+    return [bank_row_to_dict(row) for row in rows]
+
+
+@app.get("/admin/questions")
+def admin_questions(
+    region: str,
+    status: str = "",
+    admin=Depends(require_admin),
+    conn: sqlite3.Connection = Depends(get_conn),
+):
+    sql = "SELECT * FROM bank_questions WHERE region = ?"
+    params = [region]
+    if status:
+        sql += " AND status = ?"
+        params.append(status)
+    rows = conn.execute(sql + " ORDER BY id DESC", params).fetchall()
+    return [bank_row_to_dict(row) for row in rows]
+
+
+class QuestionUpdate(BaseModel):
+    question: dict | None = None
+    status: str | None = None
+
+
+@app.put("/admin/questions/{question_id}")
+def admin_update_question(
+    question_id: int,
+    data: QuestionUpdate,
+    admin=Depends(require_admin),
+    conn: sqlite3.Connection = Depends(get_conn),
+):
+    if data.status is not None and data.status not in ("draft", "approved"):
+        raise HTTPException(status_code=400, detail="Status must be draft or approved")
+    if data.question is not None:
+        q = data.question
+        if not isinstance(q.get("en"), str) or len(q.get("options", {}).get("en", [])) != 3 or q.get("correct") not in (0, 1, 2):
+            raise HTTPException(status_code=400, detail="A question needs English text, 3 options and a correct answer")
+        conn.execute(
+            "UPDATE bank_questions SET data = ? WHERE id = ?", (json.dumps(q, ensure_ascii=False), question_id)
+        )
+    if data.status is not None:
+        conn.execute("UPDATE bank_questions SET status = ? WHERE id = ?", (data.status, question_id))
+    conn.commit()
+    row = conn.execute("SELECT * FROM bank_questions WHERE id = ?", (question_id,)).fetchone()
+    if row is None:
+        raise HTTPException(status_code=404, detail="Question not found")
+    return bank_row_to_dict(row)
+
+
+@app.delete("/admin/questions/{question_id}")
+def admin_delete_question(
+    question_id: int,
+    admin=Depends(require_admin),
+    conn: sqlite3.Connection = Depends(get_conn),
+):
+    conn.execute("DELETE FROM bank_questions WHERE id = ?", (question_id,))
+    conn.commit()
+    return {"deleted": question_id}
+
+
+class RulesIn(BaseModel):
+    questions: int
+    pass_correct: int
+    time_limit: int | None = None
+    sections: list[dict] = []
+    note: str = ""
+    verified: bool = False
+
+
+@app.put("/admin/rules/{region}")
+def admin_update_rules(
+    region: str,
+    data: RulesIn,
+    admin=Depends(require_admin),
+    conn: sqlite3.Connection = Depends(get_conn),
+):
+    if region not in DEFAULT_RULES:
+        raise HTTPException(status_code=400, detail="Unknown region")
+    if not 1 <= data.pass_correct <= data.questions:
+        raise HTTPException(status_code=400, detail="Pass mark must be between 1 and the number of questions")
+    conn.execute(
+        "INSERT INTO region_rules (region, data) VALUES (?, ?) ON CONFLICT(region) DO UPDATE SET data = excluded.data",
+        (region, json.dumps(data.model_dump(), ensure_ascii=False)),
+    )
+    conn.commit()
+    return get_rules(conn, region)

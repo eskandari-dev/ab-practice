@@ -1,4 +1,4 @@
-// region ids must match QUESTION_BANKS in backend/main.py
+// region ids must match DEFAULT_RULES in backend/rules.py
 export const COUNTRIES = [
   {
     code: 'CA',

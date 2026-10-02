@@ -2,13 +2,15 @@ export const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
 
 export async function api(path, options = {}) {
   const token = localStorage.getItem('token')
-  const headers = { 'Content-Type': 'application/json' }
+  const isForm = options.body instanceof FormData
+  // the browser sets the multipart Content-Type (with boundary) for FormData itself
+  const headers = isForm ? {} : { 'Content-Type': 'application/json' }
   if (token) headers.Authorization = 'Bearer ' + token
 
   const res = await fetch(API_URL + path, {
     method: options.method || 'GET',
     headers,
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    body: isForm ? options.body : options.body ? JSON.stringify(options.body) : undefined,
   })
   const data = await res.json().catch(() => ({}))
 

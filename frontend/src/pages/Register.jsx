@@ -1,12 +1,17 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
+import GoogleButton from '../components/GoogleButton.jsx'
+import { LogoIcon } from '../components/Icons.jsx'
+import { safeNext } from '../regions-data.js'
 
 function Register() {
   const { register } = useAuth()
   const { t, tError } = useLang()
   const navigate = useNavigate()
+  const [params] = useSearchParams()
+  const next = safeNext(params.get('next'), '/pricing')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
@@ -27,7 +32,7 @@ function Register() {
     setBusy(true)
     try {
       await register(email, password)
-      navigate('/pricing')
+      navigate(next)
     } catch (err) {
       setError(err.message)
       setBusy(false)
@@ -37,8 +42,11 @@ function Register() {
   return (
     <div className="page auth-page">
       <div className="auth-card">
+        <span className="auth-logo"><LogoIcon /></span>
         <h1>{t.register.title}</h1>
         <p className="auth-subtitle">{t.register.subtitle}</p>
+        <GoogleButton onDone={() => navigate(next)} onError={setError} />
+        <div className="divider"><span>{t.login.or}</span></div>
         <form className="form" onSubmit={handleSubmit}>
           <input
             type="email"
@@ -67,7 +75,7 @@ function Register() {
           </button>
         </form>
         <p className="form-switch">
-          {t.register.haveAccount} <Link to="/login">{t.nav.login}</Link>
+          {t.register.haveAccount} <Link to={'/login?next=' + encodeURIComponent(next)}>{t.nav.login}</Link>
         </p>
       </div>
     </div>

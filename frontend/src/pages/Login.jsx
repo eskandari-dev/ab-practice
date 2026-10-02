@@ -1,12 +1,17 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
+import GoogleButton from '../components/GoogleButton.jsx'
+import { LogoIcon } from '../components/Icons.jsx'
+import { safeNext } from '../regions-data.js'
 
 function Login() {
   const { login } = useAuth()
   const { t, tError } = useLang()
   const navigate = useNavigate()
+  const [params] = useSearchParams()
+  const next = safeNext(params.get('next'), '/practice')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -18,7 +23,7 @@ function Login() {
     setBusy(true)
     try {
       await login(email, password)
-      navigate('/practice')
+      navigate(next)
     } catch (err) {
       setError(err.message)
       setBusy(false)
@@ -28,8 +33,11 @@ function Login() {
   return (
     <div className="page auth-page">
       <div className="auth-card">
+        <span className="auth-logo"><LogoIcon /></span>
         <h1>{t.login.title}</h1>
         <p className="auth-subtitle">{t.login.subtitle}</p>
+        <GoogleButton onDone={() => navigate(next)} onError={setError} />
+        <div className="divider"><span>{t.login.or}</span></div>
         <form className="form" onSubmit={handleSubmit}>
           <input
             type="email"
@@ -51,8 +59,11 @@ function Login() {
           </button>
         </form>
         <p className="form-switch">
-          {t.login.noAccount} <Link to="/register">{t.nav.signup}</Link>
+          {t.login.noAccount} <Link to={'/register?next=' + encodeURIComponent(next)}>{t.nav.signup}</Link>
         </p>
+        {next === '/practice' && (
+          <Link to="/practice" className="guest-link">{t.login.guest}</Link>
+        )}
       </div>
     </div>
   )

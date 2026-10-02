@@ -25,6 +25,27 @@ def create_tables():
         conn.execute("ALTER TABLE users ADD COLUMN exams_left INTEGER NOT NULL DEFAULT 0")
     if "unlimited_until" not in columns:
         conn.execute("ALTER TABLE users ADD COLUMN unlimited_until TEXT")
+    if "google_sub" not in columns:
+        conn.execute("ALTER TABLE users ADD COLUMN google_sub TEXT")
+
+    # questions made in the admin test designer; data is the question as JSON
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS bank_questions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            region TEXT NOT NULL,
+            data TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT 'draft',
+            source TEXT,
+            created_at TEXT NOT NULL
+        )
+    """)
+    # admin changes to the exam rules in rules.py
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS region_rules (
+            region TEXT PRIMARY KEY,
+            data TEXT NOT NULL
+        )
+    """)
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS sessions (

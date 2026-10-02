@@ -2,3 +2,8 @@ fastapi
 uvicorn
 stripe
 python-dotenv
+google-auth
+requests
+openai
+pypdf
+python-multipart
