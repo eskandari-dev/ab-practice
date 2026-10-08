@@ -133,6 +133,8 @@ const pt = {
     or: 'ou',
     guest: 'Continuar sem conta',
     googleOff: 'O login com Google estará disponível em breve',
+    showPassword: 'Mostrar senha',
+    hidePassword: 'Ocultar senha',
     title: 'Bem-vindo de volta',
     subtitle: 'Entre para continuar praticando.',
     email: 'E-mail',

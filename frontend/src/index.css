@@ -1736,6 +1736,38 @@ button.preview-answer:disabled {
   box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
+.password-field {
+  position: relative;
+  display: flex;
+}
+
+.password-field input {
+  flex: 1;
+  min-width: 0;
+  padding-inline-end: 48px;
+}
+
+.password-eye {
+  position: absolute;
+  inset-inline-end: 6px;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  transform: translateY(-50%);
+  transition: color 0.15s, background 0.15s;
+}
+
+.password-eye:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
 .form .btn-primary {
   margin-top: 8px;
   width: 100%;

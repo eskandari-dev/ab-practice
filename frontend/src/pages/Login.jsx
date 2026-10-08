@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
 import GoogleButton from '../components/GoogleButton.jsx'
+import PasswordInput from '../components/PasswordInput.jsx'
 import { LogoIcon } from '../components/Icons.jsx'
 import { safeNext } from '../regions-data.js'
 
@@ -46,12 +47,10 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
+          <PasswordInput
             placeholder={t.login.password}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
           {error && <p className="form-error">{tError(error)}</p>}
           <button type="submit" className="btn-primary" disabled={busy}>

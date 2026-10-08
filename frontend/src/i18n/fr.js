@@ -133,6 +133,8 @@ const fr = {
     or: 'ou',
     guest: 'Continuer sans compte',
     googleOff: 'La connexion Google arrive bientôt',
+    showPassword: 'Afficher le mot de passe',
+    hidePassword: 'Masquer le mot de passe',
     title: 'Bon retour',
     subtitle: 'Connectez-vous pour continuer votre entraînement.',
     email: 'E-mail',

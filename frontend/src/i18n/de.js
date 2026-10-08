@@ -133,6 +133,8 @@ const de = {
     or: 'oder',
     guest: 'Ohne Konto fortfahren',
     googleOff: 'Google-Anmeldung ist bald verfügbar',
+    showPassword: 'Passwort anzeigen',
+    hidePassword: 'Passwort verbergen',
     title: 'Willkommen zurück',
     subtitle: 'Melde dich an, um weiter zu üben.',
     email: 'E-Mail',

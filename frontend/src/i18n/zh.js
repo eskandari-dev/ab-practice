@@ -133,6 +133,8 @@ const zh = {
     or: '或',
     guest: '不注册，直接继续',
     googleOff: 'Google 登录即将推出',
+    showPassword: '显示密码',
+    hidePassword: '隐藏密码',
     title: '欢迎回来',
     subtitle: '登录后继续练习。',
     email: '电子邮箱',

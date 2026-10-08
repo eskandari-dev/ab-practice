@@ -133,6 +133,8 @@ const en = {
     or: 'or',
     guest: 'Continue without an account',
     googleOff: 'Google login will be available soon',
+    showPassword: 'Show password',
+    hidePassword: 'Hide password',
     title: 'Welcome back',
     subtitle: 'Log in to continue your practice.',
     email: 'Email',

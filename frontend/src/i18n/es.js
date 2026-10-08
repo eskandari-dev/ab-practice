@@ -133,6 +133,8 @@ const es = {
     or: 'o',
     guest: 'Continuar sin cuenta',
     googleOff: 'El acceso con Google estará disponible pronto',
+    showPassword: 'Mostrar contraseña',
+    hidePassword: 'Ocultar contraseña',
     title: 'Bienvenido de nuevo',
     subtitle: 'Inicia sesión para seguir practicando.',
     email: 'Correo electrónico',
