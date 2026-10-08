@@ -26,7 +26,7 @@ function Navbar() {
         {user && user.is_admin && <NavLink to="/admin" className="nav-item nav-admin">Admin</NavLink>}
         {user ? (
           <>
-            <span className="nav-user">{user.email}</span>
+            <span className="nav-avatar" title={user.email}>{user.email[0].toUpperCase()}</span>
             <button className="nav-logout" onClick={handleLogout}>{t.nav.logout}</button>
           </>
         ) : (

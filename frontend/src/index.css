@@ -239,9 +239,17 @@ summary:focus-visible {
   box-shadow: var(--shadow-accent);
 }
 
-.nav-user {
-  font-size: 0.85rem;
-  color: var(--muted);
+.nav-avatar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-soft), var(--mint-soft));
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  font-weight: 700;
+  cursor: default;
 }
 
 .nav-logout {
@@ -793,14 +801,6 @@ button.preview-answer:disabled {
 }
 
 /* ---------- languages ---------- */
-
-.lang-strip {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 28px;
-}
 
 .lang-chip {
   padding: 8px 16px;
@@ -2398,14 +2398,13 @@ button.preview-answer:disabled {
 
   .navbar {
     position: static;
-    flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     padding: 12px 16px;
   }
 
   .nav-links {
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 10px 16px;
   }
 
@@ -2554,6 +2553,17 @@ button.preview-answer:disabled {
   }
 
   .footer-links {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-links {
     justify-content: center;
   }
 }

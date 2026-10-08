@@ -140,19 +140,6 @@ function Home() {
         </div>
       </section>
 
-      <section className="lang-strip fade-up delay-4">
-        {LANGUAGES.map((l) => (
-          <button
-            key={l.code}
-            className={'lang-chip' + (l.code === lang ? ' lang-chip-active' : '')}
-            onClick={() => setLang(l.code)}
-            lang={l.code}
-          >
-            {l.name}
-          </button>
-        ))}
-      </section>
-
       <section className="stats">
         {t.home.stats.map((stat) => (
           <div className="stat" key={stat.label}>

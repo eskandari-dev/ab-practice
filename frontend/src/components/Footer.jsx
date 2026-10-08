@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
 import { LogoIcon } from './Icons.jsx'
 
 function Footer() {
+  const { user } = useAuth()
   const { t } = useLang()
 
   return (
@@ -18,7 +20,7 @@ function Footer() {
         <div className="footer-links">
           <Link to="/practice">{t.nav.practice}</Link>
           <Link to="/pricing">{t.nav.pricing}</Link>
-          <Link to="/login">{t.nav.login}</Link>
+          {!user && <Link to="/login">{t.nav.login}</Link>}
           <Link to="/terms">{t.footer.terms}</Link>
         </div>
       </div>
