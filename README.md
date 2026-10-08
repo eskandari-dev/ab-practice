@@ -5,6 +5,16 @@ region, and every exam follows that region's official format (number of question
 time limit and separately-passed sections). Admins create new questions with AI from official
 handbooks, review them, and publish them.
 
+| Practice | Exam |
+| --- | --- |
+| ![Practice start](docs/screenshots/practice.png) | ![Exam](docs/screenshots/exam.png) |
+| ![Login](docs/screenshots/login.png) | ![Admin test designer](docs/screenshots/admin.png) |
+
+| Practice | Exam |
+| --- | --- |
+| ![Practice start](docs/screenshots/practice.png) | ![Exam](docs/screenshots/exam.png) |
+| ![Login](docs/screenshots/login.png) | ![Admin test designer](docs/screenshots/admin.png) |
+
 ## Features
 
 - **Region-aware exams.** 28 regions in 6 countries, each with its own rules — for example
@@ -56,6 +66,7 @@ Open http://localhost:5173.
 The `Dockerfile` builds the React site and runs FastAPI, which serves the API under `/api` and
 the site on every other path (`backend/server.py`). Mount a persistent volume at `/data` for the
 SQLite database and set the variables from `backend/.env.example` on the host.
+`render.yaml` sets this up on [Render](https://render.com) as a Blueprint.
 
 ## Project structure
 

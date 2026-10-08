@@ -1,22 +1,19 @@
 services:
   - type: web
-    name: ab-practice-api
-    runtime: python
-    rootDir: backend
+    name: ab-practice
+    # one container: the React site plus the API under /api (see Dockerfile and backend/server.py)
+    runtime: docker
+    dockerfilePath: ./Dockerfile
     # a persistent disk needs a paid plan; on the free plan the SQLite database is wiped on every deploy
     plan: starter
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /config
+    healthCheckPath: /api/config
     disk:
       name: data
-      mountPath: /var/data
+      mountPath: /data
       sizeGB: 1
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
       - key: DB_PATH
-        value: /var/data/app.db
+        value: /data/app.db
       - key: FRONTEND_URL
         value: https://quiz.kyzed.com
       - key: GOOGLE_CLIENT_ID
