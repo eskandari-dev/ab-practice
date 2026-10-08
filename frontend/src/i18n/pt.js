@@ -1,5 +1,5 @@
 const pt = {
-  nav: { home: 'Início', practice: 'Praticar', pricing: 'Preços', login: 'Entrar', signup: 'Cadastrar', logout: 'Sair' },
+  nav: { home: 'Início', practice: 'Praticar', progress: 'Progresso', pricing: 'Preços', login: 'Entrar', signup: 'Cadastrar', logout: 'Sair' },
   home: {
     badge: 'Prática do exame teórico para todos os países',
     title: 'Passe no exame de direção',
@@ -102,6 +102,26 @@ const pt = {
     soonText: 'Ainda estamos preparando as perguntas para este local. Por favor, escolha outro local por enquanto.',
     choosePlace: 'Escolher outro local',
     englishOnly: 'As perguntas no seu idioma chegam em breve. Por enquanto, elas aparecem em inglês.',
+  },
+  progress: {
+    title: 'Meu progresso',
+    subtitle: 'Seus resultados ficam salvos neste dispositivo.',
+    empty: 'Ainda não há provas. Faça sua primeira prova e seu progresso aparecerá aqui.',
+    start: 'Começar uma prova',
+    seeAll: 'Ver todo o meu progresso',
+    readiness: 'Preparação para a prova',
+    ready: 'Você parece pronto para a prova real!',
+    almost: 'Quase pronto. Mais algumas provas!',
+    notYet: 'Continue praticando. Você consegue!',
+    basedOn: 'Com base nas suas últimas {n} provas',
+    passLine: 'Nota de aprovação',
+    chart: 'Suas notas',
+    history: 'Histórico de provas',
+    mistakes: 'Questões para revisar',
+    mistakesText: '{n} questões que você errou estão esperando por você.',
+    noMistakes: 'Nenhum erro para revisar. Muito bem!',
+    review: 'Revisar agora',
+    mistakeMode: 'Prática de erros',
   },
   pricing: {
     title: 'Preços simples, pagamento único',

@@ -117,7 +117,15 @@ function Practice() {
         const wrong = examQuestions.filter((q, i) => answers[i] !== undefined && answers[i] !== q.correct)
         const rightIds = examQuestions.filter((q, i) => answers[i] === q.correct).map((q) => q.id)
         updateMistakes(regionId, wrong, rightIds)
-        addResult({ region: regionId, score, total: examQuestions.length, seconds: usedSeconds })
+        const result = evaluate(examRules, examQuestions, answers)
+        addResult({
+            region: regionId,
+            score: result.score,
+            total: examQuestions.length,
+            seconds: usedSeconds,
+            passed: result.passed,
+            mode,
+        })
         setStats(getStats())
         setMistakes(getMistakes(regionId))
         setPage('score')
@@ -240,6 +248,7 @@ function Practice() {
                             <div><strong>{stats.average}%</strong><span>{t.statAverage}</span></div>
                             <div><strong>{stats.streak}</strong><span>{t.statStreak}</span></div>
                         </div>
+                        <Link to="/progress" className="progress-more">{all.progress.seeAll} →</Link>
                     </div>
                 )}
             </div>
@@ -289,8 +298,8 @@ function Practice() {
                         </p>
                     )}
                     <div className="exam-actions">
-                        <button className="btn-back" onClick={() => navigate('/')}>
-                            {t.back}
+                        <button className="btn-back" onClick={() => navigate('/progress')}>
+                            {all.progress.title}
                         </button>
                         <button className="btn-next" onClick={() => setPage('start')}>
                             {t.tryAgain}

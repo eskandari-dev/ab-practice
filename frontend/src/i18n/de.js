@@ -1,5 +1,5 @@
 const de = {
-  nav: { home: 'Start', practice: 'Üben', pricing: 'Preise', login: 'Anmelden', signup: 'Registrieren', logout: 'Abmelden' },
+  nav: { home: 'Start', practice: 'Üben', progress: 'Fortschritt', pricing: 'Preise', login: 'Anmelden', signup: 'Registrieren', logout: 'Abmelden' },
   home: {
     badge: 'Theorieprüfung üben – für jedes Land',
     title: 'Bestehe deine Fahrprüfung',
@@ -102,6 +102,26 @@ const de = {
     soonText: 'Wir bereiten die Fragen für diesen Ort noch vor. Bitte wähle vorerst einen anderen Ort.',
     choosePlace: 'Anderen Ort wählen',
     englishOnly: 'Fragen in deiner Sprache kommen bald. Vorerst werden sie auf Englisch angezeigt.',
+  },
+  progress: {
+    title: 'Mein Fortschritt',
+    subtitle: 'Deine Ergebnisse werden auf diesem Gerät gespeichert.',
+    empty: 'Noch keine Prüfungen. Mach deine erste Prüfung, dann siehst du hier deinen Fortschritt.',
+    start: 'Prüfung starten',
+    seeAll: 'Meinen ganzen Fortschritt ansehen',
+    readiness: 'Prüfungsbereitschaft',
+    ready: 'Du bist bereit für die echte Prüfung!',
+    almost: 'Fast bereit. Noch ein paar Prüfungen!',
+    notYet: 'Übe weiter. Du schaffst das!',
+    basedOn: 'Basierend auf deinen letzten {n} Prüfungen',
+    passLine: 'Bestehensgrenze',
+    chart: 'Deine Ergebnisse',
+    history: 'Prüfungsverlauf',
+    mistakes: 'Fragen zum Wiederholen',
+    mistakesText: '{n} falsch beantwortete Fragen warten auf dich.',
+    noMistakes: 'Keine Fehler zum Wiederholen. Gut gemacht!',
+    review: 'Jetzt wiederholen',
+    mistakeMode: 'Fehler üben',
   },
   pricing: {
     title: 'Einfache Preise, einmal zahlen',

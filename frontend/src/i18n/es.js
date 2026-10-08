@@ -1,5 +1,5 @@
 const es = {
-  nav: { home: 'Inicio', practice: 'Practicar', pricing: 'Precios', login: 'Entrar', signup: 'Registrarse', logout: 'Salir' },
+  nav: { home: 'Inicio', practice: 'Practicar', progress: 'Progreso', pricing: 'Precios', login: 'Entrar', signup: 'Registrarse', logout: 'Salir' },
   home: {
     badge: 'Práctica del examen teórico para cada país',
     title: 'Aprueba tu examen de conducir',
@@ -102,6 +102,26 @@ const es = {
     soonText: 'Todavía estamos preparando las preguntas para este lugar. Por favor, elige otro lugar por ahora.',
     choosePlace: 'Elegir otro lugar',
     englishOnly: 'Las preguntas en tu idioma llegarán pronto. Por ahora se muestran en inglés.',
+  },
+  progress: {
+    title: 'Mi progreso',
+    subtitle: 'Tus resultados se guardan en este dispositivo.',
+    empty: 'Aún no hay exámenes. Haz tu primer examen y aquí verás tu progreso.',
+    start: 'Empezar un examen',
+    seeAll: 'Ver todo mi progreso',
+    readiness: 'Preparación para el examen',
+    ready: '¡Pareces listo para el examen real!',
+    almost: 'Casi listo. ¡Unos exámenes más!',
+    notYet: 'Sigue practicando. ¡Tú puedes!',
+    basedOn: 'Según tus últimos {n} exámenes',
+    passLine: 'Nota para aprobar',
+    chart: 'Tus resultados',
+    history: 'Historial de exámenes',
+    mistakes: 'Preguntas para repasar',
+    mistakesText: 'Te esperan {n} preguntas que respondiste mal.',
+    noMistakes: 'No hay errores para repasar. ¡Buen trabajo!',
+    review: 'Repasar ahora',
+    mistakeMode: 'Práctica de errores',
   },
   pricing: {
     title: 'Precios simples, pago único',

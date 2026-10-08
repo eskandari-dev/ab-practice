@@ -1,5 +1,5 @@
 const en = {
-  nav: { home: 'Home', practice: 'Practice', pricing: 'Pricing', login: 'Login', signup: 'Sign up', logout: 'Logout' },
+  nav: { home: 'Home', practice: 'Practice', progress: 'Progress', pricing: 'Pricing', login: 'Login', signup: 'Sign up', logout: 'Logout' },
   home: {
     badge: 'Driving theory practice for every country',
     title: 'Pass your driving test',
@@ -102,6 +102,26 @@ const en = {
     soonText: 'We are still preparing the questions for this place. Please choose another place for now.',
     choosePlace: 'Choose another place',
     englishOnly: 'Questions in your language are coming soon. For now they are shown in English.',
+  },
+  progress: {
+    title: 'My progress',
+    subtitle: 'Your results are saved on this device.',
+    empty: 'No exams yet. Take your first exam and your progress will show here.',
+    start: 'Start an exam',
+    seeAll: 'See all my progress',
+    readiness: 'Test readiness',
+    ready: 'You look ready for the real test!',
+    almost: 'Almost ready. A few more exams!',
+    notYet: 'Keep practicing. You can do it!',
+    basedOn: 'Based on your last {n} exams',
+    passLine: 'Pass mark',
+    chart: 'Your scores',
+    history: 'Exam history',
+    mistakes: 'Questions to review',
+    mistakesText: '{n} questions you got wrong are waiting for you.',
+    noMistakes: 'No mistakes to review. Great job!',
+    review: 'Review now',
+    mistakeMode: 'Mistakes practice',
   },
   pricing: {
     title: 'Simple, one-time pricing',

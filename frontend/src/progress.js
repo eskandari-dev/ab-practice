@@ -20,6 +20,14 @@ export function addResult(result) {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-200)))
 }
 
+export function getHistory() {
+  return read(HISTORY_KEY, [])
+}
+
+export function getAllMistakes() {
+  return read(MISTAKES_KEY, [])
+}
+
 export function getStats() {
   const history = read(HISTORY_KEY, [])
   if (history.length === 0) return null

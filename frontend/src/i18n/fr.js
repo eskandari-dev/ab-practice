@@ -1,5 +1,5 @@
 const fr = {
-  nav: { home: 'Accueil', practice: 'S\'entraîner', pricing: 'Tarifs', login: 'Connexion', signup: 'S\'inscrire', logout: 'Déconnexion' },
+  nav: { home: 'Accueil', practice: 'S\'entraîner', progress: 'Progrès', pricing: 'Tarifs', login: 'Connexion', signup: 'S\'inscrire', logout: 'Déconnexion' },
   home: {
     badge: 'Entraînement au code de la route pour chaque pays',
     title: 'Réussissez votre examen de conduite',
@@ -102,6 +102,26 @@ const fr = {
     soonText: 'Nous préparons encore les questions pour ce lieu. Veuillez choisir un autre lieu pour l\'instant.',
     choosePlace: 'Choisir un autre lieu',
     englishOnly: 'Les questions dans votre langue arrivent bientôt. Pour l\'instant, elles sont affichées en anglais.',
+  },
+  progress: {
+    title: 'Mes progrès',
+    subtitle: 'Vos résultats sont enregistrés sur cet appareil.',
+    empty: 'Aucun examen pour le moment. Passez votre premier examen pour voir vos progrès ici.',
+    start: 'Commencer un examen',
+    seeAll: 'Voir tous mes progrès',
+    readiness: 'Prêt pour l\'examen',
+    ready: 'Vous semblez prêt pour le vrai examen !',
+    almost: 'Presque prêt. Encore quelques examens !',
+    notYet: 'Continuez à vous entraîner. Vous pouvez le faire !',
+    basedOn: 'D\'après vos {n} derniers examens',
+    passLine: 'Note de réussite',
+    chart: 'Vos scores',
+    history: 'Historique des examens',
+    mistakes: 'Questions à revoir',
+    mistakesText: '{n} questions ratées vous attendent.',
+    noMistakes: 'Aucune erreur à revoir. Bravo !',
+    review: 'Revoir maintenant',
+    mistakeMode: 'Révision des erreurs',
   },
   pricing: {
     title: 'Des tarifs simples, un seul paiement',

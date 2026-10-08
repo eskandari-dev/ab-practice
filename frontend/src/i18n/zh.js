@@ -1,5 +1,5 @@
 const zh = {
-  nav: { home: '首页', practice: '练习', pricing: '价格', login: '登录', signup: '注册', logout: '退出' },
+  nav: { home: '首页', practice: '练习', progress: '进度', pricing: '价格', login: '登录', signup: '注册', logout: '退出' },
   home: {
     badge: '适用于各个国家的驾驶理论练习',
     title: '一次通过',
@@ -102,6 +102,26 @@ const zh = {
     soonText: '我们仍在准备该地区的题目。请先选择其他地区。',
     choosePlace: '选择其他地区',
     englishOnly: '你的语言版本题目即将推出，目前暂以英文显示。',
+  },
+  progress: {
+    title: '我的进度',
+    subtitle: '你的成绩保存在这台设备上。',
+    empty: '还没有考试记录。完成第一次考试后，你的进度会显示在这里。',
+    start: '开始考试',
+    seeAll: '查看全部进度',
+    readiness: '考试准备度',
+    ready: '你已经可以参加正式考试了！',
+    almost: '快准备好了，再做几次考试！',
+    notYet: '继续练习，你一定可以的！',
+    basedOn: '根据你最近 {n} 次考试',
+    passLine: '及格线',
+    chart: '你的分数',
+    history: '考试记录',
+    mistakes: '需要复习的题目',
+    mistakesText: '有 {n} 道答错的题目等你复习。',
+    noMistakes: '没有需要复习的错题，做得好！',
+    review: '马上复习',
+    mistakeMode: '错题练习',
   },
   pricing: {
     title: '简单的一次性价格',

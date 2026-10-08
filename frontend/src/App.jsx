@@ -9,6 +9,7 @@ import Register from './pages/Register.jsx'
 import PaymentSuccess from './pages/PaymentSuccess.jsx'
 import Terms from './pages/Terms.jsx'
 import Admin from './pages/Admin.jsx'
+import Progress from './pages/Progress.jsx'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/progress" element={<Progress />} />
         </Routes>
       </main>
       <Footer />
