@@ -1,5 +1,5 @@
 const en = {
-  nav: { home: 'Home', practice: 'Practice', progress: 'Progress', pricing: 'Pricing', login: 'Login', signup: 'Sign up', account: 'My account', menu: 'Menu', logout: 'Logout' },
+  nav: { home: 'Home', practice: 'Practice', progress: 'Progress', pricing: 'Pricing', login: 'Login', signup: 'Sign up', darkMode: 'Dark mode', lightMode: 'Light mode', account: 'My account', menu: 'Menu', logout: 'Logout' },
   home: {
     badge: 'Driving theory practice for every country',
     title: 'Pass your driving test',
@@ -147,6 +147,11 @@ const en = {
     dangerText: 'This deletes your account and your saved progress. It cannot be undone.',
     deleteButton: 'Delete my account',
     confirm: 'Are you sure? Your account will be deleted forever.',
+  },
+  crash: {
+    title: 'Something went wrong',
+    text: 'Sorry, this page had a problem. Please reload and try again.',
+    reload: 'Reload page',
   },
   notFound: {
     title: 'Page not found',

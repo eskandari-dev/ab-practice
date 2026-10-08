@@ -1,5 +1,5 @@
 const es = {
-  nav: { home: 'Inicio', practice: 'Practicar', progress: 'Progreso', pricing: 'Precios', login: 'Entrar', signup: 'Registrarse', account: 'Mi cuenta', menu: 'Menú', logout: 'Salir' },
+  nav: { home: 'Inicio', practice: 'Practicar', progress: 'Progreso', pricing: 'Precios', login: 'Entrar', signup: 'Registrarse', darkMode: 'Modo oscuro', lightMode: 'Modo claro', account: 'Mi cuenta', menu: 'Menú', logout: 'Salir' },
   home: {
     badge: 'Práctica del examen teórico para cada país',
     title: 'Aprueba tu examen de conducir',
@@ -147,6 +147,11 @@ const es = {
     dangerText: 'Esto elimina tu cuenta y tu progreso guardado. No se puede deshacer.',
     deleteButton: 'Eliminar mi cuenta',
     confirm: '¿Seguro? Tu cuenta se eliminará para siempre.',
+  },
+  crash: {
+    title: 'Algo salió mal',
+    text: 'Lo sentimos, esta página tuvo un problema. Recárgala e inténtalo de nuevo.',
+    reload: 'Recargar página',
   },
   notFound: {
     title: 'Página no encontrada',

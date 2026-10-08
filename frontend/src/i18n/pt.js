@@ -1,5 +1,5 @@
 const pt = {
-  nav: { home: 'Início', practice: 'Praticar', progress: 'Progresso', pricing: 'Preços', login: 'Entrar', signup: 'Cadastrar', account: 'Minha conta', menu: 'Menu', logout: 'Sair' },
+  nav: { home: 'Início', practice: 'Praticar', progress: 'Progresso', pricing: 'Preços', login: 'Entrar', signup: 'Cadastrar', darkMode: 'Modo escuro', lightMode: 'Modo claro', account: 'Minha conta', menu: 'Menu', logout: 'Sair' },
   home: {
     badge: 'Prática do exame teórico para todos os países',
     title: 'Passe no exame de direção',
@@ -147,6 +147,11 @@ const pt = {
     dangerText: 'Isso exclui sua conta e seu progresso salvo. Não pode ser desfeito.',
     deleteButton: 'Excluir minha conta',
     confirm: 'Tem certeza? Sua conta será excluída para sempre.',
+  },
+  crash: {
+    title: 'Algo deu errado',
+    text: 'Desculpe, esta página teve um problema. Recarregue e tente de novo.',
+    reload: 'Recarregar página',
   },
   notFound: {
     title: 'Página não encontrada',

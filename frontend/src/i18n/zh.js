@@ -1,5 +1,5 @@
 const zh = {
-  nav: { home: '首页', practice: '练习', progress: '进度', pricing: '价格', login: '登录', signup: '注册', account: '我的账户', menu: '菜单', logout: '退出' },
+  nav: { home: '首页', practice: '练习', progress: '进度', pricing: '价格', login: '登录', signup: '注册', darkMode: '深色模式', lightMode: '浅色模式', account: '我的账户', menu: '菜单', logout: '退出' },
   home: {
     badge: '适用于各个国家的驾驶理论练习',
     title: '一次通过',
@@ -147,6 +147,11 @@ const zh = {
     dangerText: '这会删除你的账户和保存的进度，且无法恢复。',
     deleteButton: '删除我的账户',
     confirm: '确定吗？你的账户将被永久删除。',
+  },
+  crash: {
+    title: '出错了',
+    text: '抱歉，这个页面出了问题。请刷新后再试。',
+    reload: '刷新页面',
   },
   notFound: {
     title: '页面不存在',

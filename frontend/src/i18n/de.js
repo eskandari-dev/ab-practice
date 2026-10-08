@@ -1,5 +1,5 @@
 const de = {
-  nav: { home: 'Start', practice: 'Üben', progress: 'Fortschritt', pricing: 'Preise', login: 'Anmelden', signup: 'Registrieren', account: 'Mein Konto', menu: 'Menü', logout: 'Abmelden' },
+  nav: { home: 'Start', practice: 'Üben', progress: 'Fortschritt', pricing: 'Preise', login: 'Anmelden', signup: 'Registrieren', darkMode: 'Dunkler Modus', lightMode: 'Heller Modus', account: 'Mein Konto', menu: 'Menü', logout: 'Abmelden' },
   home: {
     badge: 'Theorieprüfung üben – für jedes Land',
     title: 'Bestehe deine Fahrprüfung',
@@ -147,6 +147,11 @@ const de = {
     dangerText: 'Dein Konto und dein gespeicherter Fortschritt werden gelöscht. Das kann nicht rückgängig gemacht werden.',
     deleteButton: 'Mein Konto löschen',
     confirm: 'Bist du sicher? Dein Konto wird für immer gelöscht.',
+  },
+  crash: {
+    title: 'Etwas ist schiefgelaufen',
+    text: 'Entschuldigung, auf dieser Seite gab es ein Problem. Bitte lade sie neu und versuche es noch einmal.',
+    reload: 'Seite neu laden',
   },
   notFound: {
     title: 'Seite nicht gefunden',

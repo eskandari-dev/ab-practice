@@ -1,5 +1,5 @@
 const fr = {
-  nav: { home: 'Accueil', practice: 'S\'entraîner', progress: 'Progrès', pricing: 'Tarifs', login: 'Connexion', signup: 'S\'inscrire', account: 'Mon compte', menu: 'Menu', logout: 'Déconnexion' },
+  nav: { home: 'Accueil', practice: 'S\'entraîner', progress: 'Progrès', pricing: 'Tarifs', login: 'Connexion', signup: 'S\'inscrire', darkMode: 'Mode sombre', lightMode: 'Mode clair', account: 'Mon compte', menu: 'Menu', logout: 'Déconnexion' },
   home: {
     badge: 'Entraînement au code de la route pour chaque pays',
     title: 'Réussissez votre examen de conduite',
@@ -147,6 +147,11 @@ const fr = {
     dangerText: 'Cela supprime votre compte et vos progrès enregistrés. C\'est définitif.',
     deleteButton: 'Supprimer mon compte',
     confirm: 'Êtes-vous sûr ? Votre compte sera supprimé définitivement.',
+  },
+  crash: {
+    title: 'Un problème est survenu',
+    text: 'Désolé, cette page a rencontré un problème. Rechargez-la et réessayez.',
+    reload: 'Recharger la page',
   },
   notFound: {
     title: 'Page introuvable',

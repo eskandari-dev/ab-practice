@@ -14,6 +14,7 @@ import Admin from './pages/Admin.jsx'
 import Progress from './pages/Progress.jsx'
 import NotFound from './pages/NotFound.jsx'
 import Account from './pages/Account.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 
 function pageTitle(path, t) {
   const titles = {
@@ -45,19 +46,21 @@ function App() {
     <>
       <Navbar />
       <main className="main">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/practice" element={<Practice />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/progress" element={<Progress />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <ErrorBoundary key={pathname}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/practice" element={<Practice />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/progress" element={<Progress />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ErrorBoundary>
       </main>
       <Footer />
     </>

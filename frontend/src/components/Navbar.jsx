@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
 import { LogoIcon } from './Icons.jsx'
+import ThemeToggle from './ThemeToggle.jsx'
 
 function Navbar() {
   const { user, logout } = useAuth()
@@ -52,6 +53,7 @@ function Navbar() {
             <Link to="/register" className="nav-login">{t.nav.signup}</Link>
           </>
         )}
+        <ThemeToggle />
       </div>
     </nav>
   )

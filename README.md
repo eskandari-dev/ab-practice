@@ -24,7 +24,11 @@ handbooks, review them, and publish them.
   with right-to-left layout for Arabic and Persian.
 - **Exam experience:** timer, keyboard shortcuts, explanations, answer review, progress stats,
   and a "practice my mistakes" mode.
-- **Accounts:** email/password and "Continue with Google" (Google Identity Services).
+- **Progress page:** pass readiness, score chart, exam history and streaks — saved to the
+  account when logged in.
+- **Accounts:** email/password and "Continue with Google" (Google Identity Services), an account
+  page to change the password or delete the account, and a login attempt limit.
+- **Dark mode** that follows the system setting, with a toggle that is remembered.
 - **AI test designer (admin):** upload a PDF/TXT handbook; OpenAI writes multilingual questions
   using only facts from the source. Questions stay as drafts until an admin approves them.
 - **Payments:** Stripe Checkout with exam packs and a monthly unlimited plan.
