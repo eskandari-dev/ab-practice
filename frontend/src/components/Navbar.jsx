@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
@@ -7,19 +8,31 @@ function Navbar() {
   const { user, logout } = useAuth()
   const { t } = useLang()
   const navigate = useNavigate()
+  const [open, setOpen] = useState(false)
 
   async function handleLogout() {
+    setOpen(false)
     await logout()
     navigate('/')
   }
 
   return (
-    <nav className="navbar">
-      <Link to="/" className="logo">
+    <nav className={'navbar' + (open ? ' navbar-open' : '')}>
+      <Link to="/" className="logo" onClick={() => setOpen(false)}>
         <span className="logo-mark"><LogoIcon /></span>
         AB Practice
       </Link>
-      <div className="nav-links">
+      <button
+        className="nav-toggle"
+        onClick={() => setOpen(!open)}
+        aria-label={t.nav.menu}
+        aria-expanded={open}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+      <div className="nav-links" onClick={(e) => e.target.closest('a') && setOpen(false)}>
         <NavLink to="/" end className="nav-item">{t.nav.home}</NavLink>
         <NavLink to="/practice" className="nav-item">{t.nav.practice}</NavLink>
         <NavLink to="/progress" className="nav-item">{t.nav.progress}</NavLink>

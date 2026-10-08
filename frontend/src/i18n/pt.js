@@ -1,5 +1,5 @@
 const pt = {
-  nav: { home: 'Início', practice: 'Praticar', progress: 'Progresso', pricing: 'Preços', login: 'Entrar', signup: 'Cadastrar', logout: 'Sair' },
+  nav: { home: 'Início', practice: 'Praticar', progress: 'Progresso', pricing: 'Preços', login: 'Entrar', signup: 'Cadastrar', menu: 'Menu', logout: 'Sair' },
   home: {
     badge: 'Prática do exame teórico para todos os países',
     title: 'Passe no exame de direção',
@@ -122,6 +122,13 @@ const pt = {
     noMistakes: 'Nenhum erro para revisar. Muito bem!',
     review: 'Revisar agora',
     mistakeMode: 'Prática de erros',
+    subtitleAccount: 'Seus resultados ficam salvos na sua conta, em todos os dispositivos.',
+    saveIt: 'Entre para salvá-los em todos os seus dispositivos.',
+  },
+  notFound: {
+    title: 'Página não encontrada',
+    text: 'Não encontramos esta página. Ela pode ter sido movida.',
+    home: 'Voltar ao início',
   },
   pricing: {
     title: 'Preços simples, pagamento único',
@@ -189,6 +196,7 @@ const pt = {
     tagline: 'Prática simples do exame teórico para todos os países, no seu idioma.',
   },
   errors: {
+    'Too many attempts. Please wait a few minutes.': 'Muitas tentativas. Aguarde alguns minutos.',
     'Google login failed': 'Falha no login com Google',
     'Google login is not set up yet': 'O login com Google ainda não está ativo',
     'Wrong email or password': 'E-mail ou senha incorretos',

@@ -1,5 +1,5 @@
 const en = {
-  nav: { home: 'Home', practice: 'Practice', progress: 'Progress', pricing: 'Pricing', login: 'Login', signup: 'Sign up', logout: 'Logout' },
+  nav: { home: 'Home', practice: 'Practice', progress: 'Progress', pricing: 'Pricing', login: 'Login', signup: 'Sign up', menu: 'Menu', logout: 'Logout' },
   home: {
     badge: 'Driving theory practice for every country',
     title: 'Pass your driving test',
@@ -122,6 +122,13 @@ const en = {
     noMistakes: 'No mistakes to review. Great job!',
     review: 'Review now',
     mistakeMode: 'Mistakes practice',
+    subtitleAccount: 'Your results are saved in your account, on every device.',
+    saveIt: 'Log in to save them on all your devices.',
+  },
+  notFound: {
+    title: 'Page not found',
+    text: 'We couldn\'t find this page. It may have moved.',
+    home: 'Back to home',
   },
   pricing: {
     title: 'Simple, one-time pricing',
@@ -189,6 +196,7 @@ const en = {
     tagline: 'Friendly driving theory practice for every country, in your own language.',
   },
   errors: {
+    'Too many attempts. Please wait a few minutes.': 'Too many attempts. Please wait a few minutes.',
     'Google login failed': 'Google login failed',
     'Google login is not set up yet': 'Google login is not set up yet',
   },

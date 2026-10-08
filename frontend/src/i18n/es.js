@@ -1,5 +1,5 @@
 const es = {
-  nav: { home: 'Inicio', practice: 'Practicar', progress: 'Progreso', pricing: 'Precios', login: 'Entrar', signup: 'Registrarse', logout: 'Salir' },
+  nav: { home: 'Inicio', practice: 'Practicar', progress: 'Progreso', pricing: 'Precios', login: 'Entrar', signup: 'Registrarse', menu: 'Menú', logout: 'Salir' },
   home: {
     badge: 'Práctica del examen teórico para cada país',
     title: 'Aprueba tu examen de conducir',
@@ -122,6 +122,13 @@ const es = {
     noMistakes: 'No hay errores para repasar. ¡Buen trabajo!',
     review: 'Repasar ahora',
     mistakeMode: 'Práctica de errores',
+    subtitleAccount: 'Tus resultados se guardan en tu cuenta, en todos tus dispositivos.',
+    saveIt: 'Inicia sesión para guardarlos en todos tus dispositivos.',
+  },
+  notFound: {
+    title: 'Página no encontrada',
+    text: 'No encontramos esta página. Puede que se haya movido.',
+    home: 'Volver al inicio',
   },
   pricing: {
     title: 'Precios simples, pago único',
@@ -189,6 +196,7 @@ const es = {
     tagline: 'Práctica sencilla del examen teórico para cada país, en tu propio idioma.',
   },
   errors: {
+    'Too many attempts. Please wait a few minutes.': 'Demasiados intentos. Espera unos minutos.',
     'Google login failed': 'Falló el acceso con Google',
     'Google login is not set up yet': 'El acceso con Google aún no está configurado',
     'Wrong email or password': 'Correo o contraseña incorrectos',

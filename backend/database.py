@@ -54,6 +54,21 @@ def create_tables():
             created_at TEXT NOT NULL
         )
     """)
+    # finished exams of logged-in users, so progress follows them to every device
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS exam_results (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            region TEXT NOT NULL,
+            score INTEGER NOT NULL,
+            total INTEGER NOT NULL,
+            seconds INTEGER NOT NULL,
+            passed INTEGER NOT NULL,
+            mode TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        )
+    """)
+    conn.execute("CREATE INDEX IF NOT EXISTS exam_results_user ON exam_results (user_id)")
     conn.execute("""
         CREATE TABLE IF NOT EXISTS payments (
             stripe_session_id TEXT PRIMARY KEY,

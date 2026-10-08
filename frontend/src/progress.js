@@ -1,4 +1,8 @@
-// progress is kept in the browser only, so it works without an account
+import { useEffect, useState } from 'react'
+import { api } from './api.js'
+import { useAuth } from './auth-context.js'
+
+// guests keep progress in the browser; logged-in users also save it to their account
 const HISTORY_KEY = 'history'
 const MISTAKES_KEY = 'mistakes'
 
@@ -18,18 +22,40 @@ export function addResult(result) {
   const history = read(HISTORY_KEY, [])
   history.push({ ...result, date: new Date().toISOString() })
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-200)))
+  if (localStorage.getItem('token')) {
+    api('/results', { method: 'POST', body: result }).catch(() => {})
+  }
 }
 
 export function getHistory() {
   return read(HISTORY_KEY, [])
 }
 
+// the account history when logged in (null while loading), otherwise this browser's history
+export function useHistory() {
+  const { user } = useAuth()
+  const [saved, setSaved] = useState({ email: null, list: null })
+
+  useEffect(() => {
+    if (!user) return
+    let active = true
+    api('/results')
+      .then((list) => active && setSaved({ email: user.email, list }))
+      .catch(() => active && setSaved({ email: user.email, list: getHistory() }))
+    return () => {
+      active = false
+    }
+  }, [user])
+
+  if (!user) return getHistory()
+  return saved.email === user.email ? saved.list : null
+}
+
 export function getAllMistakes() {
   return read(MISTAKES_KEY, [])
 }
 
-export function getStats() {
-  const history = read(HISTORY_KEY, [])
+export function computeStats(history) {
   if (history.length === 0) return null
 
   const percents = history.map((h) => Math.round((h.score / h.total) * 100))
@@ -49,6 +75,10 @@ export function getStats() {
     average: Math.round(percents.reduce((a, b) => a + b, 0) / percents.length),
     streak,
   }
+}
+
+export function getStats() {
+  return computeStats(getHistory())
 }
 
 export function getMistakes(region) {

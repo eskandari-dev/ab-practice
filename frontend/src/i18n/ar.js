@@ -1,5 +1,5 @@
 const ar = {
-  nav: { home: 'الرئيسية', practice: 'تدريب', progress: 'تقدّمي', pricing: 'الأسعار', login: 'تسجيل الدخول', signup: 'إنشاء حساب', logout: 'خروج' },
+  nav: { home: 'الرئيسية', practice: 'تدريب', progress: 'تقدّمي', pricing: 'الأسعار', login: 'تسجيل الدخول', signup: 'إنشاء حساب', menu: 'القائمة', logout: 'خروج' },
   home: {
     badge: 'تدريب على اختبار القيادة النظري لكل الدول',
     title: 'انجح في اختبار القيادة',
@@ -122,6 +122,13 @@ const ar = {
     noMistakes: 'لا توجد أخطاء للمراجعة. أحسنت!',
     review: 'راجع الآن',
     mistakeMode: 'تدريب على الأخطاء',
+    subtitleAccount: 'نتائجك محفوظة في حسابك وعلى كل أجهزتك.',
+    saveIt: 'سجّل الدخول لحفظها على كل أجهزتك.',
+  },
+  notFound: {
+    title: 'الصفحة غير موجودة',
+    text: 'لم نتمكن من العثور على هذه الصفحة. ربما تم نقلها.',
+    home: 'العودة إلى الرئيسية',
   },
   pricing: {
     title: 'أسعار بسيطة، دفعة واحدة',
@@ -189,6 +196,7 @@ const ar = {
     tagline: 'تدريب سهل على اختبار القيادة النظري لكل الدول، وبلغتك.',
   },
   errors: {
+    'Too many attempts. Please wait a few minutes.': 'محاولات كثيرة جدًا. يرجى الانتظار بضع دقائق.',
     'Google login failed': 'فشل تسجيل الدخول عبر Google',
     'Google login is not set up yet': 'تسجيل الدخول عبر Google غير مفعّل بعد',
     'Wrong email or password': 'البريد الإلكتروني أو كلمة المرور غير صحيحة',

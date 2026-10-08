@@ -1,5 +1,5 @@
 const fa = {
-  nav: { home: 'خانه', practice: 'تمرین', progress: 'پیشرفت', pricing: 'قیمت‌ها', login: 'ورود', signup: 'ثبت‌نام', logout: 'خروج' },
+  nav: { home: 'خانه', practice: 'تمرین', progress: 'پیشرفت', pricing: 'قیمت‌ها', login: 'ورود', signup: 'ثبت‌نام', menu: 'منو', logout: 'خروج' },
   home: {
     badge: 'تمرین آزمون تئوری رانندگی برای همه کشورها',
     title: 'در آزمون رانندگی',
@@ -122,6 +122,13 @@ const fa = {
     noMistakes: 'اشتباهی برای مرور ندارید. آفرین!',
     review: 'همین حالا مرور کن',
     mistakeMode: 'تمرین اشتباه‌ها',
+    subtitleAccount: 'نتیجه‌های شما در حساب‌تان ذخیره می‌شود و در همه دستگاه‌ها دیده می‌شود.',
+    saveIt: 'وارد شوید تا در همه دستگاه‌هایتان ذخیره شود.',
+  },
+  notFound: {
+    title: 'صفحه پیدا نشد',
+    text: 'این صفحه را پیدا نکردیم. شاید جابه‌جا شده باشد.',
+    home: 'بازگشت به خانه',
   },
   pricing: {
     title: 'قیمت ساده، یک‌بار پرداخت',
@@ -189,6 +196,7 @@ const fa = {
     tagline: 'تمرین ساده آزمون تئوری رانندگی برای همه کشورها، به زبان خودت.',
   },
   errors: {
+    'Too many attempts. Please wait a few minutes.': 'تلاش‌های زیادی انجام شد. لطفاً چند دقیقه صبر کنید.',
     'Google login failed': 'ورود با گوگل ناموفق بود',
     'Google login is not set up yet': 'ورود با گوگل هنوز فعال نشده است',
     'Wrong email or password': 'ایمیل یا رمز عبور اشتباه است',

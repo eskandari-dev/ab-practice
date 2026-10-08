@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
 import { findPlace, getSavedRegion } from '../places.js'
-import { getAllMistakes, getHistory, getStats } from '../progress.js'
+import { computeStats, getAllMistakes, useHistory } from '../progress.js'
 import { fill, useRegions } from '../regions-data.js'
 import { ChartIcon, CheckIcon, ClockIcon, ExamIcon, FlameIcon, ReviewIcon } from '../components/Icons.jsx'
 
@@ -19,6 +20,7 @@ function formatTime(seconds) {
 }
 
 function Progress() {
+  const { user } = useAuth()
   const { lang, t: all } = useLang()
   const t = all.progress
   const regions = useRegions()
@@ -26,10 +28,14 @@ function Progress() {
   const rules = regions?.[regionId]
   const passPercent = rules ? Math.round((rules.pass_correct / rules.questions) * 100) : 80
 
-  const history = getHistory()
-  const stats = getStats()
+  const history = useHistory()
   const mistakes = getAllMistakes().filter((q) => q.region === regionId)
 
+  if (history === null) {
+    return <div className="page"><p className="muted progress-loading">{all.practice.loading}</p></div>
+  }
+
+  const stats = computeStats(history)
   if (!stats) {
     return (
       <div className="page">
@@ -60,7 +66,9 @@ function Progress() {
     <div className="page progress-page">
       <div className="progress-head">
         <h1>{t.title}</h1>
-        <p className="muted">{t.subtitle}</p>
+        <p className="muted">
+          {user ? t.subtitleAccount : <>{t.subtitle} <Link to="/login?next=/progress">{t.saveIt}</Link></>}
+        </p>
       </div>
 
       <div className="progress-top">

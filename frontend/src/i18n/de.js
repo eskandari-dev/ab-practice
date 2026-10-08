@@ -1,5 +1,5 @@
 const de = {
-  nav: { home: 'Start', practice: 'Üben', progress: 'Fortschritt', pricing: 'Preise', login: 'Anmelden', signup: 'Registrieren', logout: 'Abmelden' },
+  nav: { home: 'Start', practice: 'Üben', progress: 'Fortschritt', pricing: 'Preise', login: 'Anmelden', signup: 'Registrieren', menu: 'Menü', logout: 'Abmelden' },
   home: {
     badge: 'Theorieprüfung üben – für jedes Land',
     title: 'Bestehe deine Fahrprüfung',
@@ -122,6 +122,13 @@ const de = {
     noMistakes: 'Keine Fehler zum Wiederholen. Gut gemacht!',
     review: 'Jetzt wiederholen',
     mistakeMode: 'Fehler üben',
+    subtitleAccount: 'Deine Ergebnisse sind in deinem Konto gespeichert, auf allen Geräten.',
+    saveIt: 'Melde dich an, um sie auf allen Geräten zu speichern.',
+  },
+  notFound: {
+    title: 'Seite nicht gefunden',
+    text: 'Wir konnten diese Seite nicht finden. Vielleicht wurde sie verschoben.',
+    home: 'Zur Startseite',
   },
   pricing: {
     title: 'Einfache Preise, einmal zahlen',
@@ -189,6 +196,7 @@ const de = {
     tagline: 'Einfaches Üben für die Theorieprüfung – für jedes Land, in deiner Sprache.',
   },
   errors: {
+    'Too many attempts. Please wait a few minutes.': 'Zu viele Versuche. Bitte warte ein paar Minuten.',
     'Google login failed': 'Google-Anmeldung fehlgeschlagen',
     'Google login is not set up yet': 'Google-Anmeldung ist noch nicht eingerichtet',
     'Wrong email or password': 'Falsche E-Mail oder falsches Passwort',

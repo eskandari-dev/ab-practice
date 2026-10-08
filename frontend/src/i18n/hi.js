@@ -1,5 +1,5 @@
 const hi = {
-  nav: { home: 'होम', practice: 'अभ्यास', progress: 'प्रगति', pricing: 'कीमतें', login: 'लॉग इन', signup: 'साइन अप', logout: 'लॉग आउट' },
+  nav: { home: 'होम', practice: 'अभ्यास', progress: 'प्रगति', pricing: 'कीमतें', login: 'लॉग इन', signup: 'साइन अप', menu: 'मेनू', logout: 'लॉग आउट' },
   home: {
     badge: 'हर देश के लिए ड्राइविंग थ्योरी अभ्यास',
     title: 'अपना ड्राइविंग टेस्ट',
@@ -122,6 +122,13 @@ const hi = {
     noMistakes: 'दोहराने के लिए कोई गलती नहीं। बहुत बढ़िया!',
     review: 'अभी दोहराएँ',
     mistakeMode: 'गलतियों का अभ्यास',
+    subtitleAccount: 'आपके परिणाम आपके खाते में सेव हैं, हर डिवाइस पर।',
+    saveIt: 'सभी डिवाइस पर सेव करने के लिए लॉग इन करें।',
+  },
+  notFound: {
+    title: 'पेज नहीं मिला',
+    text: 'हमें यह पेज नहीं मिला। हो सकता है यह हट गया हो।',
+    home: 'होम पर वापस जाएँ',
   },
   pricing: {
     title: 'आसान कीमतें, एक बार भुगतान',
@@ -189,6 +196,7 @@ const hi = {
     tagline: 'हर देश के लिए आसान ड्राइविंग थ्योरी अभ्यास, आपकी अपनी भाषा में।',
   },
   errors: {
+    'Too many attempts. Please wait a few minutes.': 'बहुत ज़्यादा कोशिशें। कृपया कुछ मिनट रुकें।',
     'Google login failed': 'Google लॉग इन विफल रहा',
     'Google login is not set up yet': 'Google लॉग इन अभी चालू नहीं है',
     'Wrong email or password': 'ईमेल या पासवर्ड गलत है',

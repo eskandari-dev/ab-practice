@@ -1,5 +1,5 @@
 const fr = {
-  nav: { home: 'Accueil', practice: 'S\'entraîner', progress: 'Progrès', pricing: 'Tarifs', login: 'Connexion', signup: 'S\'inscrire', logout: 'Déconnexion' },
+  nav: { home: 'Accueil', practice: 'S\'entraîner', progress: 'Progrès', pricing: 'Tarifs', login: 'Connexion', signup: 'S\'inscrire', menu: 'Menu', logout: 'Déconnexion' },
   home: {
     badge: 'Entraînement au code de la route pour chaque pays',
     title: 'Réussissez votre examen de conduite',
@@ -122,6 +122,13 @@ const fr = {
     noMistakes: 'Aucune erreur à revoir. Bravo !',
     review: 'Revoir maintenant',
     mistakeMode: 'Révision des erreurs',
+    subtitleAccount: 'Vos résultats sont enregistrés dans votre compte, sur tous vos appareils.',
+    saveIt: 'Connectez-vous pour les garder sur tous vos appareils.',
+  },
+  notFound: {
+    title: 'Page introuvable',
+    text: 'Nous ne trouvons pas cette page. Elle a peut-être été déplacée.',
+    home: 'Retour à l\'accueil',
   },
   pricing: {
     title: 'Des tarifs simples, un seul paiement',
@@ -189,6 +196,7 @@ const fr = {
     tagline: 'Un entraînement simple au code de la route pour chaque pays, dans votre langue.',
   },
   errors: {
+    'Too many attempts. Please wait a few minutes.': 'Trop de tentatives. Veuillez patienter quelques minutes.',
     'Google login failed': 'La connexion Google a échoué',
     'Google login is not set up yet': 'La connexion Google n\'est pas encore activée',
     'Wrong email or password': 'E-mail ou mot de passe incorrect',

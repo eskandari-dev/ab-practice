@@ -1,5 +1,5 @@
 const zh = {
-  nav: { home: '首页', practice: '练习', progress: '进度', pricing: '价格', login: '登录', signup: '注册', logout: '退出' },
+  nav: { home: '首页', practice: '练习', progress: '进度', pricing: '价格', login: '登录', signup: '注册', menu: '菜单', logout: '退出' },
   home: {
     badge: '适用于各个国家的驾驶理论练习',
     title: '一次通过',
@@ -122,6 +122,13 @@ const zh = {
     noMistakes: '没有需要复习的错题，做得好！',
     review: '马上复习',
     mistakeMode: '错题练习',
+    subtitleAccount: '你的成绩保存在你的账户中，所有设备都能看到。',
+    saveIt: '登录后可在所有设备上保存。',
+  },
+  notFound: {
+    title: '页面不存在',
+    text: '我们找不到这个页面，它可能已被移动。',
+    home: '返回首页',
   },
   pricing: {
     title: '简单的一次性价格',
@@ -189,6 +196,7 @@ const zh = {
     tagline: '适用于各个国家的驾驶理论练习，使用你自己的语言。',
   },
   errors: {
+    'Too many attempts. Please wait a few minutes.': '尝试次数太多，请几分钟后再试。',
     'Google login failed': 'Google 登录失败',
     'Google login is not set up yet': 'Google 登录尚未开通',
     'Wrong email or password': '邮箱或密码错误',

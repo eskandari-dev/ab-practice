@@ -238,12 +238,32 @@ def register(data: UserIn, conn: sqlite3.Connection = Depends(get_conn)):
     return {"token": token, "user": user_to_dict(load_user(conn, cursor.lastrowid))}
 
 
+LOGIN_LIMIT = 5
+LOGIN_WINDOW = timedelta(minutes=15)
+# (ip, email) -> times of recent wrong passwords; kept in memory, so it resets on restart
+failed_logins = {}
+
+
+def recent_failures(key):
+    recent = [t for t in failed_logins.get(key, []) if now() - t < LOGIN_WINDOW]
+    if recent:
+        failed_logins[key] = recent
+    else:
+        failed_logins.pop(key, None)
+    return recent
+
+
 @app.post("/login")
-def login(data: UserIn, conn: sqlite3.Connection = Depends(get_conn)):
+def login(data: UserIn, request: Request, conn: sqlite3.Connection = Depends(get_conn)):
     email = data.email.strip().lower()
+    key = (request.client.host if request.client else "", email)
+    if len(recent_failures(key)) >= LOGIN_LIMIT:
+        raise HTTPException(status_code=429, detail="Too many attempts. Please wait a few minutes.")
     user = conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
     if user is None or not check_password(data.password, user["password_hash"]):
+        failed_logins.setdefault(key, []).append(now())
         raise HTTPException(status_code=401, detail="Wrong email or password")
+    failed_logins.pop(key, None)
     token = create_session(conn, user["id"])
     return {"token": token, "user": user_to_dict(user)}
 
@@ -262,6 +282,55 @@ def logout(
 @app.get("/me")
 def me(user=Depends(current_user)):
     return user_to_dict(user)
+
+
+class ResultIn(BaseModel):
+    region: str
+    score: int
+    total: int
+    seconds: int
+    passed: bool
+    mode: str
+
+
+@app.post("/results")
+def save_result(data: ResultIn, user=Depends(current_user), conn: sqlite3.Connection = Depends(get_conn)):
+    if data.region not in DEFAULT_RULES or data.mode not in ("free", "full", "mistakes"):
+        raise HTTPException(status_code=400, detail="Invalid result")
+    if not (1 <= data.total <= 200 and 0 <= data.score <= data.total and 0 <= data.seconds <= 86400):
+        raise HTTPException(status_code=400, detail="Invalid result")
+    conn.execute(
+        """
+        INSERT INTO exam_results (user_id, region, score, total, seconds, passed, mode, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (user["id"], data.region, data.score, data.total, data.seconds, int(data.passed), data.mode, now().isoformat()),
+    )
+    conn.commit()
+    return {"message": "Saved"}
+
+
+@app.get("/results")
+def list_results(user=Depends(current_user), conn: sqlite3.Connection = Depends(get_conn)):
+    rows = conn.execute(
+        """
+        SELECT region, score, total, seconds, passed, mode, created_at FROM exam_results
+        WHERE user_id = ? ORDER BY id DESC LIMIT 200
+        """,
+        (user["id"],),
+    ).fetchall()
+    return [
+        {
+            "region": row["region"],
+            "score": row["score"],
+            "total": row["total"],
+            "seconds": row["seconds"],
+            "passed": bool(row["passed"]),
+            "mode": row["mode"],
+            "date": row["created_at"],
+        }
+        for row in reversed(rows)
+    ]
 
 
 class ExamIn(BaseModel):

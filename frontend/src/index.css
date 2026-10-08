@@ -239,6 +239,38 @@ summary:focus-visible {
   box-shadow: var(--shadow-accent);
 }
 
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  padding: 0 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.nav-toggle span {
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-h);
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.navbar-open .nav-toggle span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar-open .nav-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-open .nav-toggle span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 .nav-avatar {
   display: grid;
   place-items: center;
@@ -2421,6 +2453,28 @@ button.preview-answer:disabled {
   color: var(--success);
 }
 
+/* ---------- 404 ---------- */
+
+.not-found-code {
+  display: block;
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--mint));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.not-found .muted {
+  margin-bottom: 24px;
+}
+
+.progress-loading {
+  padding: 60px 0;
+  text-align: center;
+}
+
 /* ---------- my progress ---------- */
 
 .progress-more {
@@ -2863,11 +2917,56 @@ button.preview-answer:disabled {
 
 @media (max-width: 600px) {
   .navbar {
-    flex-direction: column;
-    gap: 10px;
+    position: sticky;
+    flex-wrap: wrap;
+  }
+
+  .nav-toggle {
+    display: flex;
   }
 
   .nav-links {
-    justify-content: center;
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 8px 0 4px;
+  }
+
+  .navbar-open .nav-links {
+    display: flex;
+    animation: menu-in 0.18s ease-out;
+  }
+
+  .nav-links .nav-item,
+  .nav-links .nav-login,
+  .nav-logout {
+    padding: 11px 14px;
+    border-radius: var(--radius-sm);
+    text-align: start;
+  }
+
+  .nav-links .nav-item.active {
+    background: var(--accent-soft);
+  }
+
+  .nav-links .nav-item.active::after {
+    display: none;
+  }
+
+  .nav-links .nav-login {
+    text-align: center;
+  }
+
+  .nav-avatar {
+    display: none;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
   }
 }
