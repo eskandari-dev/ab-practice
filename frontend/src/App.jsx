@@ -13,11 +13,13 @@ import Terms from './pages/Terms.jsx'
 import Admin from './pages/Admin.jsx'
 import Progress from './pages/Progress.jsx'
 import NotFound from './pages/NotFound.jsx'
+import Account from './pages/Account.jsx'
 
 function pageTitle(path, t) {
   const titles = {
     '/practice': t.nav.practice,
     '/progress': t.progress.title,
+    '/account': t.account.title,
     '/pricing': t.nav.pricing,
     '/login': t.nav.login,
     '/register': t.nav.signup,
@@ -53,6 +55,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/progress" element={<Progress />} />
+          <Route path="/account" element={<Account />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

@@ -110,6 +110,8 @@ def user_to_dict(user):
         "unlimited_until": user["unlimited_until"] if unlimited else None,
         "has_access": unlimited or user["exams_left"] > 0,
         "is_admin": user["email"] in ADMIN_EMAILS,
+        "has_password": bool(user["password_hash"]),
+        "google": user["google_sub"] is not None,
     }
 
 
@@ -282,6 +284,42 @@ def logout(
 @app.get("/me")
 def me(user=Depends(current_user)):
     return user_to_dict(user)
+
+
+class PasswordIn(BaseModel):
+    current: str
+    new: str
+
+
+@app.post("/me/password")
+def change_password(
+    data: PasswordIn,
+    authorization: str | None = Header(default=None),
+    user=Depends(current_user),
+    conn: sqlite3.Connection = Depends(get_conn),
+):
+    if not check_password(data.current, user["password_hash"]):
+        raise HTTPException(status_code=400, detail="Current password is wrong")
+    if len(data.new) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
+    conn.execute("UPDATE users SET password_hash = ? WHERE id = ?", (hash_password(data.new), user["id"]))
+    # keep this device logged in, log out every other device
+    conn.execute(
+        "DELETE FROM sessions WHERE user_id = ? AND token != ?",
+        (user["id"], authorization.removeprefix("Bearer ")),
+    )
+    conn.commit()
+    return {"message": "Password changed"}
+
+
+@app.delete("/me")
+def delete_account(user=Depends(current_user), conn: sqlite3.Connection = Depends(get_conn)):
+    # payments are kept as purchase records
+    conn.execute("DELETE FROM exam_results WHERE user_id = ?", (user["id"],))
+    conn.execute("DELETE FROM sessions WHERE user_id = ?", (user["id"],))
+    conn.execute("DELETE FROM users WHERE id = ?", (user["id"],))
+    conn.commit()
+    return {"message": "Account deleted"}
 
 
 class ResultIn(BaseModel):

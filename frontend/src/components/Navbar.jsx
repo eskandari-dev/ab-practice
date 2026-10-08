@@ -40,7 +40,10 @@ function Navbar() {
         {user && user.is_admin && <NavLink to="/admin" className="nav-item nav-admin">Admin</NavLink>}
         {user ? (
           <>
-            <span className="nav-avatar" title={user.email}>{user.email[0].toUpperCase()}</span>
+            <NavLink to="/account" className="nav-avatar" title={user.email} aria-label={t.nav.account}>
+              {user.email[0].toUpperCase()}
+            </NavLink>
+            <NavLink to="/account" className="nav-item nav-account">{t.nav.account}</NavLink>
             <button className="nav-logout" onClick={handleLogout}>{t.nav.logout}</button>
           </>
         ) : (
