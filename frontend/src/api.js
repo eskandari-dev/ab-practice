@@ -1,4 +1,5 @@
-export const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
+// in production the backend serves this site and the API under /api (backend/server.py)
+export const API_URL = import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? 'http://127.0.0.1:8000' : '/api')
 
 export async function api(path, options = {}) {
   const token = localStorage.getItem('token')

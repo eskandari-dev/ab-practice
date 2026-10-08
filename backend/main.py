@@ -23,7 +23,9 @@ from questions import questions
 from rules import DEFAULT_RULES
 from security import check_password, hash_password
 
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+# comma-separated; the first one is used for payment redirects
+FRONTEND_URLS = [u.strip().rstrip("/") for u in os.getenv("FRONTEND_URL", "http://localhost:5173").split(",") if u.strip()]
+FRONTEND_URL = FRONTEND_URLS[0]
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
@@ -48,7 +50,7 @@ app = FastAPI()
 create_tables()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL],
+    allow_origins=FRONTEND_URLS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
