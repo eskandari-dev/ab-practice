@@ -28,7 +28,8 @@ FRONTEND_URLS = [u.strip().rstrip("/") for u in os.getenv("FRONTEND_URL", "http:
 FRONTEND_URL = FRONTEND_URLS[0]
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
+FIREBASE_API_KEY = os.getenv("FIREBASE_API_KEY", "")
+FIREBASE_PROJECT_ID = os.getenv("FIREBASE_PROJECT_ID", "")
 ADMIN_EMAILS = {e.strip().lower() for e in os.getenv("ADMIN_EMAILS", "").split(",") if e.strip()}
 
 FREE_QUESTIONS = 5
@@ -172,7 +173,16 @@ def home():
 
 @app.get("/config")
 def config():
-    return {"google_client_id": GOOGLE_CLIENT_ID}
+    if not (FIREBASE_API_KEY and FIREBASE_PROJECT_ID):
+        return {"firebase": None}
+    # the web config is public by design; it only identifies the Firebase project
+    return {
+        "firebase": {
+            "apiKey": FIREBASE_API_KEY,
+            "authDomain": f"{FIREBASE_PROJECT_ID}.firebaseapp.com",
+            "projectId": FIREBASE_PROJECT_ID,
+        }
+    }
 
 
 @app.get("/regions")
@@ -189,13 +199,15 @@ class GoogleIn(BaseModel):
 
 @app.post("/auth/google")
 def google_login(data: GoogleIn, conn: sqlite3.Connection = Depends(get_conn)):
-    if not GOOGLE_CLIENT_ID:
+    if not FIREBASE_PROJECT_ID:
         raise HTTPException(status_code=503, detail="Google login is not set up yet")
     try:
-        info = google_id_token.verify_oauth2_token(data.credential, google_requests.Request(), GOOGLE_CLIENT_ID)
+        info = google_id_token.verify_firebase_token(data.credential, google_requests.Request(), FIREBASE_PROJECT_ID)
     except ValueError:
         raise HTTPException(status_code=401, detail="Google login failed")
-    if not info.get("email_verified"):
+    if not info or not info.get("email") or not info.get("email_verified"):
+        raise HTTPException(status_code=401, detail="Google login failed")
+    if info.get("firebase", {}).get("sign_in_provider") != "google.com":
         raise HTTPException(status_code=401, detail="Google login failed")
 
     email = info["email"].lower()

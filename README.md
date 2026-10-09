@@ -26,7 +26,7 @@ handbooks, review them, and publish them.
   and a "practice my mistakes" mode.
 - **Progress page:** pass readiness, score chart, exam history and streaks — saved to the
   account when logged in.
-- **Accounts:** email/password and "Continue with Google" (Google Identity Services), an account
+- **Accounts:** email/password and "Continue with Google" (Firebase Authentication), an account
   page to change the password or delete the account, and a login attempt limit.
 - **Dark mode** that follows the system setting, with a toggle that is remembered.
 - **AI test designer (admin):** upload a PDF/TXT handbook; OpenAI writes multilingual questions
@@ -39,7 +39,7 @@ handbooks, review them, and publish them.
 | --- | --- |
 | Frontend | React 19, Vite, React Router |
 | Backend | Python, FastAPI, SQLite |
-| Integrations | Google Identity Services, OpenAI API, Stripe |
+| Integrations | Firebase Authentication (Google sign-in), OpenAI API, Stripe |
 | Deploy | Docker (one container serves the site and the API) |
 
 ## Run locally

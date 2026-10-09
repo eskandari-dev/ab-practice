@@ -16,7 +16,9 @@ services:
         value: /data/app.db
       - key: FRONTEND_URL
         value: https://quiz.kyzed.com
-      - key: GOOGLE_CLIENT_ID
+      - key: FIREBASE_API_KEY
+        sync: false
+      - key: FIREBASE_PROJECT_ID
         sync: false
       - key: ADMIN_EMAILS
         sync: false

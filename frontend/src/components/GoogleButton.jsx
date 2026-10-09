@@ -3,21 +3,24 @@ import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
 
-const SCRIPT_URL = 'https://accounts.google.com/gsi/client'
-let scriptPromise = null
+const FIREBASE_SDK = 'https://www.gstatic.com/firebasejs/13.0.0'
+const IGNORED_ERRORS = ['auth/popup-closed-by-user', 'auth/cancelled-popup-request', 'auth/user-cancelled']
 
-function loadGoogleScript() {
-  if (!scriptPromise) {
-    scriptPromise = new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = SCRIPT_URL
-      script.async = true
-      script.onload = resolve
-      script.onerror = reject
-      document.head.appendChild(script)
-    })
+let firebasePromise = null
+
+function loadFirebase(config) {
+  if (!firebasePromise) {
+    firebasePromise = Promise.all([
+      import(/* @vite-ignore */ `${FIREBASE_SDK}/firebase-app.js`),
+      import(/* @vite-ignore */ `${FIREBASE_SDK}/firebase-auth.js`),
+    ]).then(([app, auth]) => ({
+      auth: auth.getAuth(app.initializeApp(config)),
+      GoogleAuthProvider: auth.GoogleAuthProvider,
+      signInWithPopup: auth.signInWithPopup,
+      signOut: auth.signOut,
+    }))
   }
-  return scriptPromise
+  return firebasePromise
 }
 
 function GoogleLogo() {
@@ -34,62 +37,59 @@ function GoogleLogo() {
 function GoogleButton({ onDone, onError }) {
   const { loginWithGoogle } = useAuth()
   const { lang, t } = useLang()
-  const box = useRef(null)
-  const [clientId, setClientId] = useState(null)
-  const handlers = useRef(null)
-
-  useEffect(() => {
-    handlers.current = { loginWithGoogle, onDone, onError }
-  })
+  const [config, setConfig] = useState(undefined)
+  const [busy, setBusy] = useState(false)
+  const firebase = useRef(null)
 
   useEffect(() => {
     api('/config')
-      .then((data) => setClientId(data.google_client_id || ''))
-      .catch(() => setClientId(''))
+      .then((data) => setConfig(data.firebase || null))
+      .catch(() => setConfig(null))
   }, [])
 
+  // load Firebase before the click: browsers block popups opened after a slow await
   useEffect(() => {
-    if (!clientId) return
-    let cancelled = false
-    loadGoogleScript().then(() => {
-      if (cancelled || !box.current) return
-      window.google.accounts.id.initialize({
-        client_id: clientId,
-        callback: async (response) => {
-          const h = handlers.current
-          try {
-            await h.loginWithGoogle(response.credential)
-            h.onDone()
-          } catch (err) {
-            h.onError(err.message)
-          }
-        },
+    if (!config) return
+    loadFirebase(config)
+      .then((fb) => {
+        firebase.current = fb
       })
-      window.google.accounts.id.renderButton(box.current, {
-        theme: 'outline',
-        size: 'large',
-        shape: 'pill',
-        text: 'continue_with',
-        width: box.current.offsetWidth,
-        locale: lang,
+      .catch(() => {
+        firebasePromise = null
       })
-    })
-    return () => {
-      cancelled = true
+  }, [config])
+
+  async function signIn() {
+    const fb = firebase.current
+    if (!fb) return onError('Google login failed')
+    setBusy(true)
+    try {
+      fb.auth.languageCode = lang
+      const result = await fb.signInWithPopup(fb.auth, new fb.GoogleAuthProvider())
+      const idToken = await result.user.getIdToken()
+      // the site keeps its own session, so the Firebase one is not needed after this
+      await fb.signOut(fb.auth)
+      await loginWithGoogle(idToken)
+      onDone()
+    } catch (err) {
+      if (!IGNORED_ERRORS.includes(err.code)) onError(err.code ? 'Google login failed' : err.message)
     }
-  }, [clientId, lang])
-
-  if (clientId === null) return <div className="google-box" />
-
-  if (!clientId) {
-    return (
-      <button type="button" className="google-fallback" disabled title={t.login.googleOff}>
-        <GoogleLogo /> {t.login.google}
-      </button>
-    )
+    setBusy(false)
   }
 
-  return <div className="google-box" ref={box} />
+  if (config === undefined) return <div className="google-box" />
+
+  return (
+    <button
+      type="button"
+      className="google-fallback"
+      onClick={signIn}
+      disabled={!config || busy}
+      title={config ? undefined : t.login.googleOff}
+    >
+      <GoogleLogo /> {t.login.google}
+    </button>
+  )
 }
 
 export default GoogleButton
