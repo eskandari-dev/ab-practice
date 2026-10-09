@@ -61,7 +61,7 @@ function GoogleButton({ onDone, onError }) {
 
   async function signIn() {
     const fb = firebase.current
-    if (!fb) return onError('Google login failed')
+    if (!fb) return onError('Google login failed (could not load Firebase)')
     setBusy(true)
     try {
       fb.auth.languageCode = lang
@@ -72,7 +72,10 @@ function GoogleButton({ onDone, onError }) {
       await loginWithGoogle(idToken)
       onDone()
     } catch (err) {
-      if (!IGNORED_ERRORS.includes(err.code)) onError(err.code ? 'Google login failed' : err.message)
+      if (!IGNORED_ERRORS.includes(err.code)) {
+        console.error(err)
+        onError(err.code ? `Google login failed (${err.code})` : err.message)
+      }
     }
     setBusy(false)
   }

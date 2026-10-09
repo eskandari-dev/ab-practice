@@ -22,7 +22,9 @@ function LangProvider({ children }) {
   const t = translations[lang]
 
   function tError(message) {
-    return t.errors[message] || message
+    // "Some error (detail)": translate the error, keep the technical detail as it is
+    const [, base, detail = ''] = message.match(/^(.*?)( \([^()]+\))?$/s)
+    return (t.errors[base] || base) + detail
   }
 
   return (

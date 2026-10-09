@@ -203,12 +203,15 @@ def google_login(data: GoogleIn, conn: sqlite3.Connection = Depends(get_conn)):
         raise HTTPException(status_code=503, detail="Google login is not set up yet")
     try:
         info = google_id_token.verify_firebase_token(data.credential, google_requests.Request(), FIREBASE_PROJECT_ID)
-    except ValueError:
-        raise HTTPException(status_code=401, detail="Google login failed")
-    if not info or not info.get("email") or not info.get("email_verified"):
-        raise HTTPException(status_code=401, detail="Google login failed")
+    except ValueError as error:
+        print(f"Firebase token rejected: {error}")
+        raise HTTPException(status_code=401, detail="Google login failed (invalid token)")
+    if not info or not info.get("email"):
+        raise HTTPException(status_code=401, detail="Google login failed (no email)")
+    if not info.get("email_verified"):
+        raise HTTPException(status_code=401, detail="Google login failed (email not verified)")
     if info.get("firebase", {}).get("sign_in_provider") != "google.com":
-        raise HTTPException(status_code=401, detail="Google login failed")
+        raise HTTPException(status_code=401, detail="Google login failed (not a Google account)")
 
     email = info["email"].lower()
     user = conn.execute(
