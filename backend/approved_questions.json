@@ -1,1 +1,127 @@
-[]
+[
+  {
+    "region": "ca-ab",
+    "source": "Alberta Basic Licence Drivers Assessment.pdf",
+    "question": {
+      "en": "Unless otherwise posted, what is the basic speed limit outside a city, town or village on a primary highway?",
+      "fa": "اگر علامت دیگری نصب نشده باشد، حد مجاز سرعت پایه در خارج از شهر، شهرک یا روستا در یک شاهراه اصلی چقدر است؟",
+      "options": {
+        "en": [
+          "80 km/h",
+          "90 km/h",
+          "100 km/h"
+        ],
+        "fa": [
+          "۸۰ کیلومتر بر ساعت",
+          "۹۰ کیلومتر بر ساعت",
+          "۱۰۰ کیلومتر بر ساعت"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "The basic speed limit outside urban areas on a primary highway is 100 km/h.",
+        "fa": "حد مجاز سرعت پایه در خارج از مناطق شهری در شاهراه اصلی ۱۰۰ کیلومتر بر ساعت است."
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Alberta Basic Licence Drivers Assessment.pdf",
+    "question": {
+      "en": "Under Alberta's demerit point system, when is a fully licensed driver suspended?",
+      "fa": "در سیستم امتیاز منفی آلبرتا، راننده دارای گواهینامه کامل چه زمانی تعلیق می‌شود؟",
+      "options": {
+        "en": [
+          "12 points",
+          "8 points",
+          "15 points"
+        ],
+        "fa": [
+          "۱۲ امتیاز",
+          "۸ امتیاز",
+          "۱۵ امتیاز"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "A fully licensed driver is suspended at 15 demerit points.",
+        "fa": "راننده دارای گواهینامه کامل با ۱۵ امتیاز منفی تعلیق می‌شود."
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Alberta Basic Licence Drivers Assessment.pdf",
+    "question": {
+      "en": "When parallel parking, the vehicle's wheels closest to the curb must be within what maximum distance?",
+      "fa": "هنگام پارک موازی، چرخ‌های خودرو که نزدیک‌تر به جدول خیابان هستند حداکثر باید در چه فاصله‌ای باشند؟",
+      "options": {
+        "en": [
+          "80 centimetres from the curb",
+          "30 centimetres from the curb",
+          "50 centimetres from the curb"
+        ],
+        "fa": [
+          "۸۰ سانتی‌متر از جدول",
+          "۳۰ سانتی‌متر از جدول",
+          "۵۰ سانتی‌متر از جدول"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "The maximum distance for wheels closest to the curb when parallel parking is 50 cm.",
+        "fa": "حداکثر فاصله چرخ‌های نزدیک به جدول هنگام پارک موازی ۵۰ سانتی‌متر است."
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Alberta Basic Licence Drivers Assessment.pdf",
+    "question": {
+      "en": "Under the Graduated Driver Licensing program, a learner with a Class 7 licence is not permitted to drive between the hours of:",
+      "fa": "در برنامه گواهینامه تدریجی، راننده دارنده گواهینامه کلاس ۷ مجاز به رانندگی بین ساعت‌های زیر نیست:",
+      "options": {
+        "en": [
+          "Midnight and 7:00 A.M.",
+          "Midnight and 5:00 A.M.",
+          "10:00 P.M. and 6:00 A.M."
+        ],
+        "fa": [
+          "نیمه‌شب تا ۷:۰۰ صبح",
+          "نیمه‌شب تا ۵:۰۰ صبح",
+          "۱۰:۰۰ شب تا ۶:۰۰ صبح"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "A Class 7 learner may not drive between midnight and 5:00 A.M.",
+        "fa": "دارنده گواهینامه کلاس ۷ نمی‌تواند بین نیمه‌شب و ۵:۰۰ صبح رانندگی کند."
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Alberta Basic Licence Drivers Assessment.pdf",
+    "question": {
+      "en": "At 9:00 A.M. on a school day, what is the maximum speed permitted in a school zone in a rural area, unless otherwise posted?",
+      "fa": "ساعت ۹:۰۰ صبح در یک روز مدرسه، حداکثر سرعت مجاز در محدوده مدرسه در منطقه روستایی، مگر اینکه خلاف آن نصب شده باشد، چقدر است؟",
+      "options": {
+        "en": [
+          "30 km/h",
+          "50 km/h",
+          "40 km/h"
+        ],
+        "fa": [
+          "۳۰ کیلومتر بر ساعت",
+          "۵۰ کیلومتر بر ساعت",
+          "۴۰ کیلومتر بر ساعت"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "The maximum speed in a rural school zone on a school day is 30 km/h unless otherwise posted.",
+        "fa": "حداکثر سرعت در محدوده مدرسه روستایی در روز مدرسه، مگر اینکه خلاف آن نصب شده باشد، ۳۰ کیلومتر بر ساعت است."
+      }
+    }
+  }
+]
