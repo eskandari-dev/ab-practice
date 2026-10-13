@@ -150,18 +150,30 @@ function Generator({ regionId, regionName, onCreated }) {
         </label>
       </div>
       <div className="field">
-        <span>Languages</span>
+        <span className="lang-checks-head">
+          Languages · {langs.length} selected
+          <span>
+            <button type="button" className="link-button" onClick={() => setLangs(ALL_LANGS)}>All</button>
+            {' · '}
+            <button type="button" className="link-button" onClick={() => setLangs(['en'])}>Only English</button>
+          </span>
+        </span>
         <div className="lang-checks">
-          {LANGUAGES.map((l) => (
-            <button
-              type="button"
-              key={l.code}
-              className={'lang-chip' + (langs.includes(l.code) ? ' lang-chip-active' : '')}
-              onClick={() => toggle(l.code)}
-            >
-              {l.name}
-            </button>
-          ))}
+          {LANGUAGES.map((l) => {
+            const on = langs.includes(l.code)
+            return (
+              <button
+                type="button"
+                key={l.code}
+                className={'lang-chip' + (on ? ' lang-chip-active' : '')}
+                onClick={() => toggle(l.code)}
+                aria-pressed={on}
+                title={l.code === 'en' ? 'English is always included' : undefined}
+              >
+                {on ? '✓ ' : ''}{l.name}
+              </button>
+            )
+          })}
         </div>
       </div>
       <div className="admin-actions">

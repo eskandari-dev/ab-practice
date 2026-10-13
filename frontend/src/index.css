@@ -2378,6 +2378,25 @@ button.preview-answer:disabled {
   font-size: 0.85rem;
 }
 
+.lang-checks-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.link-button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
 .admin-actions {
   display: flex;
   justify-content: flex-end;
