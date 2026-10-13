@@ -1,7 +1,12 @@
+import json
 import os
 import sqlite3
+from datetime import datetime, timezone
 
-DB_PATH = os.getenv("DB_PATH") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "app.db")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.getenv("DB_PATH") or os.path.join(BASE_DIR, "app.db")
+# written by export_questions.py and kept in git
+SAVED_QUESTIONS = os.path.join(BASE_DIR, "approved_questions.json")
 
 
 def get_db():
@@ -77,5 +82,22 @@ def create_tables():
             created_at TEXT NOT NULL
         )
     """)
+    load_saved_questions(conn)
     conn.commit()
     conn.close()
+
+
+def load_saved_questions(conn):
+    # a server without a persistent disk starts with an empty database, so fill it from git
+    if not os.path.exists(SAVED_QUESTIONS):
+        return
+    if conn.execute("SELECT COUNT(*) FROM bank_questions").fetchone()[0] > 0:
+        return
+    with open(SAVED_QUESTIONS, encoding="utf-8") as f:
+        saved = json.load(f)
+    created = datetime.now(timezone.utc).isoformat()
+    for item in saved:
+        conn.execute(
+            "INSERT INTO bank_questions (region, data, status, source, created_at) VALUES (?, ?, 'approved', ?, ?)",
+            (item["region"], json.dumps(item["question"], ensure_ascii=False), item.get("source"), created),
+        )
