@@ -29,7 +29,7 @@ handbooks, review them, and publish them.
 - **Accounts:** email/password and "Continue with Google" (Firebase Authentication), an account
   page to change the password or delete the account, and a login attempt limit.
 - **Dark mode** that follows the system setting, with a toggle that is remembered.
-- **AI test designer (admin):** upload a PDF/TXT handbook; OpenAI writes multilingual questions
+- **AI test designer (admin):** upload a PDF/TXT handbook; an LLM (OpenAI or any OpenAI-compatible API such as DeepSeek) writes multilingual questions
   using only facts from the source. Questions stay as drafts until an admin approves them.
 - **Payments:** Stripe Checkout with exam packs and a monthly unlimited plan.
 
@@ -39,7 +39,7 @@ handbooks, review them, and publish them.
 | --- | --- |
 | Frontend | React 19, Vite, React Router |
 | Backend | Python, FastAPI, SQLite |
-| Integrations | Firebase Authentication (Google sign-in), OpenAI API, Stripe |
+| Integrations | Firebase Authentication (Google sign-in), OpenAI-compatible LLM API (DeepSeek), Stripe |
 | Deploy | Docker (one container serves the site and the API) |
 
 ## Run locally
