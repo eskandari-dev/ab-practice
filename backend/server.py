@@ -41,6 +41,9 @@ async def headers(request: Request, call_next):
     # Vite puts a hash in every asset file name, so these files never change
     if request.url.path.startswith("/assets/"):
         response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    elif not request.url.path.startswith("/api/"):
+        # pages must be checked on every visit, or browsers keep showing the old site after a deploy
+        response.headers["Cache-Control"] = "no-cache"
     return response
 
 

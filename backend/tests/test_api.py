@@ -238,6 +238,7 @@ class ServerTests(unittest.TestCase):
         r = self.site.get("/")
         self.assertEqual(r.headers["X-Frame-Options"], "DENY")
         self.assertEqual(r.headers["X-Content-Type-Options"], "nosniff")
+        self.assertEqual(r.headers["Cache-Control"], "no-cache")
 
 
 if __name__ == "__main__":
