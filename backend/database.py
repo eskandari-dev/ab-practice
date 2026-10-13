@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import sqlite3
@@ -87,6 +88,8 @@ def create_tables():
             created_at TEXT NOT NULL
         )
     """)
+    # set on questions that came from approved_questions.json
+    add_column(conn, "bank_questions", "saved_key", "TEXT")
     # admin changes to the exam rules in rules.py
     conn.execute("""
         CREATE TABLE IF NOT EXISTS region_rules (
@@ -141,17 +144,42 @@ def create_tables():
     conn.close()
 
 
+def question_key(region, question):
+    text = json.dumps(question, ensure_ascii=False, sort_keys=True)
+    return hashlib.sha256((region + "\n" + text).encode("utf-8")).hexdigest()
+
+
 def load_saved_questions(conn):
-    # a server without a persistent disk starts with an empty database, so fill it from git
+    """Make the questions that came from approved_questions.json match the file.
+
+    Questions are made on the admin's computer and reach the server through git, so on every start new ones
+    are added and ones removed from the file are deleted. Questions made on the server itself are not touched.
+    """
     if not os.path.exists(SAVED_QUESTIONS):
         return
-    if conn.execute("SELECT COUNT(*) AS n FROM bank_questions").fetchone()["n"] > 0:
-        return
     with open(SAVED_QUESTIONS, encoding="utf-8") as f:
-        saved = json.load(f)
+        saved = {question_key(item["region"], item["question"]): item for item in json.load(f)}
+
+    rows = conn.execute("SELECT id, region, data, saved_key FROM bank_questions WHERE status = 'approved'").fetchall()
+    known = set()
+    for row in rows:
+        key = row["saved_key"]
+        if key is None:
+            # rows from before saved_key existed: adopt them if they match the file
+            key = question_key(row["region"], json.loads(row["data"]))
+            if key not in saved or key in known:
+                continue
+            conn.execute("UPDATE bank_questions SET saved_key = ? WHERE id = ?", (key, row["id"]))
+        if key in saved and key not in known:
+            known.add(key)
+        else:
+            conn.execute("DELETE FROM bank_questions WHERE id = ?", (row["id"],))
+
     created = datetime.now(timezone.utc).isoformat()
-    for item in saved:
+    for key, item in saved.items():
+        if key in known:
+            continue
         conn.execute(
-            "INSERT INTO bank_questions (region, data, status, source, created_at) VALUES (?, ?, 'approved', ?, ?)",
-            (item["region"], json.dumps(item["question"], ensure_ascii=False), item.get("source"), created),
+            "INSERT INTO bank_questions (region, data, status, source, created_at, saved_key) VALUES (?, ?, 'approved', ?, ?, ?)",
+            (item["region"], json.dumps(item["question"], ensure_ascii=False), item.get("source"), created, key),
         )

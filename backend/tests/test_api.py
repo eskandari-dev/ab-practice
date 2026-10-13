@@ -24,6 +24,7 @@ with open(os.path.join(TEMP_DIR, "index.html"), "w") as f:
 
 from fastapi.testclient import TestClient  # noqa: E402
 
+import database  # noqa: E402
 import main  # noqa: E402
 import server  # noqa: E402
 
@@ -194,6 +195,61 @@ class AdminTests(ApiTest):
             main.ADMIN_EMAILS.discard("stats-admin@example.com")
         self.assertGreaterEqual(stats["users"], 1)
         self.assertGreaterEqual(stats["new_users_week"], 1)
+
+
+class SavedQuestionsTests(unittest.TestCase):
+    def question(self, text):
+        return {"en": text, "options": {"en": ["A", "B", "C"]}, "correct": 0}
+
+    def sync(self, texts):
+        path = os.path.join(TEMP_DIR, "saved.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump([{"region": "xx-test", "source": "t", "question": self.question(t)} for t in texts], f)
+        real_file = database.SAVED_QUESTIONS
+        database.SAVED_QUESTIONS = path
+        conn = database.get_db()
+        try:
+            database.load_saved_questions(conn)
+            conn.commit()
+            rows = conn.execute("SELECT id, data FROM bank_questions WHERE region = 'xx-test' ORDER BY id").fetchall()
+        finally:
+            conn.close()
+            database.SAVED_QUESTIONS = real_file
+        return {json.loads(r["data"])["en"]: r["id"] for r in rows}
+
+    def tearDown(self):
+        conn = database.get_db()
+        conn.execute("DELETE FROM bank_questions WHERE region = 'xx-test'")
+        conn.commit()
+        conn.close()
+
+    def test_server_follows_the_file(self):
+        first = self.sync(["one", "two"])
+        self.assertEqual(set(first), {"one", "two"})
+        self.assertEqual(self.sync(["one", "two"]), first)
+
+        conn = database.get_db()
+        conn.execute(
+            "INSERT INTO bank_questions (region, data, status, created_at) VALUES ('xx-test', ?, 'approved', 'now')",
+            (json.dumps(self.question("made on the server")),),
+        )
+        conn.commit()
+        conn.close()
+
+        second = self.sync(["two", "three"])
+        self.assertEqual(set(second), {"two", "three", "made on the server"})
+        self.assertEqual(second["two"], first["two"])
+
+    def test_old_rows_are_adopted_not_copied(self):
+        conn = database.get_db()
+        conn.execute(
+            "INSERT INTO bank_questions (region, data, status, created_at) VALUES ('xx-test', ?, 'approved', 'now')",
+            (json.dumps(self.question("old")),),
+        )
+        conn.commit()
+        conn.close()
+        self.assertEqual(list(self.sync(["old"])), ["old"])
+        self.assertEqual(list(self.sync([])), [])
 
 
 class FeedbackTests(ApiTest):
