@@ -2,7 +2,6 @@ import json
 import os
 import random
 import secrets
-import sqlite3
 from datetime import datetime, timedelta, timezone
 
 import stripe
@@ -31,6 +30,7 @@ STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
 FIREBASE_API_KEY = os.getenv("FIREBASE_API_KEY", "")
 FIREBASE_PROJECT_ID = os.getenv("FIREBASE_PROJECT_ID", "")
 ADMIN_EMAILS = {e.strip().lower() for e in os.getenv("ADMIN_EMAILS", "").split(",") if e.strip()}
+SUPPORT_EMAIL = os.getenv("SUPPORT_EMAIL", "")
 
 FREE_QUESTIONS = 5
 SESSION_DAYS = 30
@@ -71,7 +71,7 @@ def get_conn():
 
 def optional_user(
     authorization: str | None = Header(default=None),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     if not authorization or not authorization.startswith("Bearer "):
         return None
@@ -173,20 +173,19 @@ def home():
 
 @app.get("/config")
 def config():
-    if not (FIREBASE_API_KEY and FIREBASE_PROJECT_ID):
-        return {"firebase": None}
-    # the web config is public by design; it only identifies the Firebase project
-    return {
-        "firebase": {
+    firebase = None
+    if FIREBASE_API_KEY and FIREBASE_PROJECT_ID:
+        # the web config is public by design; it only identifies the Firebase project
+        firebase = {
             "apiKey": FIREBASE_API_KEY,
             "authDomain": f"{FIREBASE_PROJECT_ID}.firebaseapp.com",
             "projectId": FIREBASE_PROJECT_ID,
         }
-    }
+    return {"firebase": firebase, "payments": bool(stripe.api_key), "support_email": SUPPORT_EMAIL}
 
 
 @app.get("/regions")
-def regions(conn: sqlite3.Connection = Depends(get_conn)):
+def regions(conn=Depends(get_conn)):
     result = {}
     for region in DEFAULT_RULES:
         result[region] = {**get_rules(conn, region), "available": len(get_bank(conn, region))}
@@ -198,7 +197,7 @@ class GoogleIn(BaseModel):
 
 
 @app.post("/auth/google")
-def google_login(data: GoogleIn, conn: sqlite3.Connection = Depends(get_conn)):
+def google_login(data: GoogleIn, conn=Depends(get_conn)):
     if not FIREBASE_PROJECT_ID:
         raise HTTPException(status_code=503, detail="Google login is not set up yet")
     try:
@@ -218,10 +217,10 @@ def google_login(data: GoogleIn, conn: sqlite3.Connection = Depends(get_conn)):
         "SELECT * FROM users WHERE google_sub = ? OR email = ?", (info["sub"], email)
     ).fetchone()
     if user is None:
-        cursor = conn.execute(
-            "INSERT INTO users (email, password_hash, google_sub) VALUES (?, '', ?)", (email, info["sub"])
-        )
-        user_id = cursor.lastrowid
+        user_id = conn.execute(
+            "INSERT INTO users (email, password_hash, google_sub, created_at) VALUES (?, '', ?, ?) RETURNING id",
+            (email, info["sub"], now().isoformat()),
+        ).fetchone()["id"]
     else:
         user_id = user["id"]
         if user["google_sub"] is None:
@@ -237,7 +236,7 @@ class UserIn(BaseModel):
 
 
 @app.post("/register")
-def register(data: UserIn, conn: sqlite3.Connection = Depends(get_conn)):
+def register(data: UserIn, conn=Depends(get_conn)):
     email = data.email.strip().lower()
     if "@" not in email or "." not in email.split("@")[-1]:
         raise HTTPException(status_code=400, detail="Please enter a valid email")
@@ -246,13 +245,13 @@ def register(data: UserIn, conn: sqlite3.Connection = Depends(get_conn)):
     existing = conn.execute("SELECT id FROM users WHERE email = ?", (email,)).fetchone()
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
-    cursor = conn.execute(
-        "INSERT INTO users (email, password_hash) VALUES (?, ?)",
-        (email, hash_password(data.password)),
-    )
+    user_id = conn.execute(
+        "INSERT INTO users (email, password_hash, created_at) VALUES (?, ?, ?) RETURNING id",
+        (email, hash_password(data.password), now().isoformat()),
+    ).fetchone()["id"]
     conn.commit()
-    token = create_session(conn, cursor.lastrowid)
-    return {"token": token, "user": user_to_dict(load_user(conn, cursor.lastrowid))}
+    token = create_session(conn, user_id)
+    return {"token": token, "user": user_to_dict(load_user(conn, user_id))}
 
 
 LOGIN_LIMIT = 5
@@ -271,7 +270,7 @@ def recent_failures(key):
 
 
 @app.post("/login")
-def login(data: UserIn, request: Request, conn: sqlite3.Connection = Depends(get_conn)):
+def login(data: UserIn, request: Request, conn=Depends(get_conn)):
     email = data.email.strip().lower()
     key = (request.client.host if request.client else "", email)
     if len(recent_failures(key)) >= LOGIN_LIMIT:
@@ -288,7 +287,7 @@ def login(data: UserIn, request: Request, conn: sqlite3.Connection = Depends(get
 @app.post("/logout")
 def logout(
     authorization: str | None = Header(default=None),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     if authorization and authorization.startswith("Bearer "):
         conn.execute("DELETE FROM sessions WHERE token = ?", (authorization.removeprefix("Bearer "),))
@@ -311,7 +310,7 @@ def change_password(
     data: PasswordIn,
     authorization: str | None = Header(default=None),
     user=Depends(current_user),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     if not check_password(data.current, user["password_hash"]):
         raise HTTPException(status_code=400, detail="Current password is wrong")
@@ -328,7 +327,7 @@ def change_password(
 
 
 @app.delete("/me")
-def delete_account(user=Depends(current_user), conn: sqlite3.Connection = Depends(get_conn)):
+def delete_account(user=Depends(current_user), conn=Depends(get_conn)):
     # payments are kept as purchase records
     conn.execute("DELETE FROM exam_results WHERE user_id = ?", (user["id"],))
     conn.execute("DELETE FROM sessions WHERE user_id = ?", (user["id"],))
@@ -347,7 +346,7 @@ class ResultIn(BaseModel):
 
 
 @app.post("/results")
-def save_result(data: ResultIn, user=Depends(current_user), conn: sqlite3.Connection = Depends(get_conn)):
+def save_result(data: ResultIn, user=Depends(current_user), conn=Depends(get_conn)):
     if data.region not in DEFAULT_RULES or data.mode not in ("free", "full", "mistakes"):
         raise HTTPException(status_code=400, detail="Invalid result")
     if not (1 <= data.total <= 200 and 0 <= data.score <= data.total and 0 <= data.seconds <= 86400):
@@ -364,7 +363,7 @@ def save_result(data: ResultIn, user=Depends(current_user), conn: sqlite3.Connec
 
 
 @app.get("/results")
-def list_results(user=Depends(current_user), conn: sqlite3.Connection = Depends(get_conn)):
+def list_results(user=Depends(current_user), conn=Depends(get_conn)):
     rows = conn.execute(
         """
         SELECT region, score, total, seconds, passed, mode, created_at FROM exam_results
@@ -386,6 +385,42 @@ def list_results(user=Depends(current_user), conn: sqlite3.Connection = Depends(
     ]
 
 
+class FeedbackIn(BaseModel):
+    message: str
+    email: str = ""
+    page: str = ""
+
+
+FEEDBACK_LIMIT = 5
+FEEDBACK_WINDOW = timedelta(hours=1)
+# ip -> times of recent feedback messages; kept in memory, so it resets on restart
+recent_feedback = {}
+
+
+@app.post("/feedback")
+def send_feedback(
+    data: FeedbackIn,
+    request: Request,
+    user=Depends(optional_user),
+    conn=Depends(get_conn),
+):
+    message = data.message.strip()
+    if not 3 <= len(message) <= 2000:
+        raise HTTPException(status_code=400, detail="Please write a message (up to 2000 characters)")
+    ip = request.client.host if request.client else ""
+    times = [t for t in recent_feedback.get(ip, []) if now() - t < FEEDBACK_WINDOW]
+    if len(times) >= FEEDBACK_LIMIT:
+        raise HTTPException(status_code=429, detail="Too many attempts. Please wait a few minutes.")
+    recent_feedback[ip] = times + [now()]
+    email = user["email"] if user is not None else data.email.strip().lower()[:200]
+    conn.execute(
+        "INSERT INTO feedback (user_id, email, message, page, created_at) VALUES (?, ?, ?, ?, ?)",
+        (user["id"] if user is not None else None, email, message, data.page[:200], now().isoformat()),
+    )
+    conn.commit()
+    return {"message": "Thank you"}
+
+
 class ExamIn(BaseModel):
     region: str = "ca-ab"
 
@@ -394,7 +429,7 @@ class ExamIn(BaseModel):
 def start_exam(
     data: ExamIn | None = None,
     user=Depends(optional_user),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     region = data.region if data else "ca-ab"
     rules = get_rules(conn, region)
@@ -456,12 +491,14 @@ def checkout(data: CheckoutIn, user=Depends(current_user)):
 
 def grant_plan(conn, stripe_session_id, user_id, plan_key):
     plan = PLANS[plan_key]
-    try:
-        conn.execute(
-            "INSERT INTO payments (stripe_session_id, user_id, plan, created_at) VALUES (?, ?, ?, ?)",
-            (stripe_session_id, user_id, plan_key, now().isoformat()),
-        )
-    except sqlite3.IntegrityError:
+    cursor = conn.execute(
+        """
+        INSERT INTO payments (stripe_session_id, user_id, plan, created_at) VALUES (?, ?, ?, ?)
+        ON CONFLICT (stripe_session_id) DO NOTHING
+        """,
+        (stripe_session_id, user_id, plan_key, now().isoformat()),
+    )
+    if cursor.rowcount == 0:
         # this payment was already given to the user
         return
     if plan["exams"]:
@@ -490,7 +527,7 @@ class VerifyIn(BaseModel):
 def verify_checkout(
     data: VerifyIn,
     user=Depends(current_user),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     if not stripe.api_key:
         raise HTTPException(status_code=503, detail="Payments are not set up yet")
@@ -506,7 +543,7 @@ def verify_checkout(
 
 
 @app.post("/stripe/webhook")
-async def stripe_webhook(request: Request, conn: sqlite3.Connection = Depends(get_conn)):
+async def stripe_webhook(request: Request, conn=Depends(get_conn)):
     payload = await request.body()
     signature = request.headers.get("stripe-signature", "")
     try:
@@ -540,7 +577,7 @@ async def admin_generate(
     text: str = Form(""),
     file: UploadFile | None = File(default=None),
     admin=Depends(require_admin),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     rules = get_rules(conn, region)
     if rules is None:
@@ -563,11 +600,11 @@ async def admin_generate(
     created = now().isoformat()
     ids = []
     for question in made:
-        cursor = conn.execute(
-            "INSERT INTO bank_questions (region, data, status, source, created_at) VALUES (?, ?, 'draft', ?, ?)",
+        row = conn.execute(
+            "INSERT INTO bank_questions (region, data, status, source, created_at) VALUES (?, ?, 'draft', ?, ?) RETURNING id",
             (region, json.dumps(question, ensure_ascii=False), source_name, created),
-        )
-        ids.append(cursor.lastrowid)
+        ).fetchone()
+        ids.append(row["id"])
     conn.commit()
     rows = conn.execute(
         f"SELECT * FROM bank_questions WHERE id IN ({','.join('?' * len(ids))})", ids
@@ -580,7 +617,7 @@ def admin_questions(
     region: str,
     status: str = "",
     admin=Depends(require_admin),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     sql = "SELECT * FROM bank_questions WHERE region = ?"
     params = [region]
@@ -601,7 +638,7 @@ def admin_update_question(
     question_id: int,
     data: QuestionUpdate,
     admin=Depends(require_admin),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     if data.status is not None and data.status not in ("draft", "approved"):
         raise HTTPException(status_code=400, detail="Status must be draft or approved")
@@ -625,7 +662,7 @@ def admin_update_question(
 def admin_delete_question(
     question_id: int,
     admin=Depends(require_admin),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     conn.execute("DELETE FROM bank_questions WHERE id = ?", (question_id,))
     conn.commit()
@@ -646,7 +683,7 @@ def admin_update_rules(
     region: str,
     data: RulesIn,
     admin=Depends(require_admin),
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn=Depends(get_conn),
 ):
     if region not in DEFAULT_RULES:
         raise HTTPException(status_code=400, detail="Unknown region")
@@ -658,3 +695,35 @@ def admin_update_rules(
     )
     conn.commit()
     return get_rules(conn, region)
+
+
+@app.get("/admin/feedback")
+def admin_feedback(admin=Depends(require_admin), conn=Depends(get_conn)):
+    rows = conn.execute(
+        "SELECT id, email, message, page, created_at FROM feedback ORDER BY id DESC LIMIT 200"
+    ).fetchall()
+    return [dict(row) for row in rows]
+
+
+@app.delete("/admin/feedback/{feedback_id}")
+def admin_delete_feedback(feedback_id: int, admin=Depends(require_admin), conn=Depends(get_conn)):
+    conn.execute("DELETE FROM feedback WHERE id = ?", (feedback_id,))
+    conn.commit()
+    return {"deleted": feedback_id}
+
+
+@app.get("/admin/stats")
+def admin_stats(admin=Depends(require_admin), conn=Depends(get_conn)):
+    week_ago = (now() - timedelta(days=7)).isoformat()
+
+    def count(sql, params=()):
+        return conn.execute(sql, params).fetchone()["n"]
+
+    return {
+        "users": count("SELECT COUNT(*) AS n FROM users"),
+        "new_users_week": count("SELECT COUNT(*) AS n FROM users WHERE created_at >= ?", (week_ago,)),
+        "exams": count("SELECT COUNT(*) AS n FROM exam_results"),
+        "exams_week": count("SELECT COUNT(*) AS n FROM exam_results WHERE created_at >= ?", (week_ago,)),
+        "payments": count("SELECT COUNT(*) AS n FROM payments"),
+        "feedback": count("SELECT COUNT(*) AS n FROM feedback"),
+    }

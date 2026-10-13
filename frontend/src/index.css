@@ -1824,7 +1824,8 @@ button.preview-answer:disabled {
   margin-top: 24px;
 }
 
-.form input {
+.form input,
+.form textarea {
   padding: 13px 14px;
   font: inherit;
   color: var(--text-h);
@@ -1834,14 +1835,25 @@ button.preview-answer:disabled {
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.form input::placeholder {
+.form input::placeholder,
+.form textarea::placeholder {
   color: var(--muted);
 }
 
-.form input:focus {
+.form input:focus,
+.form textarea:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.form textarea {
+  resize: vertical;
+}
+
+.feedback-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .password-field {

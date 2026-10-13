@@ -10,6 +10,8 @@ TEMP_DIR = tempfile.mkdtemp()
 # set before main is imported; load_dotenv() never overrides variables that already exist
 os.environ.update({
     "DB_PATH": os.path.join(TEMP_DIR, "test.db"),
+    # never the real database from .env; set TEST_DATABASE_URL to run the tests on an empty Postgres
+    "DATABASE_URL": os.getenv("TEST_DATABASE_URL", ""),
     "STATIC_DIR": TEMP_DIR,
     "ADMIN_EMAILS": "admin@example.com",
     "FIREBASE_API_KEY": "",
@@ -49,6 +51,12 @@ class ApiTest(unittest.TestCase):
         r = api.post("/register", json={"email": email, "password": PASSWORD})
         self.assertEqual(r.status_code, 200, r.text)
         return email, r.json()["token"]
+
+    def admin_token(self):
+        r = api.post("/login", json={"email": "admin@example.com", "password": PASSWORD})
+        if r.status_code == 200:
+            return r.json()["token"]
+        return self.new_user("admin@example.com")[1]
 
 
 class AccountTests(ApiTest):
@@ -104,8 +112,10 @@ class AccountTests(ApiTest):
         self.assertEqual(api.get("/me", headers=auth(token)).status_code, 401)
         self.assertEqual(api.post("/login", json={"email": email, "password": PASSWORD}).status_code, 401)
 
-    def test_google_login_is_off_without_firebase(self):
-        self.assertIsNone(api.get("/config").json()["firebase"])
+    def test_google_login_and_payments_are_off_without_keys(self):
+        config = api.get("/config").json()
+        self.assertIsNone(config["firebase"])
+        self.assertFalse(config["payments"])
         self.assertEqual(api.post("/auth/google", json={"credential": "x"}).status_code, 503)
 
 
@@ -158,21 +168,58 @@ class AdminTests(ApiTest):
         self.assertEqual(api.get("/admin/questions?region=ca-ab", headers=auth(token)).status_code, 403)
 
     def test_approved_questions_go_into_exams(self):
-        _, token = self.new_user("admin@example.com")
+        token = self.admin_token()
         question = {"en": "Test question?", "options": {"en": ["A", "B", "C"]}, "correct": 1}
         conn = main.get_db()
-        cursor = conn.execute(
-            "INSERT INTO bank_questions (region, data, status, created_at) VALUES ('ca-bc', ?, 'draft', 'now')",
+        question_id = conn.execute(
+            "INSERT INTO bank_questions (region, data, status, created_at) VALUES ('ca-bc', ?, 'draft', 'now') RETURNING id",
             (json.dumps(question),),
-        )
+        ).fetchone()["id"]
         conn.commit()
         conn.close()
         self.assertEqual(api.post("/exam/start", json={"region": "ca-bc"}).status_code, 404)
 
-        r = api.put(f"/admin/questions/{cursor.lastrowid}", json={"status": "approved"}, headers=auth(token))
+        r = api.put(f"/admin/questions/{question_id}", json={"status": "approved"}, headers=auth(token))
         self.assertEqual(r.status_code, 200)
         exam = api.post("/exam/start", json={"region": "ca-bc"}).json()
         self.assertEqual(exam["questions"][0]["en"], "Test question?")
+
+    def test_stats(self):
+        _, token = self.new_user("stats-admin@example.com")
+        self.assertEqual(api.get("/admin/stats", headers=auth(token)).status_code, 403)
+        main.ADMIN_EMAILS.add("stats-admin@example.com")
+        try:
+            stats = api.get("/admin/stats", headers=auth(token)).json()
+        finally:
+            main.ADMIN_EMAILS.discard("stats-admin@example.com")
+        self.assertGreaterEqual(stats["users"], 1)
+        self.assertGreaterEqual(stats["new_users_week"], 1)
+
+
+class FeedbackTests(ApiTest):
+    def setUp(self):
+        super().setUp()
+        main.recent_feedback.clear()
+
+    def test_guest_and_user_feedback_reach_the_admin(self):
+        self.assertEqual(api.post("/feedback", json={"message": "Great site", "email": "Guest@Example.com"}).status_code, 200)
+        email, token = self.new_user()
+        api.post("/feedback", json={"message": "Question 3 is wrong", "page": "/practice"}, headers=auth(token))
+
+        admin = self.admin_token()
+        messages = api.get("/admin/feedback", headers=auth(admin)).json()
+        self.assertEqual(messages[0]["email"], email)
+        self.assertEqual(messages[0]["page"], "/practice")
+        self.assertEqual(messages[1]["email"], "guest@example.com")
+
+        api.delete(f"/admin/feedback/{messages[0]['id']}", headers=auth(admin))
+        self.assertEqual(len(api.get("/admin/feedback", headers=auth(admin)).json()), len(messages) - 1)
+
+    def test_feedback_is_checked_and_limited(self):
+        self.assertEqual(api.post("/feedback", json={"message": " "}).status_code, 400)
+        for _ in range(main.FEEDBACK_LIMIT):
+            api.post("/feedback", json={"message": "hello there"})
+        self.assertEqual(api.post("/feedback", json={"message": "hello there"}).status_code, 429)
 
 
 class ServerTests(unittest.TestCase):

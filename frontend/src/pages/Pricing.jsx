@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
+import { useConfig } from '../config.js'
 import { useLang } from '../lang-context.js'
 import { CheckIcon, LockIcon } from '../components/Icons.jsx'
 
@@ -17,6 +18,8 @@ function Pricing() {
     const navigate = useNavigate()
     const [busy, setBusy] = useState('')
     const [error, setError] = useState('')
+    const config = useConfig()
+    const paymentsOff = config !== null && !config.payments
 
     async function choose(planKey) {
         if (!user) {
@@ -47,6 +50,7 @@ function Pricing() {
                         : t.pricing.examsLeft + user.exams_left}
                 </p>
             )}
+            {paymentsOff && <p className="notice">{t.pricing.soonText}</p>}
             {error && <p className="form-error">{tError(error)}</p>}
             <div className="plans">
                 {plans.map((plan) => (
@@ -66,14 +70,14 @@ function Pricing() {
                         <button
                             className={plan.popular ? 'btn-primary' : 'btn-outline'}
                             onClick={() => choose(plan.key)}
-                            disabled={busy !== ''}
+                            disabled={busy !== '' || paymentsOff}
                         >
-                            {busy === plan.key ? t.pricing.opening : t.pricing.choose}
+                            {paymentsOff ? t.pricing.soon : busy === plan.key ? t.pricing.opening : t.pricing.choose}
                         </button>
                     </div>
                 ))}
             </div>
-            <p className="secure-note"><LockIcon /> {t.pricing.secure}</p>
+            {!paymentsOff && <p className="secure-note"><LockIcon /> {t.pricing.secure}</p>}
         </div>
     )
 }

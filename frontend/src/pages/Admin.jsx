@@ -270,6 +270,62 @@ function QuestionCard({ item, onChange }) {
   )
 }
 
+function SiteOverview() {
+  const [stats, setStats] = useState(null)
+  const [messages, setMessages] = useState([])
+  const [reload, setReload] = useState(0)
+
+  useEffect(() => {
+    let cancelled = false
+    Promise.all([api('/admin/stats'), api('/admin/feedback')]).then(([s, m]) => {
+      if (cancelled) return
+      setStats(s)
+      setMessages(m)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [reload])
+
+  async function remove(id) {
+    if (!window.confirm('Delete this message?')) return
+    await api('/admin/feedback/' + id, { method: 'DELETE' })
+    setReload((n) => n + 1)
+  }
+
+  return (
+    <>
+      <div className="admin-stats">
+        <div><strong>{stats ? stats.users : '–'}</strong><span>Users ({stats ? '+' + stats.new_users_week : '–'} this week)</span></div>
+        <div><strong>{stats ? stats.exams : '–'}</strong><span>Saved exams ({stats ? stats.exams_week : '–'} this week)</span></div>
+        <div><strong>{stats ? stats.payments : '–'}</strong><span>Payments</span></div>
+      </div>
+
+      <div className="admin-card">
+        <div className="admin-card-head">
+          <h2>Feedback</h2>
+          <span className="count-badge">{messages.length}</span>
+        </div>
+        {messages.length === 0 && <p className="muted">No messages yet.</p>}
+        {messages.map((m) => (
+          <div className="q-card" key={m.id}>
+            <div className="q-head">
+              <span className="muted">
+                {m.email || 'Guest'} · {new Date(m.created_at).toLocaleString()}{m.page ? ' · ' + m.page : ''}
+              </span>
+            </div>
+            <p className="q-text feedback-text">{m.message}</p>
+            <div className="q-actions">
+              {m.email && <a className="btn-back" href={'mailto:' + m.email}>Reply</a>}
+              <button className="link-danger" onClick={() => remove(m.id)}>Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
+
 function Admin() {
   const { user } = useAuth()
   const [regionId, setRegionId] = useState('ca-ab')
@@ -382,6 +438,8 @@ function Admin() {
           <QuestionCard key={item.id} item={item} onChange={refresh} />
         ))}
       </div>
+
+      <SiteOverview />
     </div>
   )
 }

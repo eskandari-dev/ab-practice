@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
+import { getConfig } from '../config.js'
 import { useLang } from '../lang-context.js'
 
 const FIREBASE_SDK = 'https://www.gstatic.com/firebasejs/13.0.0'
@@ -42,9 +42,7 @@ function GoogleButton({ onDone, onError }) {
   const firebase = useRef(null)
 
   useEffect(() => {
-    api('/config')
-      .then((data) => setConfig(data.firebase || null))
-      .catch(() => setConfig(null))
+    getConfig().then((data) => setConfig(data.firebase || null))
   }, [])
 
   // load Firebase before the click: browsers block popups opened after a slow await

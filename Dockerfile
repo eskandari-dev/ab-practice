@@ -14,6 +14,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/ ./
 COPY --from=web /web/dist ./static
 
-# mount a persistent volume at /data so users and questions survive redeploys
+# without DATABASE_URL (Postgres) the app uses SQLite here; mount a persistent volume at /data to keep it
 ENV DB_PATH=/data/app.db
 CMD ["sh", "-c", "mkdir -p /data && uvicorn server:app --host 0.0.0.0 --port ${PORT:-8000} --proxy-headers --forwarded-allow-ips='*'"]

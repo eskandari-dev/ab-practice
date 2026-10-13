@@ -169,6 +169,8 @@ const en = {
     perExam: 'per exam',
     unlimitedNote: 'Best for daily practice',
     secure: 'Secure payment with Stripe. One-time payment, no subscription.',
+    soon: 'Coming soon',
+    soonText: 'Payments are not open yet. For now, you can practice with the free exams.',
     plans: {
       starter: { name: 'Starter', text: 'To check if you are ready', features: ['3 full exams', 'All 9 languages', 'Never expires'] },
       standard: { name: 'Standard', text: 'Best for most learners', features: ['10 full exams', 'All 9 languages', 'Never expires'] },
@@ -218,7 +220,18 @@ const en = {
     missing: 'Missing payment information.',
     backToPricing: 'Back to pricing',
   },
+  feedback: {
+    title: 'Send feedback',
+    subtitle: 'Found a mistake in a question, or have an idea? Tell us. We read every message.',
+    message: 'Your message',
+    email: 'Your email (optional, if you want an answer)',
+    send: 'Send',
+    sending: 'Sending...',
+    thanks: 'Thank you! We got your message.',
+    again: 'Send another message',
+  },
   footer: {
+    feedback: 'Send feedback',
     terms: 'Terms, refunds & privacy',
     rights: 'All rights reserved.',
     tagline: 'Friendly driving theory practice for every country, in your own language.',
@@ -228,6 +241,7 @@ const en = {
     'Too many attempts. Please wait a few minutes.': 'Too many attempts. Please wait a few minutes.',
     'Google login failed': 'Google login failed',
     'Google login is not set up yet': 'Google login is not set up yet',
+    'Please write a message (up to 2000 characters)': 'Please write a message (up to 2000 characters)',
   },
 }
 

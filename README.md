@@ -40,7 +40,7 @@ handbooks, review them, and publish them.
 | Part | Tools |
 | --- | --- |
 | Frontend | React 19, Vite, React Router |
-| Backend | Python, FastAPI, SQLite |
+| Backend | Python, FastAPI, PostgreSQL (Neon) or SQLite |
 | Integrations | Firebase Authentication (Google sign-in), OpenAI-compatible LLM API (DeepSeek), Stripe |
 | Deploy | Docker (one container serves the site and the API) |
 
@@ -77,9 +77,11 @@ python -m unittest discover tests
 ## Deploy
 
 The `Dockerfile` builds the React site and runs FastAPI, which serves the API under `/api` and
-the site on every other path (`backend/server.py`). Mount a persistent volume at `/data` for the
-SQLite database and set the variables from `backend/.env.example` on the host.
-`render.yaml` sets this up on [Render](https://render.com) as a Blueprint.
+the site on every other path (`backend/server.py`). Set `DATABASE_URL` to a Postgres database
+(for example a free one from [Neon](https://neon.tech)), or mount a persistent volume at `/data` for
+SQLite, and set the other variables from `backend/.env.example` on the host.
+`render.yaml` sets this up on [Render](https://render.com)'s free plan as a Blueprint, and the
+`Keep awake` GitHub workflow stops the free instance from sleeping.
 
 ## Project structure
 

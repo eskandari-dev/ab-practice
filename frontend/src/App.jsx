@@ -17,6 +17,7 @@ const Terms = lazy(() => import('./pages/Terms.jsx'))
 const Admin = lazy(() => import('./pages/Admin.jsx'))
 const Progress = lazy(() => import('./pages/Progress.jsx'))
 const Account = lazy(() => import('./pages/Account.jsx'))
+const Feedback = lazy(() => import('./pages/Feedback.jsx'))
 
 function PageLoading() {
   const { t } = useLang()
@@ -32,6 +33,7 @@ function pageTitle(path, t) {
     '/login': t.nav.login,
     '/register': t.nav.signup,
     '/terms': t.footer.terms,
+    '/feedback': t.feedback.title,
     '/admin': 'Admin',
   }
   return titles[path] ? titles[path] + ' · AB Practice' : 'AB Practice – Driving Theory Practice Tests'
@@ -66,6 +68,7 @@ function App() {
               <Route path="/admin" element={<Admin />} />
               <Route path="/progress" element={<Progress />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/feedback" element={<Feedback />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

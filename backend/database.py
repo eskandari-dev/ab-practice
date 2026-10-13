@@ -5,38 +5,81 @@ from datetime import datetime, timezone
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.getenv("DB_PATH") or os.path.join(BASE_DIR, "app.db")
+# a Postgres URL (for example from Neon); when it is empty the SQLite file at DB_PATH is used
+DATABASE_URL = os.getenv("DATABASE_URL", "")
 # written by export_questions.py and kept in git
 SAVED_QUESTIONS = os.path.join(BASE_DIR, "approved_questions.json")
 
+pool = None
+
+
+class PgConnection:
+    """Gives a Postgres connection the small part of the sqlite3 API the app uses."""
+
+    def __init__(self, conn):
+        self.conn = conn
+
+    def execute(self, sql, params=()):
+        return self.conn.execute(sql.replace("?", "%s"), params)
+
+    def commit(self):
+        self.conn.commit()
+
+    def close(self):
+        # end the read-only transaction that every SELECT opens
+        self.conn.rollback()
+        pool.putconn(self.conn)
+
 
 def get_db():
+    global pool
+    if DATABASE_URL:
+        if pool is None:
+            from psycopg.rows import dict_row
+            from psycopg_pool import ConnectionPool
+
+            pool = ConnectionPool(
+                DATABASE_URL,
+                min_size=1,
+                max_size=5,
+                kwargs={"row_factory": dict_row},
+                # free Postgres hosts close idle connections, so test each one before use
+                check=ConnectionPool.check_connection,
+            )
+        return PgConnection(pool.getconn())
     conn = sqlite3.connect(DB_PATH, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     return conn
 
 
+def add_column(conn, table, column, definition):
+    if DATABASE_URL:
+        conn.execute(f"ALTER TABLE {table} ADD COLUMN IF NOT EXISTS {column} {definition}")
+        return
+    columns = [row["name"] for row in conn.execute(f"PRAGMA table_info({table})")]
+    if column not in columns:
+        conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
+
+
 def create_tables():
     conn = get_db()
-    conn.execute("""
+    id_column = "SERIAL PRIMARY KEY" if DATABASE_URL else "INTEGER PRIMARY KEY AUTOINCREMENT"
+    conn.execute(f"""
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id {id_column},
             email TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL
         )
     """)
-
-    columns = [row["name"] for row in conn.execute("PRAGMA table_info(users)")]
-    if "exams_left" not in columns:
-        conn.execute("ALTER TABLE users ADD COLUMN exams_left INTEGER NOT NULL DEFAULT 0")
-    if "unlimited_until" not in columns:
-        conn.execute("ALTER TABLE users ADD COLUMN unlimited_until TEXT")
-    if "google_sub" not in columns:
-        conn.execute("ALTER TABLE users ADD COLUMN google_sub TEXT")
+    add_column(conn, "users", "exams_left", "INTEGER NOT NULL DEFAULT 0")
+    add_column(conn, "users", "unlimited_until", "TEXT")
+    add_column(conn, "users", "google_sub", "TEXT")
+    add_column(conn, "users", "created_at", "TEXT")
 
     # questions made in the admin test designer; data is the question as JSON
-    conn.execute("""
+    conn.execute(f"""
         CREATE TABLE IF NOT EXISTS bank_questions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id {id_column},
             region TEXT NOT NULL,
             data TEXT NOT NULL,
             status TEXT NOT NULL DEFAULT 'draft',
@@ -60,9 +103,9 @@ def create_tables():
         )
     """)
     # finished exams of logged-in users, so progress follows them to every device
-    conn.execute("""
+    conn.execute(f"""
         CREATE TABLE IF NOT EXISTS exam_results (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id {id_column},
             user_id INTEGER NOT NULL,
             region TEXT NOT NULL,
             score INTEGER NOT NULL,
@@ -82,6 +125,17 @@ def create_tables():
             created_at TEXT NOT NULL
         )
     """)
+    # messages from the feedback form; user_id is empty for visitors who are not logged in
+    conn.execute(f"""
+        CREATE TABLE IF NOT EXISTS feedback (
+            id {id_column},
+            user_id INTEGER,
+            email TEXT,
+            message TEXT NOT NULL,
+            page TEXT,
+            created_at TEXT NOT NULL
+        )
+    """)
     load_saved_questions(conn)
     conn.commit()
     conn.close()
@@ -91,7 +145,7 @@ def load_saved_questions(conn):
     # a server without a persistent disk starts with an empty database, so fill it from git
     if not os.path.exists(SAVED_QUESTIONS):
         return
-    if conn.execute("SELECT COUNT(*) FROM bank_questions").fetchone()[0] > 0:
+    if conn.execute("SELECT COUNT(*) AS n FROM bank_questions").fetchone()["n"] > 0:
         return
     with open(SAVED_QUESTIONS, encoding="utf-8") as f:
         saved = json.load(f)
