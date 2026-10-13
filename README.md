@@ -1,5 +1,7 @@
 # AB Practice — Driving Theory Practice Exams
 
+[![CI](https://github.com/eskandari-dev/ab-practice/actions/workflows/ci.yml/badge.svg)](https://github.com/eskandari-dev/ab-practice/actions/workflows/ci.yml)
+
 A full-stack web app for practising driving knowledge tests. Users choose their country and
 region, and every exam follows that region's official format (number of questions, pass mark,
 time limit and separately-passed sections). Admins create new questions with AI from official
@@ -65,6 +67,13 @@ npm run dev
 
 Open http://localhost:5173.
 
+Tests (run automatically by GitHub Actions on every push):
+
+```bash
+cd backend
+python -m unittest discover tests
+```
+
 ## Deploy
 
 The `Dockerfile` builds the React site and runs FastAPI, which serves the API under `/api` and
@@ -80,6 +89,7 @@ backend/
   rules.py       official exam rules for each region
   ai.py          AI question generator
   server.py      production entry point (API + site)
+  tests/         API tests
 frontend/src/
   pages/         Home, Practice, Admin, Login, Pricing, ...
   i18n/          translations for 9 languages

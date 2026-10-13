@@ -3,3 +3,5 @@ Allow: /
 Disallow: /admin
 Disallow: /account
 Disallow: /payment-success
+
+Sitemap: https://ab-practice.onrender.com/sitemap.xml
