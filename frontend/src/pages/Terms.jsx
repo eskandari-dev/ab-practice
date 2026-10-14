@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useConfig } from '../config.js'
 
-// TODO before taking payments: have the owner review this text.
 const BUSINESS_NAME = 'Road Ready'
 
 function Contact({ email }) {
@@ -34,9 +33,10 @@ function Terms() {
 
       <h2>Payments</h2>
       <p>
-        Prices are shown in Canadian dollars (CAD). Payments are processed securely by Stripe.
-        We never see or store your card number. Exam packs (Starter, Standard) do not expire.
-        The Unlimited plan lasts 30 days from the date of payment and does not renew automatically.
+        Prices are shown in Canadian dollars (CAD). Paid plans are prepared but not open to the public yet.
+        When payments open, they will be processed securely by Stripe. We never see or store your card number.
+        Exam packs (Starter, Standard) do not expire. The Unlimited plan lasts 30 days from the date of
+        payment and does not renew automatically. Until then, you can use the free practice exams.
       </p>
 
       <h2>Refunds</h2>

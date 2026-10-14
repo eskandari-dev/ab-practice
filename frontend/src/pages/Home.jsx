@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../auth-context.js'
+import { Link, useNavigate } from 'react-router-dom'
 import { useLang } from '../lang-context.js'
 import { LANGUAGES } from '../languages.js'
 import { COUNTRIES, countryName, findPlace, getSavedRegion, saveRegion } from '../places.js'
@@ -16,7 +15,6 @@ const previewQuestion = questions[1]
 
 function Home() {
   const { lang, setLang, t } = useLang()
-  const { user } = useAuth()
   const navigate = useNavigate()
   const regions = useRegions()
   const [regionId, setRegionId] = useState(getSavedRegion)
@@ -33,7 +31,7 @@ function Home() {
 
   function startPractice() {
     saveRegion(regionId)
-    navigate(user ? '/practice' : '/login?next=/practice')
+    navigate('/practice')
   }
 
   function pickRegion(id) {
@@ -88,9 +86,14 @@ function Home() {
               </label>
             </div>
             <TestFormat rules={rules} />
-            <button type="submit" className="btn-primary" disabled={!ready}>
-              {t.home.start} <ArrowIcon />
-            </button>
+            <div className="picker-actions">
+              <button type="submit" className="btn-primary" disabled={!ready}>
+                {t.home.start} <ArrowIcon />
+              </button>
+              <Link to="/pricing" className="btn-secondary picker-pricing">
+                {t.home.seePricing}
+              </Link>
+            </div>
             {!ready && <p className="picker-hint">{t.home.soonHint}</p>}
           </form>
 
@@ -214,7 +217,7 @@ function Home() {
       </section>
 
       <section className="section">
-        <span className="eyebrow">FAQ</span>
+        <span className="eyebrow">{t.home.faqEyebrow}</span>
         <h2 className="section-title">{t.home.faqTitle}</h2>
         <div className="faq">
           {t.home.faq.map((item) => (

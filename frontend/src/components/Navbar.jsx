@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
 import { useLang } from '../lang-context.js'
+import { LANGUAGES } from '../languages.js'
 import { LogoIcon } from './Icons.jsx'
 import ThemeToggle from './ThemeToggle.jsx'
 
 function Navbar() {
   const { user, logout } = useAuth()
-  const { t } = useLang()
+  const { lang, setLang, t } = useLang()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
@@ -53,6 +54,18 @@ function Navbar() {
             <Link to="/register" className="nav-login">{t.nav.signup}</Link>
           </>
         )}
+        <label className="nav-lang">
+          <span className="sr-only">{t.home.language}</span>
+          <select
+            value={lang}
+            onChange={(e) => setLang(e.target.value)}
+            aria-label={t.home.language}
+          >
+            {LANGUAGES.map((l) => (
+              <option key={l.code} value={l.code}>{l.name}</option>
+            ))}
+          </select>
+        </label>
         <ThemeToggle />
       </div>
     </nav>

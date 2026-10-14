@@ -14,15 +14,16 @@ const en = {
     available: 'Available',
     soon: 'Coming soon',
     soonHint: 'Questions for this place are coming soon. You can already practice for Alberta, Canada.',
-    trust: ['No account needed', 'Instant feedback', 'One-time payment'],
+    trust: ['No account needed', 'Instant feedback', 'Alberta live now'],
     previewScore: 'Ready to pass',
     stats: [
       { value: '9', label: 'Languages' },
-      { value: '70+', label: 'Practice questions' },
+      { value: '150+', label: 'Practice questions' },
       { value: '5', label: 'Free questions' },
-      { value: '$4.99', label: 'Plans from' },
+      { value: '40+', label: 'Road-sign pictures' },
     ],
     howEyebrow: 'Simple',
+    faqEyebrow: 'FAQ',
     howTitle: 'How it works',
     steps: [
       { title: 'Choose your place', text: 'Pick your language, country and city. Every place has its own rules and its own test.' },
@@ -43,7 +44,7 @@ const en = {
     faq: [
       { q: 'Are these the real exam questions?', a: 'No. They are practice questions based on the official driver\'s handbook for your region, in the same style as the real test.' },
       { q: 'Do I need an account for the free exam?', a: 'No. You only need an account when you want to buy a plan.' },
-      { q: 'Is it a subscription?', a: 'No. You pay once. Exam packs never expire, and the Unlimited plan lasts 30 days.' },
+      { q: 'Is it a subscription?', a: 'No. When payments open, you pay once. Exam packs never expire, and the Unlimited plan lasts 30 days. Right now you can use the free practice.' },
       { q: 'My city is not on the list. What can I do?', a: 'We are adding new countries and cities all the time. Choose the closest place for now and check back soon.' },
     ],
     ctaTitle: 'Ready to start?',
@@ -168,7 +169,7 @@ const en = {
     popular: 'Most popular',
     perExam: 'per exam',
     unlimitedNote: 'Best for daily practice',
-    secure: 'Secure payment with Stripe. One-time payment, no subscription.',
+    secure: 'Secure payment with Stripe. Alberta live now, no subscription.',
     soon: 'Coming soon',
     soonText: 'Payments are not open yet. For now, you can practice with the free exams.',
     plans: {
