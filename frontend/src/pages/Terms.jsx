@@ -56,6 +56,7 @@ function Terms() {
       <p>
         We do not sell your data and we do not show ads. We use these services to run the site: Render (hosting),
         Neon (database), Google Firebase (Google sign-in) and Stripe (payments).
+        Road-sign pictures come from Wikimedia Commons and are public domain or CC0.
         You can delete your account and your results at any time on the <Link to="/account">My account</Link> page.
       </p>
 

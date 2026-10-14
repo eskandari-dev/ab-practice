@@ -5,6 +5,7 @@ import { useAuth } from '../auth-context.js'
 import { LANGUAGES } from '../languages.js'
 import { COUNTRIES, countryName, findPlace } from '../places.js'
 import { refreshRegions } from '../regions-data.js'
+import QuestionImage from '../components/QuestionImage.jsx'
 import { CheckIcon, ExamIcon, LockIcon } from '../components/Icons.jsx'
 
 const ALL_LANGS = LANGUAGES.map((l) => l.code)
@@ -135,6 +136,7 @@ function Generator({ regionId, regionName, onCreated }) {
       </div>
       <p className="muted">
         Upload the official handbook (PDF or TXT) or paste text. The AI writes questions only from this resource.
+        Some questions will include a Canadian road-sign picture.
       </p>
       <label className="upload">
         <input type="file" accept=".pdf,.txt" ref={file} />
@@ -228,6 +230,7 @@ function QuestionCard({ item, onChange }) {
         <textarea className="q-json" rows="12" value={json} onChange={(e) => setJson(e.target.value)} />
       ) : (
         <>
+          <QuestionImage image={q.image} className="question-image-sm" />
           <p className="q-text">{q.en}</p>
           <ol className="q-options">
             {q.options.en.map((option, index) => (

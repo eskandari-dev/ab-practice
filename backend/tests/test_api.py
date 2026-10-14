@@ -185,6 +185,13 @@ class AdminTests(ApiTest):
         exam = api.post("/exam/start", json={"region": "ca-bc"}).json()
         self.assertEqual(exam["questions"][0]["en"], "Test question?")
 
+    def test_signs_list(self):
+        token = self.admin_token()
+        signs = api.get("/admin/signs", headers=auth(token)).json()
+        self.assertGreaterEqual(len(signs), 20)
+        self.assertIn("id", signs[0])
+        self.assertTrue(signs[0]["url"].startswith("/signs/"))
+
     def test_stats(self):
         _, token = self.new_user("stats-admin@example.com")
         self.assertEqual(api.get("/admin/stats", headers=auth(token)).status_code, 403)

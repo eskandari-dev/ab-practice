@@ -1,0 +1,68 @@
+"""Road sign pictures that questions can show. The files are in frontend/public/signs/<id>.png.
+
+The pictures are public domain / CC0, from Wikimedia Commons (the Commons file name is the second value).
+The name tells the AI and the admin what the sign means.
+"""
+
+SIGNS = {
+    # regulatory
+    "stop": ("Canada Stop sign", "Stop"),
+    "yield": ("CA-MUTCDC RA-002", "Yield"),
+    "yield-roundabout": ("CA-MUTCDC RA-002R", "Yield to traffic in the roundabout"),
+    "school-crosswalk": ("CA-MUTCDC RA-003-R", "School crosswalk"),
+    "pedestrian-crosswalk": ("CA-MUTCDC RA-004-R", "Pedestrian crosswalk"),
+    "railway-crossing": ("CA-MUTCDC RA-006", "Railway crossing (crossbuck)"),
+    "speed-limit": ("RB-1 (Alberta)", "Maximum speed limit (50 km/h)"),
+    "minimum-speed": ("CA-MUTCDC RB-004-50", "Minimum speed limit"),
+    "no-straight": ("CA-MUTCDC RB-010", "No straight through"),
+    "turn-left-or-right": ("CA-MUTCDC RB-014-L-R", "Turn left or right only"),
+    "left-turn-only": ("CA-MUTCDC RB-014-L", "Left turn only"),
+    "right-turn-only": ("CA-MUTCDC RB-014-R", "Right turn only"),
+    "no-turns": ("CA-MUTCDC RB-015", "No turns"),
+    "no-u-turn": ("CA-MUTCDC RB-016", "No U-turn"),
+    "one-way": ("CA-MUTCDC RB-021-R", "One way"),
+    "wrong-way": ("CA-MUTCDC RB-022-EN", "Wrong way"),
+    "do-not-enter": ("CA-MUTCDC RB-023", "Do not enter"),
+    "two-way-traffic": ("CA-MUTCDC RB-024", "Two-way traffic"),
+    "keep-right": ("CA-MUTCDC RB-025-R", "Keep right"),
+    "do-not-pass": ("CA-MUTCDC RB-031", "Do not pass"),
+    "passing-permitted": ("CA-MUTCDC RB-032", "Passing permitted (end of no-passing zone)"),
+    "centre-lane": ("CA-MUTCDC RB-036-EN", "Two-way left-turn lane: yield centre lane to opposing traffic"),
+    "no-parking": ("CA-MUTCDC RB-051N", "No parking"),
+    "no-stopping": ("CA-MUTCDC RB-055N", "No stopping"),
+    "parking-permitted": ("MUTCDC RB-53", "Parking permitted"),
+    "no-pedestrians": ("CA-MUTCDC RB-066", "No pedestrians"),
+    "no-bicycles": ("CA-MUTCDC RB-067", "No bicycles"),
+    "bike-lane": ("Canada - Bike Lane", "Bicycle lane"),
+    "bus-lane": ("Canada - Bus Lane", "Bus lane"),
+    "school-bus-do-not-pass": ("CA-AB Road sign RC-102", "School bus lights flashing: do not pass"),
+    # warning
+    "winding-road": ("CA-MUTCDC WA-006-R", "Winding road ahead"),
+    "sharp-turn": ("CA-MUTCDC WA-008-R", "Sharp turn to the right ahead"),
+    "intersection-ahead": ("CA-MUTCDC WA-011", "Intersection ahead"),
+    "side-road": ("CA-MUTCDC WA-013-R", "Side road on the right ahead"),
+    "t-intersection": ("CA-MUTCDC WA-014", "Road ends at a T-intersection ahead"),
+    "y-intersection": ("CA-MUTCDC WA-015", "Y-intersection ahead"),
+    "merging-traffic": ("CA-MUTCDC WA-016-R", "Traffic merging from the right ahead"),
+    "railway-crossing-ahead": ("CA-MUTCDC WA-018", "Railway crossing ahead"),
+    "pavement-ends": ("CA-MUTCDC WA-025", "Pavement ends"),
+    "low-clearance": ("CA-MUTCDC WA-026", "Low overhead clearance ahead"),
+    "divided-highway-begins": ("CA-MUTCDC WA-031", "Divided highway begins"),
+    "divided-highway-ends": ("CA-MUTCDC WA-032", "Divided highway ends"),
+    "added-lane": ("CA-MUTCDC WA-035-R", "Lane added on the right ahead"),
+    "stop-ahead": ("CA-MUTCDC WB-001", "Stop sign ahead"),
+    "yield-ahead": ("CA-MUTCDC WB-002", "Yield sign ahead"),
+    "reduced-speed-ahead": ("WB-9 (Alberta)", "Reduced speed ahead"),
+    "school-zone": ("CA-MUTCDC WC-001", "School zone"),
+    "pedestrians-ahead": ("CA-MUTCDC WC-002-R", "Pedestrians ahead"),
+    "bicycle-crossing": ("CA-MUTCDC WC-007-R", "Bicycle crossing ahead"),
+    "trucks-entering": ("CA-MUTCDC WC-008-R", "Trucks entering from the right"),
+    "school-bus-stop-ahead": ("CA-MUTCDC WC-009", "School bus stop ahead"),
+    "school-crossing-ahead": ("CA-MUTCDC WC-016-R", "School crossing ahead"),
+    "slippery-when-wet": ("CA-MUTCDC WC-023", "Slippery when wet"),
+    "deer-crossing": ("CA-AB Road sign WC-013", "Deer crossing ahead"),
+    "slow-moving-vehicle": ("Slow moving vehicle", "Slow-moving vehicle"),
+    "flagger-ahead": ("CA-MUTCDC TC-021", "Traffic control person (flagger) ahead"),
+}
+
+SIGN_NAMES = {sign_id: name for sign_id, (_, name) in SIGNS.items()}

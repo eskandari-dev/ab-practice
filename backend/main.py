@@ -21,6 +21,7 @@ from database import create_tables, get_db
 from questions import questions
 from rules import DEFAULT_RULES
 from security import check_password, hash_password
+from signs import SIGN_NAMES
 
 # comma-separated; the first one is used for payment redirects
 FRONTEND_URLS = [u.strip().rstrip("/") for u in os.getenv("FRONTEND_URL", "http://localhost:5173").split(",") if u.strip()]
@@ -593,7 +594,7 @@ async def admin_generate(
 
     langs = [code for code in languages.split(",") if code]
     try:
-        made = generate_questions(source, count, langs, region_name, rules["sections"])
+        made = generate_questions(source, count, langs, region_name, rules["sections"], SIGN_NAMES)
     except AIError as error:
         raise HTTPException(status_code=503, detail=str(error))
 
@@ -628,9 +629,22 @@ def admin_questions(
     return [bank_row_to_dict(row) for row in rows]
 
 
+@app.get("/admin/signs")
+def admin_signs(admin=Depends(require_admin)):
+    return [{"id": sign_id, "name": name, "url": f"/signs/{sign_id}.png"} for sign_id, name in SIGN_NAMES.items()]
+
+
 class QuestionUpdate(BaseModel):
     question: dict | None = None
     status: str | None = None
+
+
+def validate_question(q):
+    if not isinstance(q.get("en"), str) or len(q.get("options", {}).get("en", [])) != 3 or q.get("correct") not in (0, 1, 2):
+        raise HTTPException(status_code=400, detail="A question needs English text, 3 options and a correct answer")
+    image = q.get("image")
+    if image is not None and image not in SIGN_NAMES:
+        raise HTTPException(status_code=400, detail="Unknown road sign image")
 
 
 @app.put("/admin/questions/{question_id}")
@@ -644,8 +658,9 @@ def admin_update_question(
         raise HTTPException(status_code=400, detail="Status must be draft or approved")
     if data.question is not None:
         q = data.question
-        if not isinstance(q.get("en"), str) or len(q.get("options", {}).get("en", [])) != 3 or q.get("correct") not in (0, 1, 2):
-            raise HTTPException(status_code=400, detail="A question needs English text, 3 options and a correct answer")
+        validate_question(q)
+        if q.get("image") is None:
+            q.pop("image", None)
         conn.execute(
             "UPDATE bank_questions SET data = ? WHERE id = ?", (json.dumps(q, ensure_ascii=False), question_id)
         )

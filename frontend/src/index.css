@@ -1626,6 +1626,33 @@ button.preview-answer:disabled {
   font-size: 0.9rem;
 }
 
+.question-image {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 20px;
+  padding: 16px;
+  background: var(--surface-2, #f4f5fb);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.question-image img {
+  width: min(220px, 55vw);
+  height: auto;
+  max-height: 220px;
+  object-fit: contain;
+}
+
+.question-image-sm {
+  margin-bottom: 12px;
+  padding: 10px;
+}
+
+.question-image-sm img {
+  width: min(120px, 40vw);
+  max-height: 120px;
+}
+
 .question {
   margin: 0 0 24px;
   font-size: 1.3rem;

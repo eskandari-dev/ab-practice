@@ -8,6 +8,7 @@ import { countryName, findPlace, getSavedRegion } from '../places.js'
 import { addResult, getMistakes, getStats, updateMistakes } from '../progress.js'
 import { fill, isReady, useRegions } from '../regions-data.js'
 import TestFormat from '../components/TestFormat.jsx'
+import QuestionImage from '../components/QuestionImage.jsx'
 import { CheckIcon, ClockIcon, ExamIcon, PinIcon } from '../components/Icons.jsx'
 
 const DEFAULT_PASS = 0.8
@@ -312,6 +313,7 @@ function Practice() {
                     {wrong.length === 0 && <p className="review-perfect"><CheckIcon /> {t.perfect}</p>}
                     {wrong.map(({ q, picked }) => (
                         <div className="review-item" key={q.id}>
+                            <QuestionImage image={q.image} className="question-image-sm" />
                             <p className="review-question">{text(q)}</p>
                             <p className="review-wrong"><span>{t.yourAnswer}</span> {picked === undefined ? '—' : options(q)[picked]}</p>
                             <p className="review-right"><span>{t.correctAnswer}</span> {options(q)[q.correct]}</p>
@@ -348,6 +350,7 @@ function Practice() {
             {!translated && <p className="lang-note">{t.englishOnly}</p>}
 
             <div className="exam-card" dir={translated ? undefined : 'ltr'}>
+                <QuestionImage image={question.image} />
                 <p className="question">{text(question)}</p>
                 {options(question).map((option, index) => (
                     <button
