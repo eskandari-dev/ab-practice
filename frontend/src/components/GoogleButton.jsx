@@ -38,31 +38,42 @@ function GoogleButton({ onDone, onError }) {
   const { loginWithGoogle } = useAuth()
   const { lang, t } = useLang()
   const [config, setConfig] = useState(undefined)
+  const [ready, setReady] = useState(false)
   const [busy, setBusy] = useState(false)
   const firebase = useRef(null)
 
+  // load config + Firebase ASAP so the first click can open the popup right away
   useEffect(() => {
-    getConfig().then((data) => setConfig(data.firebase || null))
-  }, [])
-
-  // load Firebase before the click: browsers block popups opened after a slow await
-  useEffect(() => {
-    if (!config) return
-    loadFirebase(config)
-      .then((fb) => {
-        firebase.current = fb
+    let cancelled = false
+    getConfig()
+      .then((data) => {
+        const fbConfig = data.firebase || null
+        if (cancelled) return
+        setConfig(fbConfig)
+        if (!fbConfig) return
+        return loadFirebase(fbConfig).then((fb) => {
+          if (cancelled) return
+          firebase.current = fb
+          setReady(true)
+        })
       })
       .catch(() => {
         firebasePromise = null
+        if (!cancelled) setConfig(null)
       })
-  }, [config])
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   async function signIn() {
     const fb = firebase.current
-    if (!fb) return onError('Google login failed (could not load Firebase)')
+    if (!fb) return
+    onError('')
     setBusy(true)
     try {
       fb.auth.languageCode = lang
+      // popup must open in this click handler (no await before this), or the browser blocks it
       const result = await fb.signInWithPopup(fb.auth, new fb.GoogleAuthProvider())
       const idToken = await result.user.getIdToken()
       // the site keeps its own session, so the Firebase one is not needed after this
@@ -85,7 +96,7 @@ function GoogleButton({ onDone, onError }) {
       type="button"
       className="google-fallback"
       onClick={signIn}
-      disabled={!config || busy}
+      disabled={!config || !ready || busy}
       title={config ? undefined : t.login.googleOff}
     >
       <GoogleLogo />
