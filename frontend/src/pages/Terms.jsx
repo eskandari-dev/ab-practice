@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useConfig } from '../config.js'
 
 // TODO before taking payments: have the owner review this text.
-const BUSINESS_NAME = 'AB Practice'
+const BUSINESS_NAME = 'Road Ready'
 
 function Contact({ email }) {
   if (email) return <a href={'mailto:' + email}>{email}</a>

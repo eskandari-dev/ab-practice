@@ -168,7 +168,7 @@ def pick_questions(bank, rules, count, full):
 
 @app.get("/")
 def home():
-    return {"message": "AB Practice API"}
+    return {"message": "Road Ready API"}
 
 
 @app.get("/config")
@@ -476,7 +476,7 @@ def checkout(data: CheckoutIn, user=Depends(current_user)):
         line_items=[{
             "price_data": {
                 "currency": "cad",
-                "product_data": {"name": "AB Practice - " + plan["name"]},
+                "product_data": {"name": "Road Ready - " + plan["name"]},
                 "unit_amount": plan["price"],
             },
             "quantity": 1,

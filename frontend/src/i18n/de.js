@@ -33,7 +33,7 @@ const de = {
     regionsTitle: 'Länder und Regionen',
     regionsText: 'Die Verkehrsregeln sind in jedem Land und jeder Stadt anders. Wir fügen Schritt für Schritt neue Orte hinzu.',
     featuresEyebrow: 'Vorteile',
-    featuresTitle: 'Warum AB Practice',
+    featuresTitle: 'Warum Road Ready',
     features: [
       { title: 'Lokale Regeln', text: 'Die Fragen folgen dem offiziellen Fahrerhandbuch deiner Provinz, deines Bundesstaats oder deiner Stadt.' },
       { title: '9 Sprachen', text: 'Lerne in der Sprache, die du am besten verstehst – von Englisch bis Chinesisch und Arabisch.' },

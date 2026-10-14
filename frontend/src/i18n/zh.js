@@ -33,7 +33,7 @@ const zh = {
     regionsTitle: '国家和地区',
     regionsText: '每个国家和城市的交通规则都不同。我们正在一步一步增加新的地区。',
     featuresEyebrow: '优势',
-    featuresTitle: '为什么选择 AB Practice',
+    featuresTitle: '为什么选择 Road Ready',
     features: [
       { title: '本地规则', text: '题目依据你所在省、州或城市的官方驾驶手册。' },
       { title: '9 种语言', text: '用你最熟悉的语言学习，从英语到中文和阿拉伯语。' },

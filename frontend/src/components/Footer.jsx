@@ -14,7 +14,7 @@ function Footer() {
         <div className="footer-brand">
           <Link to="/" className="logo">
             <span className="logo-mark"><LogoIcon /></span>
-            AB Practice
+            Road Ready
           </Link>
           <p>{t.footer.tagline}</p>
         </div>
@@ -26,7 +26,7 @@ function Footer() {
           <Link to="/terms">{t.footer.terms}</Link>
         </div>
       </div>
-      <p className="footer-bottom">© {new Date().getFullYear()} AB Practice. {t.footer.rights}</p>
+      <p className="footer-bottom">© {new Date().getFullYear()} Road Ready. {t.footer.rights}</p>
     </footer>
   )
 }

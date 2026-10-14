@@ -36,7 +36,7 @@ function pageTitle(path, t) {
     '/feedback': t.feedback.title,
     '/admin': 'Admin',
   }
-  return titles[path] ? titles[path] + ' · AB Practice' : 'AB Practice – Driving Theory Practice Tests'
+  return titles[path] ? titles[path] + ' · Road Ready' : 'Road Ready – Driving Theory Practice Tests'
 }
 
 function App() {

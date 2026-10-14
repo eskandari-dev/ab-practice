@@ -33,7 +33,7 @@ const en = {
     regionsTitle: 'Countries and regions',
     regionsText: 'Driving rules are different in every country and city. We add new places step by step.',
     featuresEyebrow: 'Benefits',
-    featuresTitle: 'Why AB Practice',
+    featuresTitle: 'Why Road Ready',
     features: [
       { title: 'Local rules', text: 'Questions follow the official driver\'s handbook of your province, state or city.' },
       { title: '9 languages', text: 'Learn in the language you understand best, from English to Chinese and Arabic.' },

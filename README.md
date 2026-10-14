@@ -1,4 +1,4 @@
-# AB Practice — Driving Theory Practice Exams
+# Road Ready — Driving Theory Practice Exams
 
 [![CI](https://github.com/eskandari-dev/ab-practice/actions/workflows/ci.yml/badge.svg)](https://github.com/eskandari-dev/ab-practice/actions/workflows/ci.yml)
 

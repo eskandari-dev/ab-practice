@@ -33,7 +33,7 @@ const es = {
     regionsTitle: 'Países y regiones',
     regionsText: 'Las normas de tráfico cambian en cada país y ciudad. Añadimos nuevos lugares paso a paso.',
     featuresEyebrow: 'Ventajas',
-    featuresTitle: 'Por qué AB Practice',
+    featuresTitle: 'Por qué Road Ready',
     features: [
       { title: 'Normas locales', text: 'Las preguntas siguen el manual oficial del conductor de tu provincia, estado o ciudad.' },
       { title: '9 idiomas', text: 'Aprende en el idioma que mejor entiendes, del inglés al chino y al árabe.' },

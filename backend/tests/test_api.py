@@ -20,7 +20,7 @@ os.environ.update({
 })
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 with open(os.path.join(TEMP_DIR, "index.html"), "w") as f:
-    f.write("<!doctype html><title>AB Practice</title>")
+    f.write("<!doctype html><title>Road Ready</title>")
 
 from fastapi.testclient import TestClient  # noqa: E402
 
@@ -297,7 +297,7 @@ class ServerTests(unittest.TestCase):
         for path in ("/", "/practice", "/account"):
             r = self.site.get(path)
             self.assertEqual(r.status_code, 200, path)
-            self.assertIn("AB Practice", r.text)
+            self.assertIn("Road Ready", r.text)
 
     def test_api_is_under_api(self):
         self.assertEqual(self.site.get("/api/config").status_code, 200)

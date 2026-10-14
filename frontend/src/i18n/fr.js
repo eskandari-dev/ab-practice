@@ -33,7 +33,7 @@ const fr = {
     regionsTitle: 'Pays et régions',
     regionsText: 'Le code de la route change d\'un pays et d\'une ville à l\'autre. Nous ajoutons de nouveaux lieux étape par étape.',
     featuresEyebrow: 'Avantages',
-    featuresTitle: 'Pourquoi AB Practice',
+    featuresTitle: 'Pourquoi Road Ready',
     features: [
       { title: 'Règles locales', text: 'Les questions suivent le guide officiel du conducteur de votre province, État ou ville.' },
       { title: '9 langues', text: 'Apprenez dans la langue que vous comprenez le mieux, de l\'anglais au chinois et à l\'arabe.' },

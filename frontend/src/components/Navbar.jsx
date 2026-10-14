@@ -21,7 +21,7 @@ function Navbar() {
     <nav className={'navbar' + (open ? ' navbar-open' : '')}>
       <Link to="/" className="logo" onClick={() => setOpen(false)}>
         <span className="logo-mark"><LogoIcon /></span>
-        AB Practice
+        Road Ready
       </Link>
       <button
         className="nav-toggle"
