@@ -1626,26 +1626,31 @@ button.preview-answer:disabled {
   font-size: 0.9rem;
 }
 
+/* white plate so road signs look like on a real test screen, not a grey box */
 .question-image {
   display: flex;
   justify-content: center;
-  margin: 0 0 20px;
-  padding: 16px;
-  background: var(--surface-2, #f4f5fb);
+  margin: 0 auto 24px;
+  padding: 28px 20px;
+  max-width: 420px;
+  background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(20, 24, 60, 0.08);
 }
 
 .question-image img {
-  width: min(220px, 55vw);
+  width: min(280px, 70vw);
   height: auto;
-  max-height: 220px;
+  max-height: 280px;
   object-fit: contain;
 }
 
 .question-image-sm {
-  margin-bottom: 12px;
-  padding: 10px;
+  margin: 0 0 12px;
+  padding: 12px;
+  max-width: 200px;
+  box-shadow: none;
 }
 
 .question-image-sm img {

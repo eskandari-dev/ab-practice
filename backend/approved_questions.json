@@ -8389,5 +8389,765 @@
         "hi": "शहर के अंदर जब कोई गति संकेत न हो तो अधिकतम गति 50 किमी/घंटा है।"
       }
     }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "school-bus-stop-ahead",
+      "options": {
+        "en": [
+          "One way",
+          "School bus stop ahead",
+          "School zone"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "This is the Canadian road sign for: School bus stop ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "no-turns",
+      "options": {
+        "en": [
+          "No straight through",
+          "No turns",
+          "Traffic merging from the right ahead"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "This is the Canadian road sign for: No turns."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "no-u-turn",
+      "options": {
+        "en": [
+          "No U-turn",
+          "One way",
+          "Sharp turn to the right ahead"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: No U-turn."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "reduced-speed-ahead",
+      "options": {
+        "en": [
+          "Railway crossing ahead",
+          "Y-intersection ahead",
+          "Reduced speed ahead"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Reduced speed ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "trucks-entering",
+      "options": {
+        "en": [
+          "No straight through",
+          "Railway crossing ahead",
+          "Trucks entering from the right"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Trucks entering from the right."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "stop-ahead",
+      "options": {
+        "en": [
+          "Pavement ends",
+          "Stop sign ahead",
+          "Railway crossing ahead"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Stop sign ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "bike-lane",
+      "options": {
+        "en": [
+          "No stopping",
+          "Bicycle lane",
+          "Passing permitted (end of no-passing zone)"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Bicycle lane."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "y-intersection",
+      "options": {
+        "en": [
+          "Y-intersection ahead",
+          "Divided highway begins",
+          "Slow-moving vehicle"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Y-intersection ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "railway-crossing-ahead",
+      "options": {
+        "en": [
+          "Railway crossing ahead",
+          "No parking",
+          "One way"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Railway crossing ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "turn-left-or-right",
+      "options": {
+        "en": [
+          "Turn left or right only",
+          "Bicycle lane",
+          "Bus lane"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Turn left or right only."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "right-turn-only",
+      "options": {
+        "en": [
+          "Right turn only",
+          "Stop",
+          "Road ends at a T-intersection ahead"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Right turn only."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "flagger-ahead",
+      "options": {
+        "en": [
+          "School bus lights flashing: do not pass",
+          "Trucks entering from the right",
+          "Traffic control person (flagger) ahead"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Traffic control person (flagger) ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "parking-permitted",
+      "options": {
+        "en": [
+          "School bus lights flashing: do not pass",
+          "Parking permitted",
+          "No straight through"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Parking permitted."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "no-bicycles",
+      "options": {
+        "en": [
+          "No stopping",
+          "Road ends at a T-intersection ahead",
+          "No bicycles"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: No bicycles."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "left-turn-only",
+      "options": {
+        "en": [
+          "Deer crossing ahead",
+          "Left turn only",
+          "Two-way left-turn lane: yield centre lane to opposing traffic"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Left turn only."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "winding-road",
+      "options": {
+        "en": [
+          "Bicycle lane",
+          "Divided highway begins",
+          "Winding road ahead"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Winding road ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "no-straight",
+      "options": {
+        "en": [
+          "Parking permitted",
+          "Two-way left-turn lane: yield centre lane to opposing traffic",
+          "No straight through"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: No straight through."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "sharp-turn",
+      "options": {
+        "en": [
+          "Sharp turn to the right ahead",
+          "School zone",
+          "Do not pass"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Sharp turn to the right ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "centre-lane",
+      "options": {
+        "en": [
+          "Stop",
+          "Y-intersection ahead",
+          "Two-way left-turn lane: yield centre lane to opposing traffic"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Two-way left-turn lane: yield centre lane to opposing traffic."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "slippery-when-wet",
+      "options": {
+        "en": [
+          "School bus stop ahead",
+          "Parking permitted",
+          "Slippery when wet"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Slippery when wet."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "railway-crossing",
+      "options": {
+        "en": [
+          "School zone",
+          "Stop",
+          "Railway crossing (crossbuck)"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Railway crossing (crossbuck)."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "deer-crossing",
+      "options": {
+        "en": [
+          "Deer crossing ahead",
+          "No bicycles",
+          "Bus lane"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Deer crossing ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "intersection-ahead",
+      "options": {
+        "en": [
+          "No straight through",
+          "Deer crossing ahead",
+          "Intersection ahead"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Intersection ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "divided-highway-begins",
+      "options": {
+        "en": [
+          "Divided highway begins",
+          "Parking permitted",
+          "School zone"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Divided highway begins."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "t-intersection",
+      "options": {
+        "en": [
+          "Road ends at a T-intersection ahead",
+          "Left turn only",
+          "Intersection ahead"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Road ends at a T-intersection ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "pavement-ends",
+      "options": {
+        "en": [
+          "No U-turn",
+          "One way",
+          "Pavement ends"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Pavement ends."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "no-stopping",
+      "options": {
+        "en": [
+          "Slippery when wet",
+          "Passing permitted (end of no-passing zone)",
+          "No stopping"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: No stopping."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "merging-traffic",
+      "options": {
+        "en": [
+          "Bicycle lane",
+          "Railway crossing ahead",
+          "Traffic merging from the right ahead"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Traffic merging from the right ahead."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "no-parking",
+      "options": {
+        "en": [
+          "No parking",
+          "No bicycles",
+          "Turn left or right only"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: No parking."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "passing-permitted",
+      "options": {
+        "en": [
+          "Passing permitted (end of no-passing zone)",
+          "No stopping",
+          "Railway crossing ahead"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Passing permitted (end of no-passing zone)."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "one-way",
+      "options": {
+        "en": [
+          "One way",
+          "Bicycle lane",
+          "Reduced speed ahead"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: One way."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "school-zone",
+      "options": {
+        "en": [
+          "Pavement ends",
+          "School zone",
+          "Slow-moving vehicle"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "This is the Canadian road sign for: School zone."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "minimum-speed",
+      "options": {
+        "en": [
+          "No stopping",
+          "Yield",
+          "Minimum speed limit"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Minimum speed limit."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "slow-moving-vehicle",
+      "options": {
+        "en": [
+          "Traffic control person (flagger) ahead",
+          "Turn left or right only",
+          "Slow-moving vehicle"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Slow-moving vehicle."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "no-pedestrians",
+      "options": {
+        "en": [
+          "Railway crossing (crossbuck)",
+          "No pedestrians",
+          "Bus lane"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "This is the Canadian road sign for: No pedestrians."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "school-bus-do-not-pass",
+      "options": {
+        "en": [
+          "School bus lights flashing: do not pass",
+          "Road ends at a T-intersection ahead",
+          "No pedestrians"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "This is the Canadian road sign for: School bus lights flashing: do not pass."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "do-not-pass",
+      "options": {
+        "en": [
+          "Two-way left-turn lane: yield centre lane to opposing traffic",
+          "No parking",
+          "Do not pass"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Do not pass."
+      },
+      "section": null
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "road signs (MUTCDC / Alberta)",
+    "question": {
+      "en": "What does this sign mean?",
+      "image": "bus-lane",
+      "options": {
+        "en": [
+          "Reduced speed ahead",
+          "Minimum speed limit",
+          "Bus lane"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "This is the Canadian road sign for: Bus lane."
+      },
+      "section": null
+    }
   }
 ]
