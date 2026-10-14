@@ -7646,5 +7646,748 @@
         "fa": "حداکثر سرعت در محدوده مدرسه روستایی در روز مدرسه، مگر اینکه خلاف آن نصب شده باشد، ۳۰ کیلومتر بر ساعت است."
       }
     }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "What does this sign mean?",
+      "zh": "这个标志是什么意思？",
+      "es": "¿Qué significa esta señal?",
+      "fr": "Que signifie ce panneau ?",
+      "de": "Was bedeutet dieses Zeichen?",
+      "pt": "O que significa esta placa?",
+      "ar": "ماذا تعني هذه اللافتة؟",
+      "fa": "این تابلو چه معنایی دارد؟",
+      "hi": "इस संकेत का क्या अर्थ है?",
+      "options": {
+        "en": [
+          "You must give right of way to vehicles on your left",
+          "You must come to a complete stop until the street is completely safe",
+          "You only need to slow down and continue"
+        ],
+        "zh": [
+          "你必须让左侧车辆先行",
+          "你必须完全停车，直到街道完全安全",
+          "你只需减速并继续行驶"
+        ],
+        "es": [
+          "Debe ceder el paso a los vehículos de su izquierda",
+          "Debe detenerse por completo hasta que la calle esté totalmente segura",
+          "Solo necesita reducir la velocidad y continuar"
+        ],
+        "fr": [
+          "Vous devez céder le passage aux véhicules à votre gauche",
+          "Vous devez vous arrêter complètement jusqu'à ce que la rue soit totalement sûre",
+          "Vous devez seulement ralentir et continuer"
+        ],
+        "de": [
+          "Sie müssen Fahrzeugen links von Ihnen Vorfahrt gewähren",
+          "Sie müssen vollständig anhalten, bis die Straße völlig sicher ist",
+          "Sie müssen nur langsamer werden und weiterfahren"
+        ],
+        "pt": [
+          "Você deve dar a preferência aos veículos à sua esquerda",
+          "Você deve parar completamente até que a rua esteja totalmente segura",
+          "Você só precisa reduzir a velocidade e continuar"
+        ],
+        "ar": [
+          "يجب أن تعطي حق الأولوية للمركبات على يسارك",
+          "يجب أن تتوقف توقفاً كاملاً حتى يصبح الشارع آمناً تماماً",
+          "تحتاج فقط إلى تخفيف السرعة والمتابعة"
+        ],
+        "fa": [
+          "باید حق تقدم را به خودروهای سمت چپ خود بدهید",
+          "باید توقف کامل کنید تا خیابان کاملاً ایمن شود",
+          "فقط باید سرعت را کاهش دهید و ادامه دهید"
+        ],
+        "hi": [
+          "आपको अपनी बाईं ओर के वाहनों को रास्ता देना है",
+          "आपको पूरी तरह रुकना होगा जब तक सड़क पूरी तरह सुरक्षित न हो",
+          "आपको केवल धीमा होकर चलते रहना है"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "A stop sign means a complete stop until the street is completely safe.",
+        "zh": "停车标志表示完全停车，直到街道完全安全。",
+        "es": "Una señal de alto significa detenerse por completo hasta que la calle esté totalmente segura.",
+        "fr": "Un panneau d'arrêt signifie un arrêt complet jusqu'à ce que la rue soit totalement sûre.",
+        "de": "Ein Stoppschild bedeutet vollständiges Anhalten, bis die Straße völlig sicher ist.",
+        "pt": "Uma placa de pare significa parar completamente até que a rua esteja totalmente segura.",
+        "ar": "تعني لافتة التوقف التوقف الكامل حتى يصبح الشارع آمناً تماماً.",
+        "fa": "تابلوی ایست به معنی توقف کامل تا زمانی است که خیابان کاملاً ایمن شود.",
+        "hi": "स्टॉप संकेत का अर्थ है पूरी तरह रुकना जब तक सड़क पूरी तरह सुरक्षित न हो।"
+      },
+      "image": "stop"
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "What does this sign mean?",
+      "zh": "这个标志是什么意思？",
+      "es": "¿Qué significa esta señal?",
+      "fr": "Que signifie ce panneau ?",
+      "de": "Was bedeutet dieses Zeichen?",
+      "pt": "O que significa esta placa?",
+      "ar": "ماذا تعني هذه اللافتة؟",
+      "fa": "این تابلو چه معنایی دارد؟",
+      "hi": "इस संकेत का क्या अर्थ है?",
+      "options": {
+        "en": [
+          "You have the right of way over all traffic",
+          "Give right of way to all pedestrians and vehicles that are passing",
+          "Stop completely and wait for a green light"
+        ],
+        "zh": [
+          "你对所有交通都有优先通行权",
+          "让所有正在通行的行人和车辆先行",
+          "完全停车等待绿灯"
+        ],
+        "es": [
+          "Usted tiene prioridad sobre todo el tráfico",
+          "Ceda el paso a todos los peatones y vehículos que estén pasando",
+          "Deténgase por completo y espere la luz verde"
+        ],
+        "fr": [
+          "Vous avez la priorité sur toute la circulation",
+          "Cédez le passage à tous les piétons et véhicules qui passent",
+          "Arrêtez-vous complètement et attendez le feu vert"
+        ],
+        "de": [
+          "Sie haben Vorfahrt vor dem gesamten Verkehr",
+          "Gewähren Sie allen Fußgängern und fahrenden Fahrzeugen Vorfahrt",
+          "Halten Sie vollständig an und warten Sie auf Grün"
+        ],
+        "pt": [
+          "Você tem a preferência sobre todo o trânsito",
+          "Dê a preferência a todos os pedestres e veículos que estão passando",
+          "Pare completamente e espere o sinal verde"
+        ],
+        "ar": [
+          "لديك حق الأولوية على جميع المرور",
+          "أعطِ حق الأولوية لجميع المشاة والمركبات المارة",
+          "توقف تماماً وانتظر الضوء الأخضر"
+        ],
+        "fa": [
+          "شما بر تمام ترافیک حق تقدم دارید",
+          "حق تقدم را به تمام عابران پیاده و وسایل نقلیه در حال عبور بدهید",
+          "توقف کامل کنید و منتظر چراغ سبز بمانید"
+        ],
+        "hi": [
+          "आपको सभी यातायात पर पहला अधिकार है",
+          "सभी गुजरते पैदल यात्रियों और वाहनों को रास्ता दें",
+          "पूरी तरह रुकें और हरी बत्ती की प्रतीक्षा करें"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "A yield sign means you must give right of way to all pedestrians and vehicles that are passing.",
+        "zh": "让行标志表示你必须让所有正在通行的行人和车辆先行。",
+        "es": "Una señal de ceda el paso significa ceder el paso a todos los peatones y vehículos que estén pasando.",
+        "fr": "Un panneau de cédez le passage signifie céder le passage à tous les piétons et véhicules qui passent.",
+        "de": "Ein Vorfahrt-gewähren-Schild bedeutet, allen Fußgängern und fahrenden Fahrzeugen Vorfahrt zu gewähren.",
+        "pt": "Uma placa de dê a preferência significa dar passagem a todos os pedestres e veículos que estão passando.",
+        "ar": "تعني لافتة إعطاء الأولوية أن تمنح حق الأولوية لجميع المشاة والمركبات المارة.",
+        "fa": "تابلوی حق تقدم به این معنی است که باید حق تقدم را به تمام عابران پیاده و وسایل نقلیه در حال عبور بدهید.",
+        "hi": "यील्ड संकेत का अर्थ है कि आपको सभी गुजरते पैदल यात्रियों और वाहनों को रास्ता देना है।"
+      },
+      "image": "yield"
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "What does this sign mean?",
+      "zh": "这个标志是什么意思？",
+      "es": "¿Qué significa esta señal?",
+      "fr": "Que signifie ce panneau ?",
+      "de": "Was bedeutet dieses Zeichen?",
+      "pt": "O que significa esta placa?",
+      "ar": "ماذا تعني هذه اللافتة؟",
+      "fa": "این تابلو چه معنایی دارد؟",
+      "hi": "इस संकेत का क्या अर्थ है?",
+      "options": {
+        "en": [
+          "You are in the wrong direction and traffic comes from the opposite direction",
+          "You may pass the car in front of you",
+          "The road ahead is closed"
+        ],
+        "zh": [
+          "你行驶方向错误，对面有来车",
+          "你可以超越前面的车辆",
+          "前方道路封闭"
+        ],
+        "es": [
+          "Está en la dirección equivocada y el tráfico viene de frente",
+          "Puede adelantar al auto que está delante",
+          "La carretera de adelante está cerrada"
+        ],
+        "fr": [
+          "Vous êtes dans la mauvaise direction et la circulation vient d'en face",
+          "Vous pouvez dépasser la voiture devant vous",
+          "La route devant est fermée"
+        ],
+        "de": [
+          "Sie fahren in die falsche Richtung und der Verkehr kommt entgegen",
+          "Sie dürfen das Auto vor Ihnen überholen",
+          "Die Straße vor Ihnen ist gesperrt"
+        ],
+        "pt": [
+          "Você está na direção errada e o trânsito vem em sentido contrário",
+          "Você pode ultrapassar o carro à sua frente",
+          "A estrada à frente está fechada"
+        ],
+        "ar": [
+          "أنت تسير في الاتجاه الخاطئ والمرور قادم من الاتجاه المعاكس",
+          "يمكنك تجاوز السيارة التي أمامك",
+          "الطريق أمامك مغلق"
+        ],
+        "fa": [
+          "شما در مسیر اشتباه هستید و ترافیک از روبهرو میآید",
+          "میتوانید از خودروی جلوی خود سبقت بگیرید",
+          "جاده جلو بسته است"
+        ],
+        "hi": [
+          "आप गलत दिशा में हैं और सामने से यातायात आ रहा है",
+          "आप अपने आगे की कार को ओवरटेक कर सकते हैं",
+          "आगे की सड़क बंद है"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "A wrong way sign means you are driving in the wrong direction and traffic comes from the opposite direction.",
+        "zh": "逆行标志表示你行驶方向错误，对面有来车。",
+        "es": "Una señal de dirección equivocada significa que circula en la dirección incorrecta y el tráfico viene de frente.",
+        "fr": "Un panneau de sens interdit signifie que vous roulez dans la mauvaise direction et que la circulation vient d'en face.",
+        "de": "Ein Falschfahrer-Schild bedeutet, dass Sie in die falsche Richtung fahren und der Verkehr entgegenkommt.",
+        "pt": "Uma placa de direção errada significa que você está na direção errada e o trânsito vem em sentido contrário.",
+        "ar": "تعني لافتة الاتجاه الخاطئ أنك تسير في الاتجاه الخطأ والمرور قادم من الاتجاه المعاكس.",
+        "fa": "تابلوی راه اشتباه به این معنی است که در مسیر اشتباه هستید و ترافیک از روبهرو میآید.",
+        "hi": "रॉन्ग वे संकेत का अर्थ है कि आप गलत दिशा में चल रहे हैं और सामने से यातायात आ रहा है।"
+      },
+      "image": "wrong-way"
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "What is the maximum speed in a school zone?",
+      "zh": "学校区域内的最高速度是多少？",
+      "es": "¿Cuál es la velocidad máxima en una zona escolar?",
+      "fr": "Quelle est la vitesse maximale dans une zone scolaire ?",
+      "de": "Wie hoch ist die Höchstgeschwindigkeit in einer Schulzone?",
+      "pt": "Qual é a velocidade máxima em uma zona escolar?",
+      "ar": "ما هي السرعة القصوى في منطقة مدرسية؟",
+      "fa": "حداکثر سرعت در منطقه مدرسه چقدر است؟",
+      "hi": "स्कूल क्षेत्र में अधिकतम गति क्या है?",
+      "options": {
+        "en": [
+          "50 km/h",
+          "40 km/h",
+          "30 km/h"
+        ],
+        "zh": [
+          "50公里/小时",
+          "40公里/小时",
+          "30公里/小时"
+        ],
+        "es": [
+          "50 km/h",
+          "40 km/h",
+          "30 km/h"
+        ],
+        "fr": [
+          "50 km/h",
+          "40 km/h",
+          "30 km/h"
+        ],
+        "de": [
+          "50 km/h",
+          "40 km/h",
+          "30 km/h"
+        ],
+        "pt": [
+          "50 km/h",
+          "40 km/h",
+          "30 km/h"
+        ],
+        "ar": [
+          "50 كم/س",
+          "40 كم/س",
+          "30 كم/س"
+        ],
+        "fa": [
+          "50 کیلومتر بر ساعت",
+          "40 کیلومتر بر ساعت",
+          "30 کیلومتر بر ساعت"
+        ],
+        "hi": [
+          "50 किमी/घंटा",
+          "40 किमी/घंटा",
+          "30 किमी/घंटा"
+        ]
+      },
+      "correct": 2,
+      "explanation": {
+        "en": "In a school zone the maximum speed is 30 km/h inside and outside the city.",
+        "zh": "学校区域内无论市内还是市外，最高速度都是30公里/小时。",
+        "es": "En una zona escolar la velocidad máxima es de 30 km/h dentro y fuera de la ciudad.",
+        "fr": "Dans une zone scolaire, la vitesse maximale est de 30 km/h en ville et hors ville.",
+        "de": "In einer Schulzone beträgt die Höchstgeschwindigkeit innerorts und außerorts 30 km/h.",
+        "pt": "Em uma zona escolar, a velocidade máxima é de 30 km/h dentro e fora da cidade.",
+        "ar": "في المنطقة المدرسية السرعة القصوى 30 كم/س داخل المدينة وخارجها.",
+        "fa": "در منطقه مدرسه حداکثر سرعت داخل شهر و خارج شهر 30 کیلومتر بر ساعت است.",
+        "hi": "स्कूल क्षेत्र में शहर के अंदर और बाहर अधिकतम गति 30 किमी/घंटा है।"
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "What is the minimum age to get a Class 7 learner's licence?",
+      "zh": "取得7类学习驾照的最低年龄是多少？",
+      "es": "¿Cuál es la edad mínima para obtener una licencia de aprendizaje Clase 7?",
+      "fr": "Quel est l'âge minimum pour obtenir un permis d'apprenti de classe 7 ?",
+      "de": "Wie hoch ist das Mindestalter für einen Lernführerschein der Klasse 7?",
+      "pt": "Qual é a idade mínima para obter uma licença de aprendiz Classe 7?",
+      "ar": "ما هو الحد الأدنى للعمر للحصول على رخصة متعلم الفئة 7؟",
+      "fa": "حداقل سن برای گرفتن گواهینامه کلاس 7 چقدر است؟",
+      "hi": "क्लास 7 लर्नर लाइसेंस पाने की न्यूनतम आयु क्या है?",
+      "options": {
+        "en": [
+          "14 years",
+          "16 years",
+          "18 years"
+        ],
+        "zh": [
+          "14岁",
+          "16岁",
+          "18岁"
+        ],
+        "es": [
+          "14 años",
+          "16 años",
+          "18 años"
+        ],
+        "fr": [
+          "14 ans",
+          "16 ans",
+          "18 ans"
+        ],
+        "de": [
+          "14 Jahre",
+          "16 Jahre",
+          "18 Jahre"
+        ],
+        "pt": [
+          "14 anos",
+          "16 anos",
+          "18 anos"
+        ],
+        "ar": [
+          "14 سنة",
+          "16 سنة",
+          "18 سنة"
+        ],
+        "fa": [
+          "14 سال",
+          "16 سال",
+          "18 سال"
+        ],
+        "hi": [
+          "14 वर्ष",
+          "16 वर्ष",
+          "18 वर्ष"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "You must be at least 14 years old to get a Class 7 learner's licence.",
+        "zh": "取得7类学习驾照必须年满14岁。",
+        "es": "Debe tener al menos 14 años para obtener una licencia de aprendizaje Clase 7.",
+        "fr": "Vous devez avoir au moins 14 ans pour obtenir un permis d'apprenti de classe 7.",
+        "de": "Sie müssen mindestens 14 Jahre alt sein, um einen Lernführerschein der Klasse 7 zu erhalten.",
+        "pt": "Você deve ter pelo menos 14 anos para obter uma licença de aprendiz Classe 7.",
+        "ar": "يجب أن يكون عمرك 14 سنة على الأقل للحصول على رخصة متعلم الفئة 7.",
+        "fa": "برای گرفتن گواهینامه کلاس 7 باید حداقل 14 سال سن داشته باشید.",
+        "hi": "क्लास 7 लर्नर लाइसेंस के लिए आपकी आयु कम से कम 14 वर्ष होनी चाहिए।"
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "When conditions are ideal, what following distance should you keep behind the car ahead?",
+      "zh": "在理想情况下，你应该与前车保持多少跟车距离？",
+      "es": "Cuando las condiciones son ideales, ¿qué distancia debe mantener con el auto de adelante?",
+      "fr": "Quand les conditions sont idéales, quelle distance de suivi devez-vous garder derrière la voiture devant vous ?",
+      "de": "Wie viel Abstand sollten Sie bei idealen Bedingungen zum Auto vor Ihnen halten?",
+      "pt": "Quando as condições são ideais, qual distância de seguimento você deve manter do carro à frente?",
+      "ar": "عندما تكون الظروف مثالية، ما مسافة المتابعة التي يجب أن تحافظ عليها خلف السيارة أمامك؟",
+      "fa": "وقتی شرایط ایدئال است، چه فاصلهای باید با خودروی جلو داشته باشید؟",
+      "hi": "जब स्थितियाँ आदर्श हों, आपको आगे की कार से कितनी दूरी रखनी चाहिए?",
+      "options": {
+        "en": [
+          "2 seconds",
+          "6 metres",
+          "10 seconds"
+        ],
+        "zh": [
+          "2秒",
+          "6米",
+          "10秒"
+        ],
+        "es": [
+          "2 segundos",
+          "6 metros",
+          "10 segundos"
+        ],
+        "fr": [
+          "2 secondes",
+          "6 mètres",
+          "10 secondes"
+        ],
+        "de": [
+          "2 Sekunden",
+          "6 Meter",
+          "10 Sekunden"
+        ],
+        "pt": [
+          "2 segundos",
+          "6 metros",
+          "10 segundos"
+        ],
+        "ar": [
+          "ثانيتان",
+          "6 أمتار",
+          "10 ثوانٍ"
+        ],
+        "fa": [
+          "2 ثانیه",
+          "6 متر",
+          "10 ثانیه"
+        ],
+        "hi": [
+          "2 सेकंड",
+          "6 मीटर",
+          "10 सेकंड"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "You should keep a 2-second following distance at all speeds.",
+        "zh": "无论车速多少，都应保持2秒的跟车距离。",
+        "es": "Debe mantener una distancia de seguimiento de 2 segundos a todas las velocidades.",
+        "fr": "Vous devez garder une distance de suivi de 2 secondes à toutes les vitesses.",
+        "de": "Sie sollten bei allen Geschwindigkeiten 2 Sekunden Abstand halten.",
+        "pt": "Você deve manter uma distância de seguimento de 2 segundos em todas as velocidades.",
+        "ar": "يجب أن تحافظ على مسافة متابعة مقدارها ثانيتان في جميع السرعات.",
+        "fa": "در تمام سرعتها باید فاصله 2 ثانیه را رعایت کنید.",
+        "hi": "सभी गतियों पर 2 सेकंड की अनुसरण दूरी रखनी चाहिए।"
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "How many metres from a fire hydrant may you not park?",
+      "zh": "距离消防栓多少米之内不能停车？",
+      "es": "¿A cuántos metros de un hidrante no puede estacionar?",
+      "fr": "À combien de mètres d'une borne d'incendie ne pouvez-vous pas stationner ?",
+      "de": "Wie viele Meter von einem Hydranten dürfen Sie nicht parken?",
+      "pt": "A quantos metros de um hidrante você não pode estacionar?",
+      "ar": "كم متراً من صنبور الحريق لا يجوز لك الوقوف فيها؟",
+      "fa": "چند متر نزدیک شیر آتشنشانی نمیتوانید پارک کنید؟",
+      "hi": "फायर हाइड्रेंट से कितने मीटर के भीतर आप पार्क नहीं कर सकते?",
+      "options": {
+        "en": [
+          "1.5 metres",
+          "5 metres",
+          "10 metres"
+        ],
+        "zh": [
+          "1.5米",
+          "5米",
+          "10米"
+        ],
+        "es": [
+          "1,5 metros",
+          "5 metros",
+          "10 metros"
+        ],
+        "fr": [
+          "1,5 mètre",
+          "5 mètres",
+          "10 mètres"
+        ],
+        "de": [
+          "1,5 Meter",
+          "5 Meter",
+          "10 Meter"
+        ],
+        "pt": [
+          "1,5 metros",
+          "5 metros",
+          "10 metros"
+        ],
+        "ar": [
+          "1.5 متر",
+          "5 أمتار",
+          "10 أمتار"
+        ],
+        "fa": [
+          "1.5 متر",
+          "5 متر",
+          "10 متر"
+        ],
+        "hi": [
+          "1.5 मीटर",
+          "5 मीटर",
+          "10 मीटर"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "You may not park within 5 metres of a fire hydrant.",
+        "zh": "距离消防栓5米以内不得停车。",
+        "es": "No puede estacionar a menos de 5 metros de un hidrante.",
+        "fr": "Vous ne pouvez pas stationner à moins de 5 mètres d'une borne d'incendie.",
+        "de": "Sie dürfen nicht innerhalb von 5 Metern um einen Hydranten parken.",
+        "pt": "Você não pode estacionar a menos de 5 metros de um hidrante.",
+        "ar": "لا يجوز لك الوقوف على مسافة أقل من 5 أمتار من صنبور الحريق.",
+        "fa": "نمیتوانید در فاصله 5 متری شیر آتشنشانی پارک کنید.",
+        "hi": "फायर हाइड्रेंट से 5 मीटर के भीतर पार्क नहीं कर सकते।"
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "When you park on a downhill slope, which way should you turn the front wheels?",
+      "zh": "在下坡停车时，前轮应该转向哪边？",
+      "es": "Cuando estaciona en una bajada, ¿hacia dónde debe girar las ruedas delanteras?",
+      "fr": "Quand vous stationnez dans une descente, dans quel sens devez-vous tourner les roues avant ?",
+      "de": "Wenn Sie bergab parken, in welche Richtung müssen Sie die Vorderräder drehen?",
+      "pt": "Ao estacionar em uma descida, para que lado você deve virar as rodas dianteiras?",
+      "ar": "عند الوقوف على منحدر هابط، إلى أي اتجاه يجب أن تدير العجلات الأمامية؟",
+      "fa": "هنگام پارک در سرازیری، چرخهای جلو را به کدام سمت باید بچرخانید؟",
+      "hi": "ढलान पर नीचे की ओर पार्क करते समय आपको आगे के पहिये किस ओर मोड़ने चाहिए?",
+      "options": {
+        "en": [
+          "Fully to the right",
+          "Keep them straight",
+          "Fully to the left"
+        ],
+        "zh": [
+          "完全向右",
+          "保持直线",
+          "完全向左"
+        ],
+        "es": [
+          "Completamente a la derecha",
+          "Mantenerlas rectas",
+          "Completamente a la izquierda"
+        ],
+        "fr": [
+          "Complètement à droite",
+          "Les garder droites",
+          "Complètement à gauche"
+        ],
+        "de": [
+          "Ganz nach rechts",
+          "Gerade lassen",
+          "Ganz nach links"
+        ],
+        "pt": [
+          "Totalmente à direita",
+          "Mantê-las retas",
+          "Totalmente à esquerda"
+        ],
+        "ar": [
+          "إلى اليمين تماماً",
+          "اتركها مستقيمة",
+          "إلى اليسار تماماً"
+        ],
+        "fa": [
+          "کاملاً به راست",
+          "مستقیم بماند",
+          "کاملاً به چپ"
+        ],
+        "hi": [
+          "पूरी तरह दाईं ओर",
+          "सीधे रखें",
+          "पूरी तरह बाईं ओर"
+        ]
+      },
+      "correct": 0,
+      "explanation": {
+        "en": "When parked downhill, the front wheels must be turned fully to the right.",
+        "zh": "在下坡停车时，前轮必须完全向右转。",
+        "es": "Al estacionar en bajada, las ruedas delanteras deben girarse completamente a la derecha.",
+        "fr": "En stationnement dans une descente, les roues avant doivent être tournées complètement à droite.",
+        "de": "Beim Parken bergab müssen die Vorderräder ganz nach rechts gedreht werden.",
+        "pt": "Ao estacionar em uma descida, as rodas dianteiras devem ser viradas totalmente à direita.",
+        "ar": "عند الوقوف على منحدر هابط يجب تدوير العجلات الأمامية إلى اليمين تماماً.",
+        "fa": "هنگام پارک در سرازیری، چرخهای جلو باید کاملاً به سمت راست باشند.",
+        "hi": "ढलान पर नीचे की ओर पार्क करते समय आगे के पहिये पूरी तरह दाईं ओर मोड़ने चाहिए।"
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "Emergency vehicles are on a call with lights and siren on. What must drivers in both directions do?",
+      "zh": "紧急车辆正在执行任务并开启警灯和警笛。两个方向的驾驶人都必须怎么做？",
+      "es": "Los vehículos de emergencia están en servicio con luces y sirena encendidas. ¿Qué deben hacer los conductores en ambos sentidos?",
+      "fr": "Des véhicules d'urgence sont en intervention avec gyrophares et sirène. Que doivent faire les conducteurs dans les deux sens ?",
+      "de": "Einsatzfahrzeuge sind mit Blaulicht und Sirene im Einsatz. Was müssen Fahrer in beide Richtungen tun?",
+      "pt": "Veículos de emergência estão em atendimento com luzes e sirene ligadas. O que os motoristas nos dois sentidos devem fazer?",
+      "ar": "مركبات الطوارئ في مهمة مع تشغيل الأضواء والصفارة. ماذا يجب على السائقين في كلا الاتجاهين أن يفعلوا؟",
+      "fa": "خودروهای امدادی در حال مأموریت با چراغها و آژیر روشن هستند. رانندگان در هر دو مسیر چه باید بکنند؟",
+      "hi": "आपातकालीन वाहन लाइट और सायरन चालू करके ड्यूटी पर हैं। दोनों दिशाओं के चालकों को क्या करना चाहिए?",
+      "options": {
+        "en": [
+          "Move quickly to the next intersection",
+          "Stop completely until they pass, then check and go if no other emergency vehicle is coming",
+          "Drive to the right curb and keep moving"
+        ],
+        "zh": [
+          "迅速驶向最近的十字路口",
+          "完全停车直到它们通过，然后检查如果没有其他紧急车辆再行驶",
+          "靠右路缘行驶并继续前进"
+        ],
+        "es": [
+          "Avanzar rápido hasta la próxima intersección",
+          "Detenerse por completo hasta que pasen, luego verificar y avanzar si no viene otro vehículo de emergencia",
+          "Ir al borde derecho y seguir moviéndose"
+        ],
+        "fr": [
+          "Se rendre rapidement à la prochaine intersection",
+          "S'arrêter complètement jusqu'à leur passage, puis vérifier et repartir si aucun autre véhicule d'urgence n'arrive",
+          "Se ranger à droite et continuer à rouler"
+        ],
+        "de": [
+          "Schnell zur nächsten Kreuzung fahren",
+          "Vollständig anhalten, bis sie vorbei sind, dann prüfen und weiterfahren, wenn kein weiteres Einsatzfahrzeug kommt",
+          "Zum rechten Rand fahren und weiterfahren"
+        ],
+        "pt": [
+          "Ir rápido até a próxima interseção",
+          "Parar completamente até que passem, depois verificar e seguir se não houver outro veículo de emergência",
+          "Ir para o acostamento direito e continuar andando"
+        ],
+        "ar": [
+          "التحرك بسرعة إلى أقرب تقاطع",
+          "التوقف تماماً حتى تمر، ثم التحقق والانطلاق إذا لم تكن هناك مركبة طوارئ أخرى",
+          "الانتقال إلى حافة الطريق اليمنى والاستمرار في الحركة"
+        ],
+        "fa": [
+          "سریع به اولین تقاطع حرکت کنند",
+          "توقف کامل کنند تا آنها عبور کنند، سپس بررسی کنند و اگر خودروی امدادی دیگری نیست حرکت کنند",
+          "به کنار جدول سمت راست بروند و ادامه دهند"
+        ],
+        "hi": [
+          "तेज़ी से अगले चौराहे तक जाएँ",
+          "पूरी तरह रुकें जब तक वे निकल न जाएँ, फिर जाँच करें और अगर कोई अन्य आपातकालीन वाहन न हो तो चलें",
+          "दाएँ किनारे पर जाएँ और चलते रहें"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "Both directions must stop completely until the emergency vehicles pass.",
+        "zh": "两个方向都必须完全停车，直到紧急车辆通过。",
+        "es": "Ambos sentidos deben detenerse por completo hasta que pasen los vehículos de emergencia.",
+        "fr": "Les deux sens doivent s'arrêter complètement jusqu'au passage des véhicules d'urgence.",
+        "de": "Beide Richtungen müssen vollständig anhalten, bis die Einsatzfahrzeuge vorbei sind.",
+        "pt": "Os dois sentidos devem parar completamente até que os veículos de emergência passem.",
+        "ar": "يجب على كلا الاتجاهين التوقف تماماً حتى تمر مركبات الطوارئ.",
+        "fa": "هر دو مسیر باید توقف کامل کنند تا خودروهای امدادی عبور کنند.",
+        "hi": "दोनों दिशाओं को पूरी तरह रुकना चाहिए जब तक आपातकालीन वाहन निकल न जाएँ।"
+      }
+    }
+  },
+  {
+    "region": "ca-ab",
+    "source": "Driving knowledge.pdf",
+    "question": {
+      "en": "What is the maximum speed inside a city when there is no speed sign?",
+      "zh": "城市内没有限速标志时最高速度是多少？",
+      "es": "¿Cuál es la velocidad máxima dentro de la ciudad cuando no hay señal de velocidad?",
+      "fr": "Quelle est la vitesse maximale en ville lorsqu'il n'y a pas de panneau de vitesse ?",
+      "de": "Wie hoch ist die Höchstgeschwindigkeit innerorts, wenn kein Geschwindigkeitsschild vorhanden ist?",
+      "pt": "Qual é a velocidade máxima dentro da cidade quando não há placa de velocidade?",
+      "ar": "ما هي السرعة القصوى داخل المدينة عندما لا توجد لافتة سرعة؟",
+      "fa": "حداکثر سرعت داخل شهر وقتی تابلوی سرعت وجود ندارد چقدر است؟",
+      "hi": "शहर के अंदर जब कोई गति संकेत न हो तो अधिकतम गति क्या है?",
+      "options": {
+        "en": [
+          "30 km/h",
+          "50 km/h",
+          "60 km/h"
+        ],
+        "zh": [
+          "30公里/小时",
+          "50公里/小时",
+          "60公里/小时"
+        ],
+        "es": [
+          "30 km/h",
+          "50 km/h",
+          "60 km/h"
+        ],
+        "fr": [
+          "30 km/h",
+          "50 km/h",
+          "60 km/h"
+        ],
+        "de": [
+          "30 km/h",
+          "50 km/h",
+          "60 km/h"
+        ],
+        "pt": [
+          "30 km/h",
+          "50 km/h",
+          "60 km/h"
+        ],
+        "ar": [
+          "30 كم/س",
+          "50 كم/س",
+          "60 كم/س"
+        ],
+        "fa": [
+          "30 کیلومتر بر ساعت",
+          "50 کیلومتر بر ساعت",
+          "60 کیلومتر بر ساعت"
+        ],
+        "hi": [
+          "30 किमी/घंटा",
+          "50 किमी/घंटा",
+          "60 किमी/घंटा"
+        ]
+      },
+      "correct": 1,
+      "explanation": {
+        "en": "Inside a city the maximum speed is 50 km/h when there is no speed sign.",
+        "zh": "城市内没有限速标志时，最高速度是50公里/小时。",
+        "es": "Dentro de la ciudad la velocidad máxima es de 50 km/h cuando no hay señal de velocidad.",
+        "fr": "En ville, la vitesse maximale est de 50 km/h lorsqu'il n'y a pas de panneau de vitesse.",
+        "de": "Innerorts beträgt die Höchstgeschwindigkeit 50 km/h, wenn kein Geschwindigkeitsschild vorhanden ist.",
+        "pt": "Dentro da cidade a velocidade máxima é de 50 km/h quando não há placa de velocidade.",
+        "ar": "داخل المدينة السرعة القصوى 50 كم/س عندما لا توجد لافتة سرعة.",
+        "fa": "داخل شهر حداکثر سرعت وقتی تابلوی سرعت وجود ندارد 50 کیلومتر بر ساعت است.",
+        "hi": "शहर के अंदर जब कोई गति संकेत न हो तो अधिकतम गति 50 किमी/घंटा है।"
+      }
+    }
   }
 ]
