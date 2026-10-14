@@ -88,7 +88,8 @@ function GoogleButton({ onDone, onError }) {
       disabled={!config || busy}
       title={config ? undefined : t.login.googleOff}
     >
-      <GoogleLogo /> {t.login.google}
+      <GoogleLogo />
+      <span>{t.login.google}</span>
     </button>
   )
 }
