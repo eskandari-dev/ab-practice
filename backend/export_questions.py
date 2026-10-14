@@ -7,7 +7,8 @@ import json
 
 from database import SAVED_QUESTIONS, create_tables, get_db, question_key
 
-create_tables()
+# the file is about to be replaced, so it must not be read back into the database first
+create_tables(sync_saved_questions=False)
 conn = get_db()
 rows = conn.execute(
     "SELECT id, region, data, source FROM bank_questions WHERE status = 'approved' ORDER BY id"

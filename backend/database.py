@@ -62,7 +62,7 @@ def add_column(conn, table, column, definition):
         conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
 
 
-def create_tables():
+def create_tables(sync_saved_questions=True):
     conn = get_db()
     id_column = "SERIAL PRIMARY KEY" if DATABASE_URL else "INTEGER PRIMARY KEY AUTOINCREMENT"
     conn.execute(f"""
@@ -139,7 +139,8 @@ def create_tables():
             created_at TEXT NOT NULL
         )
     """)
-    load_saved_questions(conn)
+    if sync_saved_questions:
+        load_saved_questions(conn)
     conn.commit()
     conn.close()
 
@@ -160,19 +161,22 @@ def load_saved_questions(conn):
     with open(SAVED_QUESTIONS, encoding="utf-8") as f:
         saved = {question_key(item["region"], item["question"]): item for item in json.load(f)}
 
-    rows = conn.execute("SELECT id, region, data, saved_key FROM bank_questions WHERE status = 'approved'").fetchall()
+    rows = conn.execute("SELECT id, region, data, status, saved_key FROM bank_questions ORDER BY id").fetchall()
     known = set()
     for row in rows:
         key = row["saved_key"]
         if key is None:
             # rows from before saved_key existed: adopt them if they match the file
+            if row["status"] != "approved":
+                continue
             key = question_key(row["region"], json.loads(row["data"]))
             if key not in saved or key in known:
                 continue
             conn.execute("UPDATE bank_questions SET saved_key = ? WHERE id = ?", (key, row["id"]))
         if key in saved and key not in known:
+            # a question from the file that an admin moved back to draft stays a draft
             known.add(key)
-        else:
+        elif row["status"] == "approved":
             conn.execute("DELETE FROM bank_questions WHERE id = ?", (row["id"],))
 
     created = datetime.now(timezone.utc).isoformat()

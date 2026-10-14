@@ -240,6 +240,18 @@ class SavedQuestionsTests(unittest.TestCase):
         self.assertEqual(set(second), {"two", "three", "made on the server"})
         self.assertEqual(second["two"], first["two"])
 
+    def test_question_moved_to_draft_stays_a_draft(self):
+        first = self.sync(["one", "two"])
+        conn = database.get_db()
+        conn.execute("UPDATE bank_questions SET status = 'draft' WHERE id = ?", (first["one"],))
+        conn.commit()
+        conn.close()
+        self.assertEqual(self.sync(["one", "two"]), first)
+        conn = database.get_db()
+        status = conn.execute("SELECT status FROM bank_questions WHERE id = ?", (first["one"],)).fetchone()["status"]
+        conn.close()
+        self.assertEqual(status, "draft")
+
     def test_old_rows_are_adopted_not_copied(self):
         conn = database.get_db()
         conn.execute(
