@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
+import { SHOW_PRICING } from '../features.js'
 import { useLang } from '../lang-context.js'
 import { LogoIcon } from './Icons.jsx'
 
@@ -20,7 +21,7 @@ function Footer() {
         </div>
         <div className="footer-links">
           <Link to="/practice">{t.nav.practice}</Link>
-          <Link to="/pricing">{t.nav.pricing}</Link>
+          {SHOW_PRICING && <Link to="/pricing">{t.nav.pricing}</Link>}
           {!user && <Link to="/login">{t.nav.login}</Link>}
           <Link to="/feedback" state={{ from: pathname }}>{t.footer.feedback}</Link>
           <Link to="/terms">{t.footer.terms}</Link>

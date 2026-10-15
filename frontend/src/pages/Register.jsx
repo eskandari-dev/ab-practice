@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
+import { SHOW_PRICING } from '../features.js'
 import { useLang } from '../lang-context.js'
 import GoogleButton from '../components/GoogleButton.jsx'
 import PasswordInput from '../components/PasswordInput.jsx'
@@ -12,7 +13,7 @@ function Register() {
   const { t, tError } = useLang()
   const navigate = useNavigate()
   const [params] = useSearchParams()
-  const next = safeNext(params.get('next'), '/pricing')
+  const next = safeNext(params.get('next'), SHOW_PRICING ? '/pricing' : '/practice')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')

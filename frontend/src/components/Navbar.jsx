@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth-context.js'
+import { SHOW_PRICING } from '../features.js'
 import { useLang } from '../lang-context.js'
 import { LANGUAGES } from '../languages.js'
 import { LogoIcon } from './Icons.jsx'
@@ -38,7 +39,7 @@ function Navbar() {
         <NavLink to="/" end className="nav-item">{t.nav.home}</NavLink>
         <NavLink to="/practice" className="nav-item">{t.nav.practice}</NavLink>
         <NavLink to="/progress" className="nav-item">{t.nav.progress}</NavLink>
-        <NavLink to="/pricing" className="nav-item">{t.nav.pricing}</NavLink>
+        {SHOW_PRICING && <NavLink to="/pricing" className="nav-item">{t.nav.pricing}</NavLink>}
         {user && user.is_admin && <NavLink to="/admin" className="nav-item nav-admin">Admin</NavLink>}
         {user ? (
           <>

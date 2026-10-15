@@ -3,6 +3,7 @@ import { questions } from '../questions.js'
 import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
+import { SHOW_PRICING } from '../features.js'
 import { useLang } from '../lang-context.js'
 import { countryName, findPlace, getSavedRegion } from '../places.js'
 import { addResult, getMistakes, getStats, updateMistakes } from '../progress.js'
@@ -236,7 +237,7 @@ function Practice() {
                                 {t.mistakesBtn} <span className="count-badge">{mistakes.length}</span>
                             </button>
                         )}
-                        {!full && <Link to="/pricing" className="btn-back">{t.seePlans}</Link>}
+                        {SHOW_PRICING && !full && <Link to="/pricing" className="btn-back">{t.seePlans}</Link>}
                     </div>
                 </div>
 
@@ -293,7 +294,7 @@ function Practice() {
                         </div>
                     )}
                     <p className="score-message">{result.passed ? t.scoreGood : t.scoreOk}</p>
-                    {mode === 'free' && (
+                    {SHOW_PRICING && mode === 'free' && (
                         <p className="notice">
                             {fill(t.freeDone, fullCount)} <Link to="/pricing">{t.seePlans}</Link>
                         </p>

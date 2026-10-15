@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Navigate, Routes, Route, useLocation } from 'react-router-dom'
+import { SHOW_PRICING } from './features.js'
 import { useLang } from './lang-context.js'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
@@ -60,7 +61,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/practice" element={<Practice />} />
-              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/pricing" element={SHOW_PRICING ? <Pricing /> : <Navigate to="/" replace />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />

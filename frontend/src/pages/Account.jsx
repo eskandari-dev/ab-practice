@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
+import { SHOW_PRICING } from '../features.js'
 import { useLang } from '../lang-context.js'
 import { fill } from '../regions-data.js'
 import PasswordInput from '../components/PasswordInput.jsx'
@@ -87,7 +88,7 @@ function Account() {
           <p className="account-plan">{plan}</p>
           <div className="account-actions">
             <Link to="/practice" className="btn-next">{t.practiceNow}</Link>
-            <Link to="/pricing" className="btn-back">{t.seePlans}</Link>
+            {SHOW_PRICING && <Link to="/pricing" className="btn-back">{t.seePlans}</Link>}
           </div>
         </section>
 

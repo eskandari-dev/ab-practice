@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { SHOW_PRICING } from '../features.js'
 import { useLang } from '../lang-context.js'
 import { LANGUAGES } from '../languages.js'
 import { COUNTRIES, countryName, findPlace, getSavedRegion, saveRegion } from '../places.js'
@@ -90,9 +91,11 @@ function Home() {
               <button type="submit" className="btn-primary" disabled={!ready}>
                 {t.home.start} <ArrowIcon />
               </button>
-              <Link to="/pricing" className="btn-secondary picker-pricing">
-                {t.home.seePricing}
-              </Link>
+              {SHOW_PRICING && (
+                <Link to="/pricing" className="btn-secondary picker-pricing">
+                  {t.home.seePricing}
+                </Link>
+              )}
             </div>
             {!ready && <p className="picker-hint">{t.home.soonHint}</p>}
           </form>
