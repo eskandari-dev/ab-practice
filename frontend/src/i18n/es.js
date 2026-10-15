@@ -14,7 +14,7 @@ const es = {
     available: 'Disponible',
     soon: 'Próximamente',
     soonHint: 'Las preguntas para este lugar llegarán pronto. Ya puedes practicar para Alberta, Canadá.',
-    trust: ['Sin necesidad de cuenta', 'Respuesta inmediata', 'Alberta disponible ya'],
+    trust: ['Sin necesidad de cuenta', 'Como el examen real', 'Alberta disponible ya'],
     previewScore: 'Listo para aprobar',
     stats: [
       { value: '9', label: 'Idiomas' },
@@ -26,7 +26,7 @@ const es = {
     howTitle: 'Cómo funciona',
     steps: [
       { title: 'Elige tu lugar', text: 'Elige tu idioma, país y ciudad. Cada lugar tiene sus propias reglas y su propio examen.' },
-      { title: 'Practica gratis', text: 'Haz un examen gratis de 5 preguntas con respuesta inmediata. Sin necesidad de cuenta.' },
+      { title: 'Practica gratis', text: 'Haz un examen gratis de 5 preguntas. Cambia respuestas y ve las explicaciones al final. Sin necesidad de cuenta.' },
       { title: 'Aprueba con confianza', text: 'Obtén exámenes completos de {n} preguntas y practica hasta saber todas las respuestas.' },
     ],
     regionsEyebrow: 'Cobertura',

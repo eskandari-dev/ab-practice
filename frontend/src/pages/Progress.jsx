@@ -7,6 +7,7 @@ import { computeStats, getAllMistakes, useHistory } from '../progress.js'
 import { fill, useRegions } from '../regions-data.js'
 import { withNode } from '../with-node.jsx'
 import Delta from '../components/Delta.jsx'
+import Skeleton from '../components/Skeleton.jsx'
 import TrendChart from '../components/TrendChart.jsx'
 import { ChartIcon, CheckIcon, ClockIcon, ExamIcon, FlameIcon, ReviewIcon } from '../components/Icons.jsx'
 
@@ -43,7 +44,7 @@ function Progress() {
   const [range, setRange] = useState(RANGES[0])
 
   if (history === null) {
-    return <div className="page"><p className="muted progress-loading">{all.practice.loading}</p></div>
+    return <Skeleton wide />
   }
 
   const stats = computeStats(history)

@@ -26,6 +26,7 @@ from fastapi.testclient import TestClient  # noqa: E402
 
 import database  # noqa: E402
 import main  # noqa: E402
+import rate_limit  # noqa: E402
 import server  # noqa: E402
 
 api = TestClient(main.app)
@@ -44,7 +45,10 @@ class ApiTest(unittest.TestCase):
     counter = 0
 
     def setUp(self):
-        main.failed_logins.clear()
+        rate_limit.login_failures.clear()
+        rate_limit.register_limit.clear()
+        rate_limit.feedback_limit.clear()
+        rate_limit.generate_limit.clear()
 
     def new_user(self, email=None):
         ApiTest.counter += 1
@@ -86,7 +90,7 @@ class AccountTests(ApiTest):
 
     def test_login_is_blocked_after_five_wrong_passwords(self):
         email, _ = self.new_user()
-        for _ in range(main.LOGIN_LIMIT):
+        for _ in range(rate_limit.login_failures.limit):
             api.post("/login", json={"email": email, "password": "wrong-pass"})
         r = api.post("/login", json={"email": email, "password": PASSWORD})
         self.assertEqual(r.status_code, 429)
@@ -274,7 +278,7 @@ class SavedQuestionsTests(unittest.TestCase):
 class FeedbackTests(ApiTest):
     def setUp(self):
         super().setUp()
-        main.recent_feedback.clear()
+        rate_limit.feedback_limit.clear()
 
     def test_guest_and_user_feedback_reach_the_admin(self):
         self.assertEqual(api.post("/feedback", json={"message": "Great site", "email": "Guest@Example.com"}).status_code, 200)
@@ -292,7 +296,7 @@ class FeedbackTests(ApiTest):
 
     def test_feedback_is_checked_and_limited(self):
         self.assertEqual(api.post("/feedback", json={"message": " "}).status_code, 400)
-        for _ in range(main.FEEDBACK_LIMIT):
+        for _ in range(rate_limit.feedback_limit.limit):
             api.post("/feedback", json={"message": "hello there"})
         self.assertEqual(api.post("/feedback", json={"message": "hello there"}).status_code, 429)
 
@@ -309,11 +313,17 @@ class ServerTests(unittest.TestCase):
     def test_api_is_under_api(self):
         self.assertEqual(self.site.get("/api/config").status_code, 200)
 
+    def test_health(self):
+        r = self.site.get("/api/health")
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(r.json()["ok"])
+
     def test_security_headers(self):
         r = self.site.get("/")
         self.assertEqual(r.headers["X-Frame-Options"], "DENY")
         self.assertEqual(r.headers["X-Content-Type-Options"], "nosniff")
         self.assertEqual(r.headers["Cache-Control"], "no-cache")
+        self.assertEqual(r.headers["Cross-Origin-Opener-Policy"], "same-origin-allow-popups")
 
 
 if __name__ == "__main__":

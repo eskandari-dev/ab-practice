@@ -4,6 +4,7 @@ import { api } from '../api.js'
 import { useAuth } from '../auth-context.js'
 import { SHOW_PRICING } from '../features.js'
 import { useLang } from '../lang-context.js'
+import Skeleton from '../components/Skeleton.jsx'
 import { fill } from '../regions-data.js'
 import PasswordInput from '../components/PasswordInput.jsx'
 
@@ -53,7 +54,7 @@ function Account() {
 
   if (deleted) return <Navigate to="/" replace />
   if (!localStorage.getItem('token')) return <Navigate to="/login?next=/account" replace />
-  if (!user) return <div className="page"><p className="muted progress-loading">{all.practice.loading}</p></div>
+  if (!user) return <Skeleton />
 
   let plan = t.noPlan
   if (user.unlimited_until) {

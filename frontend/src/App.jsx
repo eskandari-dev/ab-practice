@@ -11,6 +11,7 @@ import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import NotFound from './pages/NotFound.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
+import Skeleton from './components/Skeleton.jsx'
 
 // pages that few visitors open are loaded only when needed
 const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess.jsx'))
@@ -21,8 +22,7 @@ const Account = lazy(() => import('./pages/Account.jsx'))
 const Feedback = lazy(() => import('./pages/Feedback.jsx'))
 
 function PageLoading() {
-  const { t } = useLang()
-  return <div className="page"><p className="muted progress-loading">{t.practice.loading}</p></div>
+  return <Skeleton />
 }
 
 function pageTitle(path, t) {

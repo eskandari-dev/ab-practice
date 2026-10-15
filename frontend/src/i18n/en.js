@@ -14,7 +14,7 @@ const en = {
     available: 'Available',
     soon: 'Coming soon',
     soonHint: 'Questions for this place are coming soon. You can already practice for Alberta, Canada.',
-    trust: ['No account needed', 'Instant feedback', 'Alberta live now'],
+    trust: ['No account needed', 'Like the real test', 'Alberta live now'],
     previewScore: 'Ready to pass',
     stats: [
       { value: '9', label: 'Languages' },
@@ -27,7 +27,7 @@ const en = {
     howTitle: 'How it works',
     steps: [
       { title: 'Choose your place', text: 'Pick your language, country and city. Every place has its own rules and its own test.' },
-      { title: 'Practice for free', text: 'Take a free 5-question exam with instant feedback. No account needed.' },
+      { title: 'Practice for free', text: 'Take a free 5-question exam. Change answers, then see explanations at the end. No account needed.' },
       { title: 'Pass with confidence', text: 'Get full {n}-question exams and practice until you know every answer.' },
     ],
     regionsEyebrow: 'Coverage',

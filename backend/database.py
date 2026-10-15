@@ -120,6 +120,11 @@ def create_tables(sync_saved_questions=True):
         )
     """)
     conn.execute("CREATE INDEX IF NOT EXISTS exam_results_user ON exam_results (user_id)")
+    conn.execute("CREATE INDEX IF NOT EXISTS exam_results_user_created ON exam_results (user_id, created_at)")
+    conn.execute("CREATE INDEX IF NOT EXISTS bank_questions_region_status ON bank_questions (region, status)")
+    conn.execute("CREATE INDEX IF NOT EXISTS bank_questions_saved_key ON bank_questions (saved_key)")
+    conn.execute("CREATE INDEX IF NOT EXISTS sessions_user ON sessions (user_id)")
+    conn.execute("CREATE INDEX IF NOT EXISTS users_google_sub ON users (google_sub)")
     conn.execute("""
         CREATE TABLE IF NOT EXISTS payments (
             stripe_session_id TEXT PRIMARY KEY,

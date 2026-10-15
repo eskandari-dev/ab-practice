@@ -14,7 +14,7 @@ const fr = {
     available: 'Disponible',
     soon: 'Bientôt',
     soonHint: 'Les questions pour ce lieu arrivent bientôt. Vous pouvez déjà vous entraîner pour l\'Alberta, au Canada.',
-    trust: ['Aucun compte requis', 'Correction immédiate', 'Alberta disponible'],
+    trust: ['Aucun compte requis', 'Comme le vrai examen', 'Alberta disponible'],
     previewScore: 'Prêt à réussir',
     stats: [
       { value: '9', label: 'Langues' },
@@ -26,7 +26,7 @@ const fr = {
     howTitle: 'Comment ça marche',
     steps: [
       { title: 'Choisissez votre lieu', text: 'Choisissez votre langue, votre pays et votre ville. Chaque lieu a ses propres règles et son propre examen.' },
-      { title: 'Entraînez-vous gratuitement', text: 'Faites un examen gratuit de 5 questions avec correction immédiate. Aucun compte requis.' },
+      { title: 'Entraînez-vous gratuitement', text: 'Faites un examen gratuit de 5 questions. Modifiez vos réponses, puis voyez les explications à la fin. Aucun compte requis.' },
       { title: 'Réussissez en toute confiance', text: 'Obtenez des examens complets de {n} questions et entraînez-vous jusqu\'à connaître chaque réponse.' },
     ],
     regionsEyebrow: 'Couverture',

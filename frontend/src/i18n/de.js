@@ -14,7 +14,7 @@ const de = {
     available: 'Verfügbar',
     soon: 'Bald verfügbar',
     soonHint: 'Fragen für diesen Ort kommen bald. Für Alberta, Kanada kannst du schon jetzt üben.',
-    trust: ['Kein Konto nötig', 'Sofortiges Feedback', 'Alberta jetzt live'],
+    trust: ['Kein Konto nötig', 'Wie die echte Prüfung', 'Alberta jetzt live'],
     previewScore: 'Bereit zum Bestehen',
     stats: [
       { value: '9', label: 'Sprachen' },
@@ -26,7 +26,7 @@ const de = {
     howTitle: 'So funktioniert es',
     steps: [
       { title: 'Ort wählen', text: 'Wähle Sprache, Land und Stadt. Jeder Ort hat eigene Regeln und eine eigene Prüfung.' },
-      { title: 'Kostenlos üben', text: 'Mach eine kostenlose Prüfung mit 5 Fragen und sofortigem Feedback. Kein Konto nötig.' },
+      { title: 'Kostenlos üben', text: 'Mach eine kostenlose Prüfung mit 5 Fragen. Ändere Antworten und sieh Erklärungen am Ende. Kein Konto nötig.' },
       { title: 'Sicher bestehen', text: 'Hol dir volle Prüfungen mit {n} Fragen und übe, bis du jede Antwort kennst.' },
     ],
     regionsEyebrow: 'Abdeckung',

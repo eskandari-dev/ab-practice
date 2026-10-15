@@ -28,6 +28,9 @@ SECURITY_HEADERS = {
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
     "Strict-Transport-Security": "max-age=31536000",
+    # Google sign-in opens a popup; same-origin alone would block it
+    "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+    "X-DNS-Prefetch-Control": "off",
 }
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)

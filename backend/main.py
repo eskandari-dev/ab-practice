@@ -20,6 +20,7 @@ from ai import AIError, extract_text, generate_questions
 from database import create_tables, get_db
 from questions import questions
 from rules import DEFAULT_RULES
+from rate_limit import feedback_limit, generate_limit, login_failures, register_limit
 from security import check_password, hash_password
 from signs import SIGN_NAMES
 
@@ -172,6 +173,13 @@ def home():
     return {"message": "Road Ready API"}
 
 
+@app.get("/health")
+def health(conn=Depends(get_conn)):
+    # a tiny DB read proves the API and the database both work
+    conn.execute("SELECT 1")
+    return {"ok": True}
+
+
 @app.get("/config")
 def config():
     firebase = None
@@ -237,12 +245,14 @@ class UserIn(BaseModel):
 
 
 @app.post("/register")
-def register(data: UserIn, conn=Depends(get_conn)):
+def register(data: UserIn, request: Request, conn=Depends(get_conn)):
     email = data.email.strip().lower()
     if "@" not in email or "." not in email.split("@")[-1]:
         raise HTTPException(status_code=400, detail="Please enter a valid email")
     if len(data.password) < 8:
         raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
+    ip = request.client.host if request.client else ""
+    register_limit.check(ip)
     existing = conn.execute("SELECT id FROM users WHERE email = ?", (email,)).fetchone()
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -255,32 +265,19 @@ def register(data: UserIn, conn=Depends(get_conn)):
     return {"token": token, "user": user_to_dict(load_user(conn, user_id))}
 
 
-LOGIN_LIMIT = 5
-LOGIN_WINDOW = timedelta(minutes=15)
-# (ip, email) -> times of recent wrong passwords; kept in memory, so it resets on restart
-failed_logins = {}
-
-
-def recent_failures(key):
-    recent = [t for t in failed_logins.get(key, []) if now() - t < LOGIN_WINDOW]
-    if recent:
-        failed_logins[key] = recent
-    else:
-        failed_logins.pop(key, None)
-    return recent
-
-
 @app.post("/login")
 def login(data: UserIn, request: Request, conn=Depends(get_conn)):
     email = data.email.strip().lower()
     key = (request.client.host if request.client else "", email)
-    if len(recent_failures(key)) >= LOGIN_LIMIT:
+    # peek without counting: the helper records on check(), so wrong passwords use a manual path
+    recent = [t for t in login_failures.hits.get(key, []) if now() - t < login_failures.window]
+    if len(recent) >= login_failures.limit:
         raise HTTPException(status_code=429, detail="Too many attempts. Please wait a few minutes.")
     user = conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
     if user is None or not check_password(data.password, user["password_hash"]):
-        failed_logins.setdefault(key, []).append(now())
+        login_failures.hits[key] = recent + [now()]
         raise HTTPException(status_code=401, detail="Wrong email or password")
-    failed_logins.pop(key, None)
+    login_failures.hits.pop(key, None)
     token = create_session(conn, user["id"])
     return {"token": token, "user": user_to_dict(user)}
 
@@ -392,12 +389,6 @@ class FeedbackIn(BaseModel):
     page: str = ""
 
 
-FEEDBACK_LIMIT = 5
-FEEDBACK_WINDOW = timedelta(hours=1)
-# ip -> times of recent feedback messages; kept in memory, so it resets on restart
-recent_feedback = {}
-
-
 @app.post("/feedback")
 def send_feedback(
     data: FeedbackIn,
@@ -409,10 +400,7 @@ def send_feedback(
     if not 3 <= len(message) <= 2000:
         raise HTTPException(status_code=400, detail="Please write a message (up to 2000 characters)")
     ip = request.client.host if request.client else ""
-    times = [t for t in recent_feedback.get(ip, []) if now() - t < FEEDBACK_WINDOW]
-    if len(times) >= FEEDBACK_LIMIT:
-        raise HTTPException(status_code=429, detail="Too many attempts. Please wait a few minutes.")
-    recent_feedback[ip] = times + [now()]
+    feedback_limit.check(ip)
     email = user["email"] if user is not None else data.email.strip().lower()[:200]
     conn.execute(
         "INSERT INTO feedback (user_id, email, message, page, created_at) VALUES (?, ?, ?, ?, ?)",
@@ -585,11 +573,15 @@ async def admin_generate(
         raise HTTPException(status_code=400, detail="Unknown region")
     if not 1 <= count <= 30:
         raise HTTPException(status_code=400, detail="Count must be between 1 and 30")
+    generate_limit.check(admin["email"])
 
     source = text
     source_name = "pasted text"
     if file is not None and file.filename:
-        source = extract_text(file.filename, await file.read()) + "\n" + text
+        raw = await file.read()
+        if len(raw) > 8_000_000:
+            raise HTTPException(status_code=400, detail="File is too large (max 8 MB)")
+        source = extract_text(file.filename, raw) + "\n" + text
         source_name = file.filename
 
     langs = [code for code in languages.split(",") if code]
