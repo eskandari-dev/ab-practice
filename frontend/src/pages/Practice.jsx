@@ -50,11 +50,8 @@ function Practice() {
     const { country, region } = findPlace(regionId)
     const regionRules = regions?.[regionId]
     const [page, setPage] = useState("start");
-    const [message, setMessage] = useState('')
     const [current, setCurrent] = useState(0)
-    const [score, setScore] = useState(0)
-    const [answered, setAnswered] = useState(false)
-    const [selected, setSelected] = useState(null)
+    const [confirming, setConfirming] = useState(false)
     const [examQuestions, setExamQuestions] = useState([])
     const [examRules, setExamRules] = useState(null)
     const [mode, setMode] = useState('free')
@@ -74,11 +71,8 @@ function Practice() {
         setExamRules(rules)
         setMode(newMode)
         setCurrent(0)
-        setScore(0)
-        setMessage('')
-        setAnswered(false)
-        setSelected(null)
-        setAnswers([])
+        setConfirming(false)
+        setAnswers(Array(list.length).fill(null))
         setSeconds(0)
         setPage('exam')
     }
@@ -99,24 +93,17 @@ function Practice() {
         resetExam([...mistakes].sort(() => Math.random() - 0.5).slice(0, 20), 'mistakes', null)
     }
 
+    // like the real test: the answer can be changed and is only checked when the exam is finished
     function chooseAnswer(index) {
-        if (answered) return
-
-        setSelected(index)
-        setAnswers([...answers, index])
-
-        if (index === examQuestions[current].correct) {
-            setMessage(t.correct)
-            setScore(score + 1)
-        } else {
-            setMessage(t.wrong)
-        }
-
-        setAnswered(true)
+        if (index >= options(examQuestions[current]).length) return
+        const next = [...answers]
+        next[current] = index
+        setAnswers(next)
     }
 
     function finishExam(usedSeconds = seconds) {
-        const wrong = examQuestions.filter((q, i) => answers[i] !== undefined && answers[i] !== q.correct)
+        setConfirming(false)
+        const wrong = examQuestions.filter((q, i) => answers[i] !== null && answers[i] !== q.correct)
         const rightIds = examQuestions.filter((q, i) => answers[i] === q.correct).map((q) => q.id)
         updateMistakes(regionId, wrong, rightIds)
         const result = evaluate(examRules, examQuestions, answers)
@@ -133,15 +120,15 @@ function Practice() {
         setPage('score')
     }
 
+    function goTo(index) {
+        if (index >= 0 && index < examQuestions.length) setCurrent(index)
+    }
+
     function goNext() {
-        if (!answered) return
         if (current + 1 < examQuestions.length) {
-            setCurrent(current + 1)
-            setMessage('')
-            setAnswered(false)
-            setSelected(null)
+            goTo(current + 1)
         } else {
-            finishExam()
+            setConfirming(true)
         }
     }
 
@@ -164,12 +151,20 @@ function Practice() {
         if (page !== 'exam') return
 
         function handleKey(e) {
-            if (['1', '2', '3'].includes(e.key)) {
+            if (confirming) {
+                if (e.key === 'Escape') setConfirming(false)
+                return
+            }
+            if (['1', '2', '3', '4'].includes(e.key)) {
                 chooseAnswer(Number(e.key) - 1)
-            } else if (e.key === 'Enter' && answered) {
+            } else if (e.key === 'Enter') {
                 // stops a focused button from also firing its click
                 e.preventDefault()
                 goNext()
+            } else if (e.key === 'ArrowRight') {
+                goTo(current + 1)
+            } else if (e.key === 'ArrowLeft') {
+                goTo(current - 1)
             }
         }
 
@@ -260,9 +255,7 @@ function Practice() {
     if (page === 'score') {
         const result = evaluate(examRules, examQuestions, answers)
         const percent = Math.round((result.score / examQuestions.length) * 100)
-        const wrong = examQuestions
-            .map((q, i) => ({ q, picked: answers[i] }))
-            .filter((item) => item.picked !== item.q.correct)
+        const noMistakes = examQuestions.every((q, i) => answers[i] === q.correct)
 
         return (
             <div className="page">
@@ -310,19 +303,29 @@ function Practice() {
                 </div>
 
                 <div className="review">
-                    <h2>{t.reviewTitle}</h2>
-                    {wrong.length === 0 && <p className="review-perfect"><CheckIcon /> {t.perfect}</p>}
-                    {wrong.map(({ q, picked }) => (
-                        <div className="review-item" key={q.id}>
-                            <QuestionImage image={q.image} className="question-image-sm" />
-                            <p className="review-question">{text(q)}</p>
-                            <p className="review-wrong"><span>{t.yourAnswer}</span> {picked === undefined ? '—' : options(q)[picked]}</p>
-                            <p className="review-right"><span>{t.correctAnswer}</span> {options(q)[q.correct]}</p>
-                            {q.explanation && text(q, 'explanation') && (
-                                <p className="review-why">{text(q, 'explanation')}</p>
-                            )}
-                        </div>
-                    ))}
+                    <h2>{t.reviewAll}</h2>
+                    {noMistakes && <p className="review-perfect"><CheckIcon /> {t.perfect}</p>}
+                    {examQuestions.map((q, i) => {
+                        const picked = answers[i]
+                        const right = picked === q.correct
+                        return (
+                            <div className={'review-item' + (right ? ' review-item-right' : ' review-item-wrong')} key={q.id ?? i}>
+                                <QuestionImage image={q.image} className="question-image-sm" />
+                                <p className="review-question">
+                                    <span className="review-number">{i + 1}</span> {text(q)}
+                                </p>
+                                <p className={right ? 'review-right' : 'review-wrong'}>
+                                    <span>{t.yourAnswer}</span> {picked === null ? '—' : options(q)[picked]}
+                                </p>
+                                {!right && (
+                                    <p className="review-right"><span>{t.correctAnswer}</span> {options(q)[q.correct]}</p>
+                                )}
+                                {q.explanation && text(q, 'explanation') && (
+                                    <p className="review-why">{text(q, 'explanation')}</p>
+                                )}
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         )
@@ -330,8 +333,10 @@ function Practice() {
 
     const question = examQuestions[current]
     const translated = Boolean(question[lang])
-    const progress = ((current + (answered ? 1 : 0)) / examQuestions.length) * 100
+    const answeredCount = answers.filter((a) => a !== null).length
+    const progress = (answeredCount / examQuestions.length) * 100
     const left = limit ? Math.max(limit - seconds, 0) : null
+    const isLast = current + 1 === examQuestions.length
 
     return (
         <div className="page exam">
@@ -355,40 +360,75 @@ function Practice() {
                 <p className="question">{text(question)}</p>
                 {options(question).map((option, index) => (
                     <button
-                        className={
-                            'btn-answer' +
-                            (answered && index === question.correct ? ' answer-correct' : '') +
-                            (answered && index === selected && index !== question.correct ? ' answer-wrong' : '')
-                        }
+                        className={'btn-answer' + (answers[current] === index ? ' answer-selected' : '')}
                         key={current + '-' + index}
                         onClick={() => chooseAnswer(index)}
+                        aria-pressed={answers[current] === index}
                     >
-                        <span className="answer-letter">{'ABC'[index]}</span>
+                        <span className="answer-letter">{'ABCD'[index]}</span>
                         <span>{option}</span>
                     </button>
                 ))}
-                <p
-                    className={
-                        'message' +
-                        (message === t.correct ? ' message-correct' : '') +
-                        (message === t.wrong ? ' message-wrong' : '')
-                    }
-                >
-                    {message}
-                </p>
-                {answered && question.explanation && text(question, 'explanation') && (
-                    <p className="explanation">{text(question, 'explanation')}</p>
-                )}
                 <div className="exam-actions">
-                    <button className="btn-back" onClick={() => navigate('/')}>
-                        {t.back}
+                    <button className="btn-back" onClick={() => goTo(current - 1)} disabled={current === 0}>
+                        {t.prev}
                     </button>
-                    <button className="btn-next" onClick={goNext} disabled={!answered}>
-                        {t.next}
+                    <button className="btn-next" onClick={goNext}>
+                        {isLast ? t.finish : t.next}
                     </button>
                 </div>
             </div>
+
+            <div className="question-nav">
+                <div className="question-nav-grid">
+                    {examQuestions.map((q, i) => (
+                        <button
+                            key={q.id ?? i}
+                            className={
+                                'question-nav-item' +
+                                (answers[i] !== null ? ' is-answered' : '') +
+                                (i === current ? ' is-current' : '')
+                            }
+                            onClick={() => goTo(i)}
+                            aria-current={i === current ? 'step' : undefined}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+                </div>
+                <button className="btn-outline question-nav-finish" onClick={() => setConfirming(true)}>
+                    {t.finish}
+                </button>
+            </div>
             <p className="key-hint">{t.keyHint}</p>
+
+            {confirming && (
+                <div className="modal-backdrop" onClick={() => setConfirming(false)}>
+                    <div
+                        className="modal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="finish-title"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h2 id="finish-title">{t.confirmTitle}</h2>
+                        <p>{fill(t.confirmText, examQuestions.length).replace('{a}', answeredCount)}</p>
+                        {answeredCount < examQuestions.length && (
+                            <p className="modal-warning">
+                                {fill(t.confirmUnanswered, examQuestions.length - answeredCount)}
+                            </p>
+                        )}
+                        <div className="modal-actions">
+                            <button className="btn-back" onClick={() => setConfirming(false)} autoFocus>
+                                {t.keepGoing}
+                            </button>
+                            <button className="btn-next" onClick={() => finishExam()}>
+                                {t.finishYes}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
