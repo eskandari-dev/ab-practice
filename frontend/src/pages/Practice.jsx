@@ -6,8 +6,10 @@ import { useAuth } from '../auth-context.js'
 import { SHOW_PRICING } from '../features.js'
 import { useLang } from '../lang-context.js'
 import { countryName, findPlace, getSavedRegion } from '../places.js'
-import { addResult, getMistakes, getStats, updateMistakes } from '../progress.js'
+import { addResult, getHistory, getMistakes, getStats, updateMistakes } from '../progress.js'
 import { fill, isReady, useRegions } from '../regions-data.js'
+import { withNode } from '../with-node.jsx'
+import Delta from '../components/Delta.jsx'
 import TestFormat from '../components/TestFormat.jsx'
 import QuestionImage from '../components/QuestionImage.jsx'
 import { CheckIcon, ClockIcon, ExamIcon, PinIcon } from '../components/Icons.jsx'
@@ -256,6 +258,10 @@ function Practice() {
         const result = evaluate(examRules, examQuestions, answers)
         const percent = Math.round((result.score / examQuestions.length) * 100)
         const noMistakes = examQuestions.every((q, i) => answers[i] === q.correct)
+        // this exam is already the last one in the history, so the one before it is second to last
+        const realExams = getHistory().filter((h) => h.mode !== 'mistakes')
+        const before = mode !== 'mistakes' && realExams.length >= 2 ? realExams[realExams.length - 2] : null
+        const change = before ? percent - Math.round((before.score / before.total) * 100) : null
 
         return (
             <div className="page">
@@ -287,6 +293,13 @@ function Practice() {
                         </div>
                     )}
                     <p className="score-message">{result.passed ? t.scoreGood : t.scoreOk}</p>
+                    {mode !== 'mistakes' && (
+                        <p className="score-compare">
+                            {change === null
+                                ? all.progress.firstExam
+                                : withNode(all.progress.vsPrevious, '{n}', <Delta value={change} />)}
+                        </p>
+                    )}
                     {SHOW_PRICING && mode === 'free' && (
                         <p className="notice">
                             {fill(t.freeDone, fullCount)} <Link to="/pricing">{t.seePlans}</Link>
