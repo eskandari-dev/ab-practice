@@ -4,6 +4,13 @@ WORKDIR /web
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
+# baked into the JS/HTML at build time (override with docker --build-arg)
+ARG VITE_SITE_URL=https://rr.kyzed.com
+ARG VITE_GA_MEASUREMENT_ID=
+ARG VITE_GSC_VERIFICATION=
+ENV VITE_SITE_URL=$VITE_SITE_URL \
+    VITE_GA_MEASUREMENT_ID=$VITE_GA_MEASUREMENT_ID \
+    VITE_GSC_VERIFICATION=$VITE_GSC_VERIFICATION
 RUN npm run build
 
 # 2) run FastAPI, which serves the API under /api and the site everywhere else
